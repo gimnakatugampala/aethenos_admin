@@ -3,6 +3,11 @@ import { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
+
+import ListItem from '@mui/material/ListItem';
+import InboxIcon from '@mui/icons-material/Inbox';
+import DraftsIcon from '@mui/icons-material/Drafts';
+
 // material-ui
 import { useTheme } from '@mui/material/styles';
 import {
@@ -153,34 +158,42 @@ const ProfileSection = () => {
           <Transitions in={open} {...TransitionProps}>
             <Paper>
               <ClickAwayListener onClickAway={handleClose}>
-                <MainCard border={false} elevation={16} content={false} boxShadow shadow={theme.shadows[16]}>
+                <MainCard style={{width:'250px'}} border={false} elevation={16} content={false} boxShadow shadow={theme.shadows[16]}>
                   <Box sx={{ p: 2 }}>
                     <Stack>
                       <Stack direction="row" spacing={0.5} alignItems="center">
-                        <Typography variant="h4">Good Morning,</Typography>
                         <Typography component="span" variant="h4" sx={{ fontWeight: 400 }}>
                           Johne Doe
                         </Typography>
                       </Stack>
                       <Typography variant="subtitle2">Project Admin</Typography>
                     </Stack>
-                    {/* <OutlinedInput
-                      sx={{ width: '100%', pr: 1, pl: 2, my: 2 }}
-                      id="input-search-profile"
-                      value={value}
-                      onChange={(e) => setValue(e.target.value)}
-                      placeholder="Search profile options"
-                      startAdornment={
-                        <InputAdornment position="start">
-                          <IconSearch stroke={1.5} size="1rem" color={theme.palette.grey[500]} />
-                        </InputAdornment>
-                      }
-                      aria-describedby="search-helper-text"
-                      inputProps={{
-                        'aria-label': 'weight'
-                      }}
-                    />
-                    <Divider /> */}
+
+
+                <nav>
+                  <List>
+                  <ListItem disablePadding>
+                    <ListItemButton>
+                      <ListItemIcon>
+                        <InboxIcon />
+                      </ListItemIcon>
+                      <ListItemText primary="Profile" />
+                    </ListItemButton>
+                  </ListItem>
+                  <ListItem component="a" href="/login" disablePadding>
+                    <ListItemButton>
+                      <ListItemIcon>
+                        <DraftsIcon />
+                      </ListItemIcon>
+                      <ListItemText>
+                          Sign Out
+                      </ListItemText>
+                    </ListItemButton>
+                  </ListItem>
+                </List>
+              </nav>
+   
+        
                   </Box>
                   {/* <PerfectScrollbar style={{ height: '100%', maxHeight: 'calc(100vh - 250px)', overflowX: 'hidden' }}>
                     <Box sx={{ p: 2 }}>

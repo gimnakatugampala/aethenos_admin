@@ -133,7 +133,6 @@ const FirebaseLogin = ({ ...others }) => {
             if (scriptedRef.current) {
               setStatus({ success: true });
               setSubmitting(false);
-              window.location.href = "/dashboard/default"
             }
           } catch (err) {
             console.error(err);
@@ -215,8 +214,10 @@ const FirebaseLogin = ({ ...others }) => {
             )}
 
             <Box sx={{ mt: 2 }}>
-              <AnimateButton>
-                <Button disableElevation disabled={isSubmitting} fullWidth size="large" type="submit" variant="contained" color="secondary">
+              <AnimateButton >
+                <Button onClick={() => {
+                  window.location.href = "/dashboard/default"
+                }} disableElevation disabled={isSubmitting} fullWidth size="large" type="submit" variant="contained" color="secondary">
                   Sign in
                 </Button>
               </AnimateButton>

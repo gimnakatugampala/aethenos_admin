@@ -16,7 +16,8 @@ const LogoSection = () => {
   const dispatch = useDispatch();
   return (
     <ButtonBase disableRipple onClick={() => dispatch({ type: MENU_OPEN, id: defaultId })} component={Link} to={config.defaultPath}>
-      <Logo />
+      {/* <Logo /> */}
+      <img width="150" src="https://images.squarespace-cdn.com/content/v1/61eeb563378df06b48f2c6ce/952c34f0-6274-4755-8fed-f0c5f6e8422c/AETHENOS+%287%29.jpg?format=1500w" />
     </ButtonBase>
   );
 };

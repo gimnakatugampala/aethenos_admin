@@ -3,6 +3,8 @@
  * @param {JsonObject} theme Theme customization object
  */
 
+import { blue } from '@mui/material/colors';
+
 export default function themePalette(theme) {
   return {
     mode: theme?.customization?.navType,

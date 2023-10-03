@@ -2,6 +2,7 @@ import { createTheme } from '@mui/material/styles';
 
 // assets
 import colors from 'assets/scss/_themes-vars.module.scss';
+import 'assets/css/bootstrap.min.css'
 
 // project imports
 import componentStyleOverrides from './compStyleOverride';

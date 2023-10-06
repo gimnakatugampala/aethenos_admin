@@ -32,12 +32,10 @@ const data = [
     title: 'Photoshop C6',
     category: 'IT & Software',
     instructor: 'Gimna Katugampala',
-    actions: `33`
+    actions: `00`
   },
 ];
-{/* <Button onClick={handleShow} className='mx-1' variant="warning"><PlayCircleIcon /></Button>
-<Button onClick={approveDraftCourse} className='mx-1' variant="success"><CheckIcon /></Button>
-<Button onClick={handleDisapproveShow} className='mx-1' variant="danger"><CloseIcon /></Button> */}
+
 
 
 const DraftCourses = () => {
@@ -155,7 +153,7 @@ const DraftCourses = () => {
         </Modal.Header>
         <Modal.Body>
 
-        <Player>
+    <Player>
       <source src="https://media.w3.org/2010/05/sintel/trailer_hd.mp4" />
     </Player>
           

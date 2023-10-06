@@ -4,9 +4,15 @@ import { useRoutes } from 'react-router-dom';
 import MainRoutes from './MainRoutes';
 import AuthenticationRoutes from './AuthenticationRoutes';
 import ManageCoursesRoutes from './ManageCoursesRoutes';
+import ManagePricingRoutes from './ManagePricingRoutes';
 
 // ==============================|| ROUTING RENDER ||============================== //
 
 export default function ThemeRoutes() {
-  return useRoutes([MainRoutes, AuthenticationRoutes,ManageCoursesRoutes]);
+  return useRoutes([
+    MainRoutes, 
+    AuthenticationRoutes,
+    ManageCoursesRoutes,
+    ManagePricingRoutes
+  ]);
 }

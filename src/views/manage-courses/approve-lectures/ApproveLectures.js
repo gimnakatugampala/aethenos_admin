@@ -26,12 +26,51 @@ import './ApproveLectures.css'
 
 const ApproveLectures = () => {
 
-  
 
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+
+  const handleApprove = () =>{
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, Approved it!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire(
+          'Approved!',
+          'Lecture has been Approved.',
+          'success'
+        )
+      }
+    })
+  }
+
+  const handleDisapprove = () => {
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, Disapprove it!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire(
+          'Disapproved!',
+          'Lecture has been Disapproved.',
+          'success'
+        )
+      }
+    })
+  }
 
   return (
     <div>  
@@ -52,13 +91,13 @@ const ApproveLectures = () => {
       data={[
         { course_title: 'Photoshop', curriculum_title: 'Introduction', instructor: 'Gimna Katugampala',actions:<div className='d-flex'>
           <Button onClick={handleShow} className='mx-1' variant="primary"><VisibilityIcon /></Button>
-          <Button className='mx-1' variant="success"><CheckIcon /></Button>
-          <Button className='mx-1' variant="danger"><CloseIcon /></Button>
+          <Button onClick={handleApprove} className='mx-1' variant="success"><CheckIcon /></Button>
+          <Button onClick={handleDisapprove} className='mx-1' variant="danger"><CloseIcon /></Button>
           </div> },
         { course_title: 'PHP Crash Course', curriculum_title: 'Introduction', instructor: 'John Doe',actions:<div className='d-flex'>
           <Button onClick={handleShow} className='mx-1' variant="primary"><VisibilityIcon /></Button>
-          <Button className='mx-1' variant="success"><CheckIcon /></Button>
-          <Button className='mx-1' variant="danger"><CloseIcon /></Button>
+          <Button onClick={handleApprove} className='mx-1' variant="success"><CheckIcon /></Button>
+          <Button onClick={handleDisapprove} className='mx-1' variant="danger"><CloseIcon /></Button>
           </div>},
       ]}        
       options={{

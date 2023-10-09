@@ -32,7 +32,14 @@ const managecourses = {
           type: 'item',
           url: '/submit-courses',
         //   target: true
-        }
+        },
+        {
+          id: 'approve-lecturers',
+          title: 'Approve Lecturers',
+          type: 'item',
+          url: '/approve-lecturers',
+        //   target: true
+        },
       ]
     }
   ]

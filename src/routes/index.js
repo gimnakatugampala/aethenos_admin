@@ -5,6 +5,7 @@ import MainRoutes from './MainRoutes';
 import AuthenticationRoutes from './AuthenticationRoutes';
 import ManageCoursesRoutes from './ManageCoursesRoutes';
 import ManagePricingRoutes from './ManagePricingRoutes';
+import ManageAdminRoutes from './ManageAdminsRoutes';
 
 // ==============================|| ROUTING RENDER ||============================== //
 
@@ -13,6 +14,7 @@ export default function ThemeRoutes() {
     MainRoutes, 
     AuthenticationRoutes,
     ManageCoursesRoutes,
-    ManagePricingRoutes
+    ManagePricingRoutes,
+    ManageAdminRoutes
   ]);
 }

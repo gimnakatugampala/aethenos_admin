@@ -1,7 +1,8 @@
 import dashboard from './dashboard';
 import pages from './pages';
 import managecourses from './managecourses';
-import managepricing from './managepricing'
+import managepricing from './managepricing';
+import manageadmins from './manageadmins';
 import utilities from './utilities';
 import other from './other';
 
@@ -11,7 +12,8 @@ const menuItems = {
   items: [
     dashboard,
     managecourses,
-    managepricing
+    managepricing,
+    manageadmins
   ]
 };
 

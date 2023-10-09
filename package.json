@@ -20,6 +20,7 @@
     "formik": "^2.2.9",
     "framer-motion": "^6.3.16",
     "material-react-table": "^1.15.0",
+    "material-table": "^2.0.5",
     "material-ui-popup-state": "^4.0.1",
     "popper.js": "^1.16.1",
     "prop-types": "^15.8.1",

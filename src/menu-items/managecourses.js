@@ -34,10 +34,10 @@ const managecourses = {
         //   target: true
         },
         {
-          id: 'approve-lecturers',
-          title: 'Approve Lecturers',
+          id: 'approve-lectures',
+          title: 'Approve Lectures',
           type: 'item',
-          url: '/approve-lecturers',
+          url: '/approve-lectures',
         //   target: true
         },
       ]

@@ -39,7 +39,7 @@ const ManageCoursesRoutes = {
       element: <SubmittedCourses />
     },
     {
-        path: '/approve-lecturers',
+        path: '/approve-lectures',
         element: <ApproveLectures />
       }
   ]

@@ -516,7 +516,7 @@ const ManagePricing = () => {
           </td>
         </tr>
 
-        <tr>
+        {/* <tr>
           <td><b>Other Countries</b></td>
           <td>USD</td>
           <td>
@@ -525,7 +525,7 @@ const ManagePricing = () => {
           <td>
           <Form.Control type="text" placeholder="Max Price" />
           </td>
-        </tr>
+        </tr> */}
 
       </tbody>
     </Table>

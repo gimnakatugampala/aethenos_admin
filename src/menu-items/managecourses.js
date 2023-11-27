@@ -33,13 +33,13 @@ const managecourses = {
           url: '/submit-courses',
         //   target: true
         },
-        {
-          id: 'approve-lectures',
-          title: 'Approve Lectures',
-          type: 'item',
-          url: '/approve-lectures',
-        //   target: true
-        },
+        // {
+        //   id: 'approve-lectures',
+        //   title: 'Approve Lectures',
+        //   type: 'item',
+        //   url: '/approve-lectures',
+        // //   target: true
+        // },
       ]
     }
   ]

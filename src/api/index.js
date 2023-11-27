@@ -1,4 +1,37 @@
 import ErrorAlert from "commonFunctions/Alerts/ErrorAlert";
+import SuccessAlert from "commonFunctions/Alerts/SuccessAlert";
+
+const CURRENT_USER = JSON.parse(window.localStorage.getItem("aethenos"));
+
+// Unauthorized
+const Unauthorized = (result,rediect_url) =>{
+
+    if(result == 401){
+      window.localStorage.removeItem("aethenos")
+      window.location.href = `/login?sessionTimeout=true&rediect-url=${rediect_url}`
+    }
+  
+  }
+
+  export const AdminVerify = async() =>{
+     
+    if(CURRENT_USER != null){
+
+      if(CURRENT_USER.status == "Admin"){
+
+        return true
+
+      }else if(CURRENT_USER.status == "Student"){
+        return false
+      }
+        
+    }else{
+
+      return false
+    }
+
+}
+
 
 export const AdminLogin = (email, password,setloading) =>{
 
@@ -51,4 +84,93 @@ export const AdminLogin = (email, password,setloading) =>{
 
     })
     .catch(error => console.log('error', error));
+}
+
+export const GellAllDraftCourses = (setcourses) =>{
+
+    var myHeaders = new Headers();
+    myHeaders.append("Authorization", `Bearer ${CURRENT_USER.token}`);
+    
+    var requestOptions = {
+      method: 'GET',
+      headers: myHeaders,
+      redirect: 'follow'
+    };
+    
+    fetch("https://aethenosinstructor.exon.lk:2053/aethenos-api/course/getDraftcourses", requestOptions)
+      .then(response => response.json())
+      .then(result => {
+        //   console.log(result)
+          
+          Unauthorized(result.status,"draft-courses")
+          setcourses(result)
+    })
+      .catch(error => console.log('error', error));
+
+}
+
+export const ApproveDraftCourse = (code) =>{
+
+    var myHeaders = new Headers();
+myHeaders.append("Authorization", `Bearer ${CURRENT_USER.token}`);
+
+var formdata = new FormData();
+
+var requestOptions = {
+  method: 'PUT',
+  headers: myHeaders,
+  body: formdata,
+  redirect: 'follow'
+};
+
+fetch(`https://aethenosinstructor.exon.lk:2053/aethenos-api/course/setApproveCourse/${code}`, requestOptions)
+  .then(response => response.json())
+  .then(result => {
+
+    Unauthorized(result.status,"draft-courses")
+    // console.log(result)
+    if(result.variable == "200"){
+        SuccessAlert("Course Approved!",result.message)
+    }else{
+        ErrorAlert("Error",result.message)
+    }
+
+  })
+  .catch(error => console.log('error', error));
+
+}
+
+export const DisapproveDraftCourse = (code,comment,setshowDisapprove,setcomment) =>{
+
+    var myHeaders = new Headers();
+myHeaders.append("Authorization", `Bearer ${CURRENT_USER.token}`);
+
+var formdata = new FormData();
+formdata.append("code", `${code}`);
+formdata.append("comment", `${comment}`);
+
+var requestOptions = {
+  method: 'PUT',
+  headers: myHeaders,
+  body: formdata,
+  redirect: 'follow'
+};
+
+fetch("https://aethenosinstructor.exon.lk:2053/aethenos-api/course/setDisapproveCourse", requestOptions)
+  .then(response => response.json())
+  .then(result => {
+
+    Unauthorized(result.status,"draft-courses")
+    console.log(result)
+    if(result.variable == "200"){
+        SuccessAlert("Course Disapproved!",result.message)
+        setshowDisapprove(false)
+        setcomment("")
+    }else{
+        ErrorAlert("Error",result.message)
+    }
+
+  })
+  .catch(error => console.log('error', error));
+
 }

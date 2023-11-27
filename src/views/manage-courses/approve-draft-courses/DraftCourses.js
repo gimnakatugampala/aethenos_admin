@@ -14,8 +14,14 @@ import Form from 'react-bootstrap/Form';
 import Swal from 'sweetalert2';
 import { MaterialReactTable } from 'material-react-table';
 import { Player } from 'video-react';
+import { GellAllDraftCourses } from 'api';
+import MaterialTable from 'material-table';
+import { FILE_PATH } from 'commonFunctions/FilePaths';
 import 'video-react/dist/video-react.css'; // import css
-
+import ErrorAlert from 'commonFunctions/Alerts/ErrorAlert';
+import { useEffect } from 'react';
+import { ApproveDraftCourse } from 'api';
+import { DisapproveDraftCourse } from 'api';
 
 
 //nested data is ok, see accessorKeys in ColumnDef below
@@ -36,12 +42,11 @@ const data = [
   },
 ];
 
-
+let coursesData = []
 
 const DraftCourses = () => {
 
   // Material 5 table
-
   const [show, setShow] = useState(false);
   const [showDisapprove, setshowDisapprove] = useState(false)
   
@@ -51,46 +56,17 @@ const DraftCourses = () => {
 
   const handleDisapproveShow = () => setshowDisapprove(true)
   const handleDisapproveClose = () => setshowDisapprove(false)
+  const [VIDEOURL, setVIDEOURL] = useState("")
 
-  const columns = useMemo(
-    () => [
-      {
-        accessorKey: 'id', //access nested data with dot notation
-        header: 'ID',
-        size: 100,
-      },
-      {
-        accessorKey: 'title',
-        header: 'Course Title',
-        size: 200,
-      },
-      {
-        accessorKey: 'category', //normal accessorKey
-        header: 'Course Category',
-        size: 250,
-      },
-      {
-        accessorKey: 'instructor',
-        header: 'Instrutor',
-        size: 250,
-      },
-      {
-        accessorKey: 'actions',
-        header: 'Actions',
-        size: 300,
-        Cell: ({ cell }) => (
-          <>
-          <Button onClick={handleShow} className='mx-1' variant="warning"><PlayCircleIcon /></Button>
-          <Button onClick={approveDraftCourse} className='mx-1' variant="success"><CheckIcon /></Button>
-          <Button onClick={handleDisapproveShow} className='mx-1' variant="danger"><CloseIcon /></Button>
-          </>
-        ),
-      },
-    ],
-    [],
-  );
+  const [courses, setcourses] = useState([])
 
-  const approveDraftCourse = () =>{
+  const [comment, setcomment] = useState("")
+  const [ID, setID] = useState("")
+
+
+  const approveDraftCourse = (code) =>{
+
+    console.log(code)
 
     Swal.fire({
       title: 'Are you sure?',
@@ -102,17 +78,28 @@ const DraftCourses = () => {
       confirmButtonText: 'Yes, Approve it!'
     }).then((result) => {
       if (result.isConfirmed) {
-        Swal.fire(
-          'Approved!',
-          'Course has been Approved.',
-          'success'
-        )
+
+        ApproveDraftCourse(code)
+
+        // Swal.fire(
+        //   'Approved!',
+        //   'Course has been Approved.',
+        //   'success'
+        // )
       }
     })
 
   }
 
   const disapproveDraftCourse = () => {
+
+    if(comment == ""){
+      ErrorAlert("Empty Field!","Please Give a Comment")
+      return
+    }
+
+    
+
     Swal.fire({
       title: 'Are you sure?',
       text: "You won't be able to revert this!",
@@ -123,14 +110,44 @@ const DraftCourses = () => {
       confirmButtonText: 'Yes, reject it!'
     }).then((result) => {
       if (result.isConfirmed) {
-        Swal.fire(
-          'Rejected!',
-          'Course has been Rejected.',
-          'success'
-        )
+  
+        DisapproveDraftCourse(ID,comment,setshowDisapprove,setcomment)
       }
     })
   }
+
+  useEffect(() => {
+
+    setTimeout(() => {
+      
+      GellAllDraftCourses(setcourses)
+  
+      coursesData = courses.map(course => {
+        // Create a new object with modified property
+        return { ...course, 
+          courseCategory: course.courseCategory.name,
+          instructor: `${course.instructorId.generalUserProfile.firstName} ${course.instructorId.generalUserProfile.lastName}`,
+          actions: (
+            <>
+            <Button onClick={() => {
+              setVIDEOURL(course.test_video)
+              handleShow()
+              }}  variant="warning"><PlayCircleIcon /></Button>
+            <Button onClick={() => approveDraftCourse(course.code)}  variant="success"><CheckIcon /></Button>
+            <Button onClick={() => {
+              setID(course.code)
+              handleDisapproveShow()}}  variant="danger"><CloseIcon /></Button>
+            </>
+          )
+         };
+    })
+    }, 1000);
+
+
+  // coursesData(modifiedArray)
+
+  }, [coursesData])
+  
 
   return (
     <>
@@ -140,7 +157,20 @@ const DraftCourses = () => {
         Approve Draft Courses
       </Typography>
 
-      <MaterialReactTable columns={columns} data={data} />
+      <MaterialTable
+      title=""
+      columns={[
+        { title: 'ID', field: 'code' },
+        { title: 'Course Title', field: 'courseTitle' },
+        { title: 'Course Category', field: 'courseCategory' },
+        { title: 'Instrutor', field: 'instructor' },
+        { title: 'Actions', field: 'actions' },
+      ]}
+      data={coursesData}        
+      options={{
+        exportButton: true
+      }}
+    />
   
     </CardContent>
   </Card>
@@ -154,7 +184,7 @@ const DraftCourses = () => {
         <Modal.Body>
 
     <Player>
-      <source src="https://media.w3.org/2010/05/sintel/trailer_hd.mp4" />
+      <source src={`${FILE_PATH}${VIDEOURL}`}/>
     </Player>
           
           </Modal.Body>
@@ -170,7 +200,7 @@ const DraftCourses = () => {
         <Form>
           <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
             <Form.Label>Admin Remark</Form.Label>
-            <Form.Control as="textarea" rows={3} />
+            <Form.Control onChange={(e) => setcomment(e.target.value)} as="textarea" rows={3} />
           </Form.Group>
         </Form>
        </Modal.Body>

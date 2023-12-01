@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { styled } from '@mui/material/styles';
 import Card from '@mui/material/Card';
 import { Button } from '@mui/material';
@@ -11,6 +11,8 @@ import Paper from '@mui/material/Paper';
 import Form from 'react-bootstrap/Form';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import Typography from '@mui/material/Typography';
+import ErrorAlert from 'commonFunctions/Alerts/ErrorAlert';
+import { AddSetDefaultPricing , AddSetPricing , GetPricingRange } from 'api';
 
 
 const ManagePricing = () => {
@@ -110,12 +112,201 @@ const ManagePricing = () => {
 
   const [minOC, setminOC] = useState("")
   const [maxOC, setmaxOC] = useState("")
-  
 
 
+  const handleDefaultPrice = () => {
+    console.log(DminPrice)
+    console.log(DmaxPrice)
+
+    if(DminPrice == ""){
+      ErrorAlert("Empty Field","Please Enter a Default Minimum Price")
+      return
+    }else if(DmaxPrice == ""){
+      ErrorAlert("Empty Field","Please Enter a Default Maximum Price")
+      return
+    }else if(!(/^\d*$/.test(DminPrice))){
+      ErrorAlert("Invalid Input","Please Enter Only Numbers for Default Minimum Value")
+      return
+    }else if(!(/^\d*$/.test(DmaxPrice))){
+      ErrorAlert("Invalid Input","Please Enter Only Numbers for Default Maximum Value")
+      return
+    }
+
+    AddSetDefaultPricing(DminPrice,DmaxPrice)
+
+  }
+
+  const handleAllPricing = () =>{
+
+    const item = {
+      "country": [
+          "America",
+          "Australia",
+          "Brazil",
+          "Canada",
+          "Chile",
+          "Columbia",
+          "Egypt",
+          "European Union",
+          "Great Britain",
+          "Indonesia",
+          "Israel",
+          "India",
+          "Japan",
+          "South Korea",
+          "Mexico",
+          "Malaysia",
+          "Nigeria",
+          "Norway",
+          "Peru",
+          "Philippines",
+          "Poland",
+          "Romania",
+          "Russia",
+          "Singapore",
+          "Thailand",
+          "Turkey",
+          "Taiwan",
+          "Vietnam",
+          "South Africa",
+          "Other Countries"
+      ],
+      "minPrice": [
+        minUSA == "" ? "0" : minUSA,
+        minAustralia == "" ? "0" : minAustralia,
+        minBrazil == "" ? "0" : minBrazil,
+        minCanada == "" ? "0" : minCanada,
+        minChile == "" ? "0" : minChile,
+        minColumbia == "" ? "0" : minColumbia,
+        minEgypt == "" ? "0" : minEgypt,
+        minEU == "" ? "0" : minEU,
+        minGB == "" ? "0" : minGB,
+        minindonedia == "" ? "0" : minindonedia,
+        minIsrael == "" ?  "0" : minIsrael,
+        minIndia == "" ? "0" : minIndia,
+        minJapan == "" ? "0" : minJapan,
+        minKorea == "" ? "0" : minKorea,
+        minMexico == "" ? "0" : minMexico,
+        minMalaysia == "" ? "0" : minMalaysia,
+        minNigeria == "" ? "0" : minNigeria,
+        minNorway == "" ? "0" : minNorway,
+        minPeru == "" ? "0" : minPeru,
+        minPhilipine == "" ? "0" : minPhilipine,
+        minPoland == "" ? "0" : minPoland,
+        minRomania == "" ? "0" : minRomania,
+        minRussia == "" ? "0" : minRussia,
+        minSingapore == "" ? "0" : minSingapore,
+        minThailand == "" ? "0" : minThailand,
+        minTurkey == "" ? "0" : minTurkey,
+        minTaiwan == "" ? "0" : minTaiwan,
+        minVietnam == "" ?  "0" : minVietnam,
+        minSA == "" ? "0" : minSA,
+        DminPrice == "" ? "0" : DminPrice
+      ],
+      "maxPrice": [
+        maxUSA == "" ? "0" : maxUSA,
+        maxAustralia == "" ?  "0" : maxAustralia,
+        maxBrazil == "" ? "0" : maxBrazil,
+        maxCanada == "" ? "0" : maxCanada,
+        maxChile == "" ? "0" : maxChile,
+        maxColumbia == "" ? "0" : maxColumbia,
+        maxEgypt == "" ? "0" : maxEgypt,
+        maxEU == "" ? "0" : maxEU,
+        maxGB == "" ? "0" : maxGB,
+        maxindonedia == "" ? "0" : maxindonedia,
+        maxIsrael == "" ? "0" : maxIsrael,
+        maxIndia == "" ? "0" : maxIndia,
+        maxJapan == "" ? "0" : maxJapan,
+        maxKorea == "" ? "0" : maxKorea,
+        maxMexico == "" ? "0" : maxMexico,
+        maxMalaysia == "" ? "0" : maxMalaysia,
+        maxNigeria == "" ? "0" : maxNigeria,
+        maxNorway == "" ? "0" : maxNorway,
+        maxPeru == "" ? "0" : maxPeru,
+        maxPhilipine == "" ? "0" : maxPhilipine,
+        maxPoland == "" ? "0" : maxPoland,
+        maxRomania == "" ? "0" : maxRomania,
+        maxRussia == "" ? "0" : maxRussia,
+        maxSingapore == "" ? "0" : maxSingapore,
+        maxThailand == "" ? "0" : maxThailand,
+        maxTurkey == "" ? "0" : maxTurkey,
+        maxTaiwan == "" ?  "0" : maxTaiwan,
+        maxVietnam == "" ? "0" : maxVietnam,
+        maxSA == "" ? "0" : maxSA,
+        DmaxPrice == "" ? "0" : DmaxPrice
+      ]
+    }
+
+    AddSetPricing(item)
+
+    console.log(item)
+  }
 
 
-  
+  useEffect(() => {
+    GetPricingRange(
+      setDminPrice,
+      setDmaxPrice,
+      setminUSA,
+      setmaxUSA,
+      setminAustralia,
+      setmaxAustralia,
+      setminBrazil,
+      setmaxBrazil,
+      setminCanada,
+      setmaxCanada,
+      setminChile,
+      setmaxChile,
+      setminColumbia,
+      setmaxColumbia,
+      setminEgypt,
+      setmaxEgypt,
+      setminEU,
+      setmaxEU,
+      setminGB,
+      setmaxGB,
+      setminindonedia,
+      setmaxindonedia,
+      setminIsrael,
+      setmaxIsrael,
+      setminIndia,
+      setmaxIndia,
+      setminJapan,
+      setmaxJapan,
+      setminKorea,
+      setmaxKorea,
+      setminMexico,
+      setmaxMexico,
+      setminMalaysia,
+      setmaxMalaysia,
+      setminNigeria,
+      setmaxNigeria,
+      setminNorway,
+      setmaxNorway,
+      setminPeru,
+      setmaxPeru,
+      setminPhilipine,
+      setmaxPhilipine,
+      setminPoland,
+      setmaxPoland,
+      setminRomania,
+      setmaxRomania,
+      setminRussia,
+      setmaxRussia,
+      setminSingapore,
+      setmaxSingapore,
+      setminThailand,
+      setmaxThailand,
+      setminTurkey,
+      setmaxTurkey,
+      setminTaiwan,
+      setmaxTaiwan,
+      setminVietnam,
+      setmaxVietnam,
+      setminSA,
+      setmaxSA
+      )
+  },[])
   
 
   return (
@@ -134,7 +325,7 @@ const ManagePricing = () => {
 
     <div className='d-flex justify-content-end mb-5'> 
 
-     <Button className='mx-1' variant="contained"><AddIcon /> Save Prices</Button>
+     <Button onClick={handleAllPricing} className='mx-1' variant="contained"><AddIcon /> Save Prices</Button>
     </div>
 
    
@@ -170,7 +361,7 @@ const ManagePricing = () => {
   </div>
 
   <div className='col-md-4 d-flex align-items-center mt-2'>
-  <Button  className='mx-1' variant="contained">Submit</Button>
+  <Button  onClick={handleDefaultPrice} className='mx-1' variant="contained">Submit</Button>
   </div>
 
 
@@ -179,10 +370,6 @@ const ManagePricing = () => {
 </div>
 
  
-
-  
-
-   
 
      <Table responsive striped bordered hover>
       <thead>
@@ -199,10 +386,10 @@ const ManagePricing = () => {
           <td><b>America</b></td>
           <td>USD</td>
           <td>
-            <Form.Control type="text" placeholder="Min Price" />
+            <Form.Control value={minUSA} onChange={(e) => setminUSA(e.target.value)} type="text" placeholder="Min Price" />
           </td>
           <td>
-          <Form.Control type="text" placeholder="Max Price" />
+          <Form.Control value={maxUSA} onChange={(e) => setmaxUSA(e.target.value)} type="text" placeholder="Max Price" />
           </td>
         </tr>
 
@@ -210,10 +397,10 @@ const ManagePricing = () => {
           <td><b>Australia</b></td>
           <td>AUD</td>
           <td>
-            <Form.Control type="text" placeholder="Min Price" />
+            <Form.Control value={minAustralia} onChange={(e) => setminAustralia(e.target.value)} type="text" placeholder="Min Price" />
           </td>
           <td>
-          <Form.Control type="text" placeholder="Max Price" />
+          <Form.Control value={maxAustralia} onChange={(e) => setmaxAustralia(e.target.value)} type="text" placeholder="Max Price" />
           </td>
         </tr>
 
@@ -222,10 +409,10 @@ const ManagePricing = () => {
           <td><b>Brazil</b></td>
           <td>BRL</td>
           <td>
-            <Form.Control type="text" placeholder="Min Price" />
+            <Form.Control value={minBrazil} onChange={(e) => setminBrazil(e.target.value)} type="text" placeholder="Min Price" />
           </td>
           <td>
-          <Form.Control type="text" placeholder="Max Price" />
+          <Form.Control value={maxBrazil} onChange={(e) => setmaxBrazil(e.target.value)} type="text" placeholder="Max Price" />
           </td>
         </tr>
 
@@ -233,10 +420,10 @@ const ManagePricing = () => {
           <td><b>Canada</b></td>
           <td>CAD</td>
           <td>
-            <Form.Control type="text" placeholder="Min Price" />
+            <Form.Control value={minCanada} onChange={(e) => setminCanada(e.target.value)} type="text" placeholder="Min Price" />
           </td>
           <td>
-          <Form.Control type="text" placeholder="Max Price" />
+          <Form.Control value={maxCanada} onChange={(e) => setmaxCanada(e.target.value)} type="text" placeholder="Max Price" />
           </td>
         </tr>
 
@@ -244,10 +431,10 @@ const ManagePricing = () => {
           <td><b>Chile</b></td>
           <td>CLP</td>
           <td>
-            <Form.Control type="text" placeholder="Min Price" />
+            <Form.Control value={minChile} onChange={(e) => setminChile(e.target.value)} type="text" placeholder="Min Price" />
           </td>
           <td>
-          <Form.Control type="text" placeholder="Max Price" />
+          <Form.Control value={maxChile} onChange={(e) => setmaxChile(e.target.value)} type="text" placeholder="Max Price" />
           </td>
         </tr>
 
@@ -255,10 +442,10 @@ const ManagePricing = () => {
           <td><b>Columbia</b></td>
           <td>COP</td>
           <td>
-            <Form.Control type="text" placeholder="Min Price" />
+            <Form.Control value={minColumbia} onChange={(e) => setminColumbia(e.target.value)} type="text" placeholder="Min Price" />
           </td>
           <td>
-          <Form.Control type="text" placeholder="Max Price" />
+          <Form.Control value={maxColumbia} onChange={(e) => setmaxColumbia(e.target.value)} type="text" placeholder="Max Price" />
           </td>
         </tr>
 
@@ -266,10 +453,10 @@ const ManagePricing = () => {
           <td><b>Egypt</b></td>
           <td>EGP</td>
           <td>
-            <Form.Control type="text" placeholder="Min Price" />
+            <Form.Control value={minEgypt} onChange={(e) => setminEgypt(e.target.value)} type="text" placeholder="Min Price" />
           </td>
           <td>
-          <Form.Control type="text" placeholder="Max Price" />
+          <Form.Control value={maxEgypt} onChange={(e) => setmaxEgypt(e.target.value)} type="text" placeholder="Max Price" />
           </td>
         </tr>
 
@@ -278,10 +465,10 @@ const ManagePricing = () => {
           <td><b>European Union</b></td>
           <td>EUR</td>
           <td>
-            <Form.Control type="text" placeholder="Min Price" />
+            <Form.Control value={minEU} onChange={(e) => setminEU(e.target.value)} type="text" placeholder="Min Price" />
           </td>
           <td>
-          <Form.Control type="text" placeholder="Max Price" />
+          <Form.Control value={maxEU} onChange={(e) => setmaxEU(e.target.value)} type="text" placeholder="Max Price" />
           </td>
         </tr>
 
@@ -289,10 +476,10 @@ const ManagePricing = () => {
           <td><b>Great Britain</b></td>
           <td>GBP</td>
           <td>
-            <Form.Control type="text" placeholder="Min Price" />
+            <Form.Control value={minGB} onChange={(e) => setminGB(e.target.value)} type="text" placeholder="Min Price" />
           </td>
           <td>
-          <Form.Control type="text" placeholder="Max Price" />
+          <Form.Control value={maxGB} onChange={(e) => setmaxGB(e.target.value)} type="text" placeholder="Max Price" />
           </td>
         </tr>
 
@@ -300,10 +487,10 @@ const ManagePricing = () => {
           <td><b>Indonesia</b></td>
           <td>IDR</td>
           <td>
-            <Form.Control type="text" placeholder="Min Price" />
+            <Form.Control value={minindonedia} onChange={(e) => setminindonedia(e.target.value)} type="text" placeholder="Min Price" />
           </td>
           <td>
-          <Form.Control type="text" placeholder="Max Price" />
+          <Form.Control value={maxindonedia} onChange={(e) => setmaxindonedia(e.target.value)} type="text" placeholder="Max Price" />
           </td>
         </tr>
 
@@ -311,10 +498,10 @@ const ManagePricing = () => {
           <td><b>Israel</b></td>
           <td>ILS</td>
           <td>
-            <Form.Control type="text" placeholder="Min Price" />
+            <Form.Control value={minIsrael} onChange={(e) => setminIsrael(e.target.value)} type="text" placeholder="Min Price" />
           </td>
           <td>
-          <Form.Control type="text" placeholder="Max Price" />
+          <Form.Control value={maxIsrael} onChange={(e) => setmaxIsrael(e.target.value)} type="text" placeholder="Max Price" />
           </td>
         </tr>
 
@@ -322,10 +509,10 @@ const ManagePricing = () => {
           <td><b>India</b></td>
           <td>INR</td>
           <td>
-            <Form.Control type="text" placeholder="Min Price" />
+            <Form.Control value={minIndia} onChange={(e) => setminIndia(e.target.value)} type="text" placeholder="Min Price" />
           </td>
           <td>
-          <Form.Control type="text" placeholder="Max Price" />
+          <Form.Control value={maxIndia} onChange={(e) => setmaxIndia(e.target.value)} type="text" placeholder="Max Price" />
           </td>
         </tr>
 
@@ -333,10 +520,10 @@ const ManagePricing = () => {
           <td><b>Japan</b></td>
           <td>JPY</td>
           <td>
-            <Form.Control type="text" placeholder="Min Price" />
+            <Form.Control value={minJapan} onChange={(e) => setminJapan(e.target.value)} type="text" placeholder="Min Price" />
           </td>
           <td>
-          <Form.Control type="text" placeholder="Max Price" />
+          <Form.Control value={maxJapan} onChange={(e) => setmaxJapan(e.target.value)} type="text" placeholder="Max Price" />
           </td>
         </tr>
 
@@ -344,10 +531,10 @@ const ManagePricing = () => {
           <td><b>South Korea</b></td>
           <td>KRW</td>
           <td>
-            <Form.Control type="text" placeholder="Min Price" />
+            <Form.Control value={minKorea} onChange={(e) => setminKorea(e.target.value)} type="text" placeholder="Min Price" />
           </td>
           <td>
-          <Form.Control type="text" placeholder="Max Price" />
+          <Form.Control value={maxKorea} onChange={(e) => setmaxKorea(e.target.value)} type="text" placeholder="Max Price" />
           </td>
         </tr>
 
@@ -355,10 +542,10 @@ const ManagePricing = () => {
           <td><b>Mexico</b></td>
           <td>MXN</td>
           <td>
-            <Form.Control type="text" placeholder="Min Price" />
+            <Form.Control value={minMexico} onChange={(e) => setminMexico(e.target.value)} type="text" placeholder="Min Price" />
           </td>
           <td>
-          <Form.Control type="text" placeholder="Max Price" />
+          <Form.Control value={maxMexico} onChange={(e) => setmaxMexico(e.target.value)} type="text" placeholder="Max Price" />
           </td>
         </tr>
 
@@ -366,10 +553,10 @@ const ManagePricing = () => {
           <td><b>Malaysia</b></td>
           <td>MYR</td>
           <td>
-            <Form.Control type="text" placeholder="Min Price" />
+            <Form.Control value={minMalaysia} onChange={(e) => setminMalaysia(e.target.value)} type="text" placeholder="Min Price" />
           </td>
           <td>
-          <Form.Control type="text" placeholder="Max Price" />
+          <Form.Control value={maxMalaysia} onChange={(e) => setmaxMalaysia(e.target.value)} type="text" placeholder="Max Price" />
           </td>
         </tr>
 
@@ -377,10 +564,10 @@ const ManagePricing = () => {
           <td><b>Nigeria</b></td>
           <td>NGN</td>
           <td>
-            <Form.Control type="text" placeholder="Min Price" />
+            <Form.Control value={minNigeria} onChange={(e) => setminNigeria(e.target.value)} type="text" placeholder="Min Price" />
           </td>
           <td>
-          <Form.Control type="text" placeholder="Max Price" />
+          <Form.Control value={maxNigeria} onChange={(e) => setmaxNigeria(e.target.value)} type="text" placeholder="Max Price" />
           </td>
         </tr>
 
@@ -388,10 +575,10 @@ const ManagePricing = () => {
           <td><b>Norway</b></td>
           <td>NOK</td>
           <td>
-            <Form.Control type="text" placeholder="Min Price" />
+            <Form.Control value={minNorway} onChange={(e) => setminNorway(e.target.value)} type="text" placeholder="Min Price" />
           </td>
           <td>
-          <Form.Control type="text" placeholder="Max Price" />
+          <Form.Control value={maxNorway} onChange={(e) => setmaxNorway(e.target.value)} type="text" placeholder="Max Price" />
           </td>
         </tr>
 
@@ -399,10 +586,10 @@ const ManagePricing = () => {
           <td><b>Peru</b></td>
           <td>PEN</td>
           <td>
-            <Form.Control type="text" placeholder="Min Price" />
+            <Form.Control value={minPeru} onChange={(e) => setminPeru(e.target.value)} type="text" placeholder="Min Price" />
           </td>
           <td>
-          <Form.Control type="text" placeholder="Max Price" />
+          <Form.Control value={maxPeru} onChange={(e) => setmaxPeru(e.target.value)} type="text" placeholder="Max Price" />
           </td>
         </tr>
 
@@ -410,10 +597,10 @@ const ManagePricing = () => {
           <td><b>Philippines</b></td>
           <td>PHP</td>
           <td>
-            <Form.Control type="text" placeholder="Min Price" />
+            <Form.Control value={minPhilipine} onChange={(e) => setminPhilipine(e.target.value)} type="text" placeholder="Min Price" />
           </td>
           <td>
-          <Form.Control type="text" placeholder="Max Price" />
+          <Form.Control value={maxPhilipine} onChange={(e) => setmaxPhilipine(e.target.value)} type="text" placeholder="Max Price" />
           </td>
         </tr>
 
@@ -421,10 +608,10 @@ const ManagePricing = () => {
           <td><b>Poland</b></td>
           <td>PLN</td>
           <td>
-            <Form.Control type="text" placeholder="Min Price" />
+            <Form.Control value={minPoland} onChange={(e) => setminPoland(e.target.value)} type="text" placeholder="Min Price" />
           </td>
           <td>
-          <Form.Control type="text" placeholder="Max Price" />
+          <Form.Control value={maxPoland} onChange={(e) => setmaxPoland(e.target.value)} type="text" placeholder="Max Price" />
           </td>
         </tr>
 
@@ -432,10 +619,10 @@ const ManagePricing = () => {
           <td><b>Romania</b></td>
           <td>RON</td>
           <td>
-            <Form.Control type="text" placeholder="Min Price" />
+            <Form.Control value={minRomania} onChange={(e) => setminRomania(e.target.value)} type="text" placeholder="Min Price" />
           </td>
           <td>
-          <Form.Control type="text" placeholder="Max Price" />
+          <Form.Control value={maxRomania} onChange={(e) => setmaxRomania(e.target.value)} type="text" placeholder="Max Price" />
           </td>
         </tr>
 
@@ -443,10 +630,10 @@ const ManagePricing = () => {
           <td><b>Russia</b></td>
           <td>RUB</td>
           <td>
-            <Form.Control type="text" placeholder="Min Price" />
+            <Form.Control value={minRussia} onChange={(e) => setminRussia(e.target.value)} type="text" placeholder="Min Price" />
           </td>
           <td>
-          <Form.Control type="text" placeholder="Max Price" />
+          <Form.Control value={maxRussia} onChange={(e) => setmaxRussia(e.target.value)} type="text" placeholder="Max Price" />
           </td>
         </tr>
 
@@ -454,10 +641,10 @@ const ManagePricing = () => {
           <td><b>Singapore</b></td>
           <td>SGD</td>
           <td>
-            <Form.Control type="text" placeholder="Min Price" />
+            <Form.Control value={minSingapore} onChange={(e) => setminSingapore(e.target.value)} type="text" placeholder="Min Price" />
           </td>
           <td>
-          <Form.Control type="text" placeholder="Max Price" />
+          <Form.Control value={maxSingapore} onChange={(e) => setmaxSingapore(e.target.value)} type="text" placeholder="Max Price" />
           </td>
         </tr>
 
@@ -465,10 +652,10 @@ const ManagePricing = () => {
           <td><b>Thailand</b></td>
           <td>THB</td>
           <td>
-            <Form.Control type="text" placeholder="Min Price" />
+            <Form.Control value={minThailand} onChange={(e) => setminThailand(e.target.value)} type="text" placeholder="Min Price" />
           </td>
           <td>
-          <Form.Control type="text" placeholder="Max Price" />
+          <Form.Control value={maxThailand} onChange={(e) => setmaxThailand(e.target.value)} type="text" placeholder="Max Price" />
           </td>
         </tr>
 
@@ -476,10 +663,10 @@ const ManagePricing = () => {
           <td><b>Turkey</b></td>
           <td>TRY</td>
           <td>
-            <Form.Control type="text" placeholder="Min Price" />
+            <Form.Control value={minTurkey} onChange={(e) => setminTurkey(e.target.value)} type="text" placeholder="Min Price" />
           </td>
           <td>
-          <Form.Control type="text" placeholder="Max Price" />
+          <Form.Control value={maxTurkey} onChange={(e) => setmaxTurkey(e.target.value)} type="text" placeholder="Max Price" />
           </td>
         </tr>
 
@@ -487,10 +674,10 @@ const ManagePricing = () => {
           <td><b>Taiwan</b></td>
           <td>TWD</td>
           <td>
-            <Form.Control type="text" placeholder="Min Price" />
+            <Form.Control value={minTaiwan} onChange={(e) => setminTaiwan(e.target.value)} type="text" placeholder="Min Price" />
           </td>
           <td>
-          <Form.Control type="text" placeholder="Max Price" />
+          <Form.Control value={maxTaiwan} onChange={(e) => setmaxTaiwan(e.target.value)} type="text" placeholder="Max Price" />
           </td>
         </tr>
 
@@ -498,10 +685,10 @@ const ManagePricing = () => {
           <td><b>Vietnam</b></td>
           <td>VND</td>
           <td>
-            <Form.Control type="text" placeholder="Min Price" />
+            <Form.Control value={minVietnam} onChange={(e) => setminVietnam(e.target.value)} type="text" placeholder="Min Price" />
           </td>
           <td>
-          <Form.Control type="text" placeholder="Max Price" />
+          <Form.Control value={maxVietnam} onChange={(e) => setmaxVietnam(e.target.value)} type="text" placeholder="Max Price" />
           </td>
         </tr>
 
@@ -509,10 +696,10 @@ const ManagePricing = () => {
           <td><b>South Africa</b></td>
           <td>ZAR</td>
           <td>
-            <Form.Control type="text" placeholder="Min Price" />
+            <Form.Control value={minSA} onChange={(e) => setminSA(e.target.value)} type="text" placeholder="Min Price" />
           </td>
           <td>
-          <Form.Control type="text" placeholder="Max Price" />
+          <Form.Control value={maxSA} onChange={(e) => setmaxSA(e.target.value)} type="text" placeholder="Max Price" />
           </td>
         </tr>
 

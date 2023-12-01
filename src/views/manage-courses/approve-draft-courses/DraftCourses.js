@@ -122,9 +122,10 @@ const DraftCourses = () => {
       
       GellAllDraftCourses(setcourses)
   
-      coursesData = courses.map(course => {
+      coursesData = courses.map((course,index) => {
         // Create a new object with modified property
         return { ...course, 
+          index: index + 1,
           courseCategory: course.courseCategory.name,
           instructor: `${course.instructorId.generalUserProfile.firstName} ${course.instructorId.generalUserProfile.lastName}`,
           actions: (
@@ -143,9 +144,6 @@ const DraftCourses = () => {
     })
     }, 1000);
 
-
-  // coursesData(modifiedArray)
-
   }, [coursesData])
   
 
@@ -160,7 +158,7 @@ const DraftCourses = () => {
       <MaterialTable
       title=""
       columns={[
-        { title: 'ID', field: 'code' },
+        { title: 'ID', field: 'index' },
         { title: 'Course Title', field: 'courseTitle' },
         { title: 'Course Category', field: 'courseCategory' },
         { title: 'Instrutor', field: 'instructor' },

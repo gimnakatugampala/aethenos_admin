@@ -19,96 +19,158 @@ const ManagePricing = () => {
 
   const [DminPrice, setDminPrice] = useState("")
   const [DmaxPrice, setDmaxPrice] = useState("")
+  const [DTip, setDTip] = useState("")
+  const [DminValue, setDminValue] = useState("")
 
   const [minUSA, setminUSA] = useState("")
   const [maxUSA, setmaxUSA] = useState("")
+  const [USATip, setUSATip] = useState("")
+  const [USAminValue, setUSAminValue] = useState("")
 
   const [minAustralia, setminAustralia] = useState("")
   const [maxAustralia, setmaxAustralia] = useState("")
+  const [AusTip, setAusTip] = useState("")
+  const [AusminValue, setAusminValue] = useState("")
 
   const [minBrazil, setminBrazil] = useState("")
   const [maxBrazil, setmaxBrazil] = useState("")
+  const [BrazilTip, setBrazilTip] = useState("")
+  const [BrazilminValue, setBrazilminValue] = useState("")
 
   const [minCanada, setminCanada] = useState("")
   const [maxCanada, setmaxCanada] = useState("")
+  const [CanadaTip, setCanadaTip] = useState("")
+  const [CanadaminValue, setCanadaminValue] = useState("")
 
   const [minChile, setminChile] = useState("")
   const [maxChile, setmaxChile] = useState("")
+  const [ChileTip, setChileTip] = useState("")
+  const [ChileminValue, setChileminValue] = useState("")
   
   const [minColumbia, setminColumbia] = useState("")
   const [maxColumbia, setmaxColumbia] = useState("")
+  const [ColumbiaTip, setColumbiaTip] = useState("")
+  const [ColumbiaMinValue, setColumbiaMinValue] = useState("")
 
   const [minEgypt, setminEgypt] = useState("")
   const [maxEgypt, setmaxEgypt] = useState("")
+  const [EgyptTip, setEgyptTip] = useState("")
+  const [EgyptminValue, setEgyptminValue] = useState("")
 
   const [minEU, setminEU] = useState("")
   const [maxEU, setmaxEU] = useState("")
+  const [EUTip, setEUTip] = useState("")
+  const [EUminValue, setEUminValue] = useState("")
 
   const [minGB, setminGB] = useState("")
   const [maxGB, setmaxGB] = useState("")
+  const [GBPTip, setGBPTip] = useState("")
+  const [GBPminValue, setGBPminValue] = useState("")
+  
 
   const [minindonedia, setminindonedia] = useState("")
   const [maxindonedia, setmaxindonedia] = useState("")
+  const [IndoTip, setIndoTip] = useState("")
+  const [IndominValue, setIndominValue] = useState("")
 
   const [minIsrael, setminIsrael] = useState("")
   const [maxIsrael, setmaxIsrael] = useState("")
+  const [IsrealTip, setIsrealTip] = useState("")
+  const [IsrealminValue, setIsrealminValue] = useState("")
+
 
   const [minIndia, setminIndia] = useState("")
   const [maxIndia, setmaxIndia] = useState("")
+  const [IndiaTip, setIndiaTip] = useState("")
+  const [IndiaminValue, setIndiaminValue] = useState("")
 
   const [minJapan, setminJapan] = useState("")
   const [maxJapan, setmaxJapan] = useState("")
+  const [JapanTip, setJapanTip] = useState("")
+  const [JapanminValue, setJapanminValue] = useState("")
 
   const [minKorea, setminKorea] = useState("")
   const [maxKorea, setmaxKorea] = useState("")
+  const [KoreaTip, setKoreaTip] = useState("")
+  const [KoreaminValue, setKoreaminValue] = useState("")
 
   const [minMexico, setminMexico] = useState("")
   const [maxMexico, setmaxMexico] = useState("")
+  const [MexicoTip, setMexicoTip] = useState("")
+  const [MexicominValue, setMexicominValue] = useState("")
 
   const [minMalaysia, setminMalaysia] = useState("")
   const [maxMalaysia, setmaxMalaysia] = useState("")
+  const [MalaysiaTip, setMalaysiaTip] = useState("")
+  const [MalaysiaminValue, setMalaysiaminValue] = useState("")
 
   const [minNigeria, setminNigeria] = useState("")
   const [maxNigeria, setmaxNigeria] = useState("")
+  const [NigeriaTip, setNigeriaTip] = useState("")
+  const [NigeriaminValue, setNigeriaminValue] = useState("")
   
   const [minNorway, setminNorway] = useState("")
   const [maxNorway, setmaxNorway] = useState("")
+  const [NorwayTip, setNorwayTip] = useState("")
+  const [NorwayminValue, setNorwayminValue] = useState("")
 
   const [minPeru, setminPeru] = useState("")
   const [maxPeru, setmaxPeru] = useState("")
+  const [PeruTip, setPeruTip] = useState("")
+  const [PeruminValue, setPeruminValue] = useState("")
 
 
   const [minPhilipine, setminPhilipine] = useState("")
   const [maxPhilipine, setmaxPhilipine] = useState("")
+  const [PhilippinesTip, setPhilippinesTip] = useState("")
+  const [PhilippinesminValue, setPhilippinesminValue] = useState("")
 
 
   const [minPoland, setminPoland] = useState("")
   const [maxPoland, setmaxPoland] = useState("")
+  const [PolandTip, setPolandTip] = useState("")
+  const [PolandminValue, setPolandminValue] = useState("")
 
   const [minRomania, setminRomania] = useState("")
   const [maxRomania, setmaxRomania] = useState("")
+  const [RomaniaTip, setRomaniaTip] = useState("")
+  const [RomaniaminValue, setRomaniaminValue] = useState("")
 
   const [minRussia, setminRussia] = useState("")
   const [maxRussia, setmaxRussia] = useState("")
+  const [RussiaTip, setRussiaTip] = useState("")
+  const [RussiaminValue, setRussiaminValue] = useState("")
 
   const [minSingapore, setminSingapore] = useState("")
   const [maxSingapore, setmaxSingapore] = useState("")
+  const [SingaporeTip, setSingaporeTip] = useState("")
+  const [SingaporeminValue, setSingaporeminValue] = useState("")
 
   const [minThailand, setminThailand] = useState("")
   const [maxThailand, setmaxThailand] = useState("")
+  const [ThailandTip, setThailandTip] = useState("")
+  const [ThailandminValue, setThailandminValue] = useState("")
 
   const [minTurkey, setminTurkey] = useState("")
   const [maxTurkey, setmaxTurkey] = useState("")
+  const [TurkeyTip, setTurkeyTip] = useState("")
+  const [TurkeyminValue, setTurkeyminValue] = useState("")
 
 
   const [minTaiwan, setminTaiwan] = useState("")
   const [maxTaiwan, setmaxTaiwan] = useState("")
+  const [TaiwanTip, setTaiwanTip] = useState("")
+  const [TaiwanminValue, setTaiwanminValue] = useState("")
 
   const [minVietnam, setminVietnam] = useState("")
   const [maxVietnam, setmaxVietnam] = useState("")
+  const [VietnamTip, setVietnamTip] = useState("")
+  const [VietnamminValue, setVietnamminValue] = useState("")
 
   const [minSA, setminSA] = useState("")
   const [maxSA, setmaxSA] = useState("")
+  const [SATip, setSATip] = useState("")
+  const [SAminValue, setSAminValue] = useState("")
 
   const [minOC, setminOC] = useState("")
   const [maxOC, setmaxOC] = useState("")
@@ -330,7 +392,7 @@ const ManagePricing = () => {
 
    
     <div className='row my-3'>
-    <div className='col-md-4'>
+    <div className='col-md-2'>
     <Form.Label>Minimum Price (USD)</Form.Label>
     <InputGroup className="mb-3">
       <InputGroup.Text id="basic-addon1">$</InputGroup.Text>
@@ -344,7 +406,7 @@ const ManagePricing = () => {
     </InputGroup>
     </div>
 
-  <div className='col-md-4'>
+  <div className='col-md-2'>
     <Form.Label>Maximum Price (USD)</Form.Label>
     <InputGroup className="mb-3">
       <InputGroup.Text id="basic-addon1">$</InputGroup.Text>
@@ -356,11 +418,28 @@ const ManagePricing = () => {
         aria-describedby="basic-addon1"
       />
     </InputGroup>
-
-
   </div>
 
-  <div className='col-md-4 d-flex align-items-center mt-2'>
+  <div className='col-md-3'>
+    <Form.Label>Tip</Form.Label>
+    <Form.Control value={DTip} onChange={(e) => setDTip(e.target.value)} as="textarea" rows={2} type="text" placeholder="Enter Tip" />
+  </div>
+
+  <div className='col-md-2'>
+    <Form.Label>Min Value (USD)</Form.Label>
+    <InputGroup className="mb-3">
+      <InputGroup.Text id="basic-addon1">$</InputGroup.Text>
+      <Form.Control
+        value={DminValue}
+        onChange={(e) => setDminValue(e.target.value)}
+        placeholder="USD"
+        aria-label="USD"
+        aria-describedby="basic-addon1"
+      />
+    </InputGroup>
+  </div>
+
+  <div className='col-md-3 d-flex align-items-center mt-2'>
   <Button  onClick={handleDefaultPrice} className='mx-1' variant="contained">Submit</Button>
   </div>
 
@@ -378,6 +457,8 @@ const ManagePricing = () => {
           <th>Currency</th>
           <th>Min Price</th>
           <th>Max Price</th>
+          <th>Tip</th>
+          <th>Global Min Price</th>
         </tr>
       </thead>
       <tbody>
@@ -391,6 +472,12 @@ const ManagePricing = () => {
           <td>
           <Form.Control value={maxUSA} onChange={(e) => setmaxUSA(e.target.value)} type="text" placeholder="Max Price" />
           </td>
+          <td>
+          <Form.Control value={USATip} onChange={(e) => setUSATip(e.target.value)} as="textarea" rows={2} type="text" placeholder="Enter Tip" />
+          </td>
+          <td>
+          <Form.Control value={USAminValue} onChange={(e) =>setUSAminValue(e.target.value)} type="text" placeholder="Minimum Value" />
+          </td>
         </tr>
 
         <tr>
@@ -401,6 +488,12 @@ const ManagePricing = () => {
           </td>
           <td>
           <Form.Control value={maxAustralia} onChange={(e) => setmaxAustralia(e.target.value)} type="text" placeholder="Max Price" />
+          </td>
+          <td>
+          <Form.Control value={AusTip} onChange={(e) => setAusTip(e.target.value)} as="textarea" rows={2} type="text" placeholder="Enter Tip" />
+          </td>
+          <td>
+          <Form.Control value={AusminValue} onChange={(e) => setAusminValue(e.target.value)} type="text" placeholder="Minimum Value" />
           </td>
         </tr>
 
@@ -414,6 +507,12 @@ const ManagePricing = () => {
           <td>
           <Form.Control value={maxBrazil} onChange={(e) => setmaxBrazil(e.target.value)} type="text" placeholder="Max Price" />
           </td>
+          <td>
+          <Form.Control value={BrazilTip} onChange={(e) => setBrazilTip(e.target.value)} as="textarea" rows={2} type="text" placeholder="Enter Tip" />
+          </td>
+          <td>
+          <Form.Control value={BrazilminValue} onChange={(e) => setBrazilminValue(e.target.value)} type="text" placeholder="Minimum Value" />
+          </td>
         </tr>
 
         <tr>
@@ -424,6 +523,12 @@ const ManagePricing = () => {
           </td>
           <td>
           <Form.Control value={maxCanada} onChange={(e) => setmaxCanada(e.target.value)} type="text" placeholder="Max Price" />
+          </td>
+          <td>
+          <Form.Control value={CanadaTip} onChange={(e) => setCanadaTip(e.target.value)} as="textarea" rows={2} type="text" placeholder="Enter Tip" />
+          </td>
+          <td>
+          <Form.Control value={CanadaminValue} onChange={(e) => setCanadaminValue(e.target.value)}  type="text" placeholder="Minimum Value" />
           </td>
         </tr>
 
@@ -436,6 +541,12 @@ const ManagePricing = () => {
           <td>
           <Form.Control value={maxChile} onChange={(e) => setmaxChile(e.target.value)} type="text" placeholder="Max Price" />
           </td>
+          <td>
+          <Form.Control value={ChileTip} onChange={(e) => setChileTip(e.target.value)} as="textarea" rows={2} type="text" placeholder="Enter Tip" />
+          </td>
+          <td>
+          <Form.Control value={ChileminValue} onChange={(e) => setChileminValue(e.target.value)} type="text" placeholder="Minimum Value" />
+          </td>
         </tr>
 
         <tr>
@@ -447,6 +558,12 @@ const ManagePricing = () => {
           <td>
           <Form.Control value={maxColumbia} onChange={(e) => setmaxColumbia(e.target.value)} type="text" placeholder="Max Price" />
           </td>
+          <td>
+          <Form.Control value={ColumbiaTip} onChange={(e) => setColumbiaTip(e.target.value)} as="textarea" rows={2} type="text" placeholder="Enter Tip" />
+          </td>
+          <td>
+          <Form.Control value={ColumbiaMinValue} onChange={(e) => setColumbiaMinValue(e.target.value)} type="text" placeholder="Minimum Value" />
+          </td>
         </tr>
 
         <tr>
@@ -457,6 +574,12 @@ const ManagePricing = () => {
           </td>
           <td>
           <Form.Control value={maxEgypt} onChange={(e) => setmaxEgypt(e.target.value)} type="text" placeholder="Max Price" />
+          </td>
+          <td>
+          <Form.Control value={EgyptTip} onChange={(e) => setEgyptTip(e.target.value)} as="textarea" rows={2} type="text" placeholder="Enter Tip" />
+          </td>
+          <td>
+          <Form.Control value={EgyptminValue} onChange={(e) => setEgyptminValue(e.target.value)} type="text" placeholder="Minimum Value" />
           </td>
         </tr>
 
@@ -470,6 +593,12 @@ const ManagePricing = () => {
           <td>
           <Form.Control value={maxEU} onChange={(e) => setmaxEU(e.target.value)} type="text" placeholder="Max Price" />
           </td>
+          <td>
+          <Form.Control value={EUTip} onChange={(e) => setEUTip(e.target.value)} as="textarea" rows={2} type="text" placeholder="Enter Tip" />
+          </td>
+          <td>
+          <Form.Control value={EUminValue} onChange={(e) => setEUminValue(e.target.value)} type="text" placeholder="Minimum Value" />
+          </td>
         </tr>
 
         <tr>
@@ -480,6 +609,12 @@ const ManagePricing = () => {
           </td>
           <td>
           <Form.Control value={maxGB} onChange={(e) => setmaxGB(e.target.value)} type="text" placeholder="Max Price" />
+          </td>
+          <td>
+          <Form.Control value={GBPTip} onChange={(e) => setGBPTip(e.target.value)} as="textarea" rows={2} type="text" placeholder="Enter Tip" />
+          </td>
+          <td>
+          <Form.Control value={GBPminValue} onChange={(e) => setGBPminValue(e.target.value)} type="text" placeholder="Minimum Value" />
           </td>
         </tr>
 
@@ -492,6 +627,12 @@ const ManagePricing = () => {
           <td>
           <Form.Control value={maxindonedia} onChange={(e) => setmaxindonedia(e.target.value)} type="text" placeholder="Max Price" />
           </td>
+          <td>
+          <Form.Control value={IndoTip} onChange={(e) => setIndoTip(e.target.value)} as="textarea" rows={2} type="text" placeholder="Enter Tip" />
+          </td>
+          <td>
+          <Form.Control value={IndominValue} onChange={(e) => setIndominValue(e.target.value)} type="text" placeholder="Minimum Value" />
+          </td>
         </tr>
 
         <tr>
@@ -502,6 +643,12 @@ const ManagePricing = () => {
           </td>
           <td>
           <Form.Control value={maxIsrael} onChange={(e) => setmaxIsrael(e.target.value)} type="text" placeholder="Max Price" />
+          </td>
+          <td>
+          <Form.Control value={IsrealTip} onChange={(e) => setIsrealTip(e.target.value)} as="textarea" rows={2} type="text" placeholder="Enter Tip" />
+          </td>
+          <td>
+          <Form.Control value={IsrealminValue} onChange={(e) => setIsrealminValue(e.target.value)} type="text" placeholder="Minimum Value" />
           </td>
         </tr>
 
@@ -514,7 +661,13 @@ const ManagePricing = () => {
           <td>
           <Form.Control value={maxIndia} onChange={(e) => setmaxIndia(e.target.value)} type="text" placeholder="Max Price" />
           </td>
-        </tr>
+          <td>
+          <Form.Control value={IndiaTip} onChange={(e) => setIndiaTip(e.target.value)} as="textarea" rows={2} type="text" placeholder="Enter Tip" />
+          </td>
+          <td>
+          <Form.Control value={IndiaminValue} onChange={(e) => setIndiaminValue(e.target.value)} type="text" placeholder="Minimum Value" />
+          </td>
+          </tr>
 
         <tr>
           <td><b>Japan</b></td>
@@ -524,6 +677,12 @@ const ManagePricing = () => {
           </td>
           <td>
           <Form.Control value={maxJapan} onChange={(e) => setmaxJapan(e.target.value)} type="text" placeholder="Max Price" />
+          </td>
+          <td>
+          <Form.Control value={JapanTip} onChange={(e) => setJapanTip(e.target.value)} as="textarea" rows={2} type="text" placeholder="Enter Tip" />
+          </td>
+          <td>
+          <Form.Control value={JapanminValue} onChange={(e) => setJapanminValue(e.target.value)} type="text" placeholder="Minimum Value" />
           </td>
         </tr>
 
@@ -536,6 +695,12 @@ const ManagePricing = () => {
           <td>
           <Form.Control value={maxKorea} onChange={(e) => setmaxKorea(e.target.value)} type="text" placeholder="Max Price" />
           </td>
+          <td>
+          <Form.Control value={KoreaTip} onChange={(e) => setKoreaTip(e.target.value)} as="textarea" rows={2} type="text" placeholder="Enter Tip" />
+          </td>
+          <td>
+          <Form.Control value={KoreaminValue} onChange={(e) => setKoreaminValue(e.target.value)} type="text" placeholder="Minimum Value" />
+          </td>
         </tr>
 
         <tr>
@@ -546,6 +711,12 @@ const ManagePricing = () => {
           </td>
           <td>
           <Form.Control value={maxMexico} onChange={(e) => setmaxMexico(e.target.value)} type="text" placeholder="Max Price" />
+          </td>
+          <td>
+          <Form.Control value={MexicoTip} onChange={(e) => setMexicoTip(e.target.value)} as="textarea" rows={2} type="text" placeholder="Enter Tip" />
+          </td>
+          <td>
+          <Form.Control value={MexicominValue} onChange={(e) => setMexicominValue(e.target.value)} type="text" placeholder="Minimum Value" />
           </td>
         </tr>
 
@@ -558,6 +729,12 @@ const ManagePricing = () => {
           <td>
           <Form.Control value={maxMalaysia} onChange={(e) => setmaxMalaysia(e.target.value)} type="text" placeholder="Max Price" />
           </td>
+          <td>
+          <Form.Control value={MalaysiaTip} onChange={(e) => setMalaysiaTip(e.target.value)} as="textarea" rows={2} type="text" placeholder="Enter Tip" />
+          </td>
+          <td>
+          <Form.Control value={MalaysiaminValue} onChange={(e) => setMalaysiaminValue(e.target.value)} type="text" placeholder="Minimum Value" />
+          </td>
         </tr>
 
         <tr>
@@ -568,6 +745,12 @@ const ManagePricing = () => {
           </td>
           <td>
           <Form.Control value={maxNigeria} onChange={(e) => setmaxNigeria(e.target.value)} type="text" placeholder="Max Price" />
+          </td>
+          <td>
+          <Form.Control value={NigeriaTip} onChange={(e) => setNigeriaTip(e.target.value)} as="textarea" rows={2} type="text" placeholder="Enter Tip" />
+          </td>
+          <td>
+          <Form.Control value={NigeriaminValue} onChange={(e) => setNigeriaminValue(e.target.value)} type="text" placeholder="Minimum Value" />
           </td>
         </tr>
 
@@ -580,6 +763,12 @@ const ManagePricing = () => {
           <td>
           <Form.Control value={maxNorway} onChange={(e) => setmaxNorway(e.target.value)} type="text" placeholder="Max Price" />
           </td>
+          <td>
+          <Form.Control value={NorwayTip} onChange={(e) => setNorwayTip(e.target.value)} as="textarea" rows={2} type="text" placeholder="Enter Tip" />
+          </td>
+          <td>
+          <Form.Control value={NorwayminValue} onChange={(e) => setNorwayminValue(e.target.value)} type="text" placeholder="Minimum Value" />
+          </td>
         </tr>
 
         <tr>
@@ -590,6 +779,12 @@ const ManagePricing = () => {
           </td>
           <td>
           <Form.Control value={maxPeru} onChange={(e) => setmaxPeru(e.target.value)} type="text" placeholder="Max Price" />
+          </td>
+          <td>
+          <Form.Control value={PeruTip} onChange={(e) => setPeruTip(e.target.value)} as="textarea" rows={2} type="text" placeholder="Enter Tip" />
+          </td>
+          <td>
+          <Form.Control value={PeruminValue} onChange={(e) => setPeruminValue(e.target.value)} type="text" placeholder="Minimum Value" />
           </td>
         </tr>
 
@@ -602,6 +797,12 @@ const ManagePricing = () => {
           <td>
           <Form.Control value={maxPhilipine} onChange={(e) => setmaxPhilipine(e.target.value)} type="text" placeholder="Max Price" />
           </td>
+          <td>
+          <Form.Control value={PhilippinesTip} onChange={(e) => setPhilippinesTip(e.target.value)} as="textarea" rows={2} type="text" placeholder="Enter Tip" />
+          </td>
+          <td>
+          <Form.Control value={PhilippinesminValue} onChange={(e) => setPhilippinesminValue(e.target.value)} type="text" placeholder="Minimum Value" />
+          </td>
         </tr>
 
         <tr>
@@ -612,6 +813,12 @@ const ManagePricing = () => {
           </td>
           <td>
           <Form.Control value={maxPoland} onChange={(e) => setmaxPoland(e.target.value)} type="text" placeholder="Max Price" />
+          </td>
+          <td>
+          <Form.Control value={PolandTip} onChange={(e) => setPolandTip(e.target.value)} as="textarea" rows={2} type="text" placeholder="Enter Tip" />
+          </td>
+          <td>
+          <Form.Control value={PolandminValue} onChange={(e) => setPolandminValue(e.target.value)} type="text" placeholder="Minimum Value" />
           </td>
         </tr>
 
@@ -624,6 +831,12 @@ const ManagePricing = () => {
           <td>
           <Form.Control value={maxRomania} onChange={(e) => setmaxRomania(e.target.value)} type="text" placeholder="Max Price" />
           </td>
+          <td>
+          <Form.Control value={RomaniaTip} onChange={(e) => setRomaniaTip(e.target.value)} as="textarea" rows={2} type="text" placeholder="Enter Tip" />
+          </td>
+          <td>
+          <Form.Control value={RomaniaminValue} onChange={(e) => setRomaniaminValue(e.target.value)} type="text" placeholder="Minimum Value" />
+          </td>
         </tr>
 
         <tr>
@@ -634,6 +847,12 @@ const ManagePricing = () => {
           </td>
           <td>
           <Form.Control value={maxRussia} onChange={(e) => setmaxRussia(e.target.value)} type="text" placeholder="Max Price" />
+          </td>
+          <td>
+          <Form.Control value={RussiaTip} onChange={(e) => setRussiaTip(e.target.value)} as="textarea" rows={2} type="text" placeholder="Enter Tip" />
+          </td>
+          <td>
+          <Form.Control value={RussiaminValue} onChange={(e) => setRussiaminValue(e.target.value)} type="text" placeholder="Minimum Value" />
           </td>
         </tr>
 
@@ -646,6 +865,12 @@ const ManagePricing = () => {
           <td>
           <Form.Control value={maxSingapore} onChange={(e) => setmaxSingapore(e.target.value)} type="text" placeholder="Max Price" />
           </td>
+          <td>
+          <Form.Control value={SingaporeTip} onChange={(e) => setSingaporeTip(e.target.value)} as="textarea" rows={2} type="text" placeholder="Enter Tip" />
+          </td>
+          <td>
+          <Form.Control value={SingaporeminValue} onChange={(e) => setSingaporeminValue(e.target.value)} type="text" placeholder="Minimum Value" />
+          </td>
         </tr>
 
         <tr>
@@ -656,6 +881,12 @@ const ManagePricing = () => {
           </td>
           <td>
           <Form.Control value={maxThailand} onChange={(e) => setmaxThailand(e.target.value)} type="text" placeholder="Max Price" />
+          </td>
+          <td>
+          <Form.Control value={ThailandTip} onChange={(e) => setThailandTip(e.target.value)} as="textarea" rows={2} type="text" placeholder="Enter Tip" />
+          </td>
+          <td>
+          <Form.Control value={ThailandminValue} onChange={(e) => setThailandminValue(e.target.value)} type="text" placeholder="Minimum Value" />
           </td>
         </tr>
 
@@ -668,6 +899,12 @@ const ManagePricing = () => {
           <td>
           <Form.Control value={maxTurkey} onChange={(e) => setmaxTurkey(e.target.value)} type="text" placeholder="Max Price" />
           </td>
+          <td>
+          <Form.Control value={TurkeyTip} onChange={(e) => setTurkeyTip(e.target.value)} as="textarea" rows={2} type="text" placeholder="Enter Tip" />
+          </td>
+          <td>
+          <Form.Control value={TurkeyminValue} onChange={(e) => setTurkeyminValue(e.target.value)} type="text" placeholder="Minimum Value" />
+          </td>
         </tr>
 
         <tr>
@@ -678,6 +915,12 @@ const ManagePricing = () => {
           </td>
           <td>
           <Form.Control value={maxTaiwan} onChange={(e) => setmaxTaiwan(e.target.value)} type="text" placeholder="Max Price" />
+          </td>
+          <td>
+          <Form.Control value={TaiwanTip} onChange={(e) => setTaiwanTip(e.target.value)} as="textarea" rows={2} type="text" placeholder="Enter Tip" />
+          </td>
+          <td>
+          <Form.Control value={TaiwanminValue} onChange={(e) => setTaiwanminValue(e.target.value)} type="text" placeholder="Minimum Value" />
           </td>
         </tr>
 
@@ -690,6 +933,12 @@ const ManagePricing = () => {
           <td>
           <Form.Control value={maxVietnam} onChange={(e) => setmaxVietnam(e.target.value)} type="text" placeholder="Max Price" />
           </td>
+          <td>
+          <Form.Control value={VietnamTip} onChange={(e) => setVietnamTip(e.target.value)} as="textarea" rows={2} type="text" placeholder="Enter Tip" />
+          </td>
+          <td>
+          <Form.Control value={VietnamminValue} onChange={(e) => setVietnamminValue(e.target.value)} type="text" placeholder="Minimum Value" />
+          </td>
         </tr>
 
         <tr>
@@ -700,6 +949,12 @@ const ManagePricing = () => {
           </td>
           <td>
           <Form.Control value={maxSA} onChange={(e) => setmaxSA(e.target.value)} type="text" placeholder="Max Price" />
+          </td>
+          <td>
+          <Form.Control value={SATip} onChange={(e) => setSATip(e.target.value)} as="textarea" rows={2} type="text" placeholder="Enter Tip" />
+          </td>
+          <td>
+          <Form.Control value={SAminValue} onChange={(e) => setSAminValue(e.target.value)} type="text" placeholder="Minimum Value" />
           </td>
         </tr>
 

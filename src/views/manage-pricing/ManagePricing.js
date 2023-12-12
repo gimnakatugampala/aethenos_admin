@@ -174,6 +174,7 @@ const ManagePricing = () => {
 
   const [minOC, setminOC] = useState("")
   const [maxOC, setmaxOC] = useState("")
+ 
 
 
   const handleDefaultPrice = () => {
@@ -194,110 +195,220 @@ const ManagePricing = () => {
       return
     }
 
-    AddSetDefaultPricing(DminPrice,DmaxPrice)
+    AddSetDefaultPricing(DminPrice,DmaxPrice,DTip,DminValue)
 
   }
 
   const handleAllPricing = () =>{
 
-    const item = {
-      "country": [
-          "America",
-          "Australia",
-          "Brazil",
-          "Canada",
-          "Chile",
-          "Columbia",
-          "Egypt",
-          "European Union",
-          "Great Britain",
-          "Indonesia",
-          "Israel",
-          "India",
-          "Japan",
-          "South Korea",
-          "Mexico",
-          "Malaysia",
-          "Nigeria",
-          "Norway",
-          "Peru",
-          "Philippines",
-          "Poland",
-          "Romania",
-          "Russia",
-          "Singapore",
-          "Thailand",
-          "Turkey",
-          "Taiwan",
-          "Vietnam",
-          "South Africa",
-          "Other Countries"
-      ],
-      "minPrice": [
-        minUSA == "" ? "0" : minUSA,
-        minAustralia == "" ? "0" : minAustralia,
-        minBrazil == "" ? "0" : minBrazil,
-        minCanada == "" ? "0" : minCanada,
-        minChile == "" ? "0" : minChile,
-        minColumbia == "" ? "0" : minColumbia,
-        minEgypt == "" ? "0" : minEgypt,
-        minEU == "" ? "0" : minEU,
-        minGB == "" ? "0" : minGB,
-        minindonedia == "" ? "0" : minindonedia,
-        minIsrael == "" ?  "0" : minIsrael,
-        minIndia == "" ? "0" : minIndia,
-        minJapan == "" ? "0" : minJapan,
-        minKorea == "" ? "0" : minKorea,
-        minMexico == "" ? "0" : minMexico,
-        minMalaysia == "" ? "0" : minMalaysia,
-        minNigeria == "" ? "0" : minNigeria,
-        minNorway == "" ? "0" : minNorway,
-        minPeru == "" ? "0" : minPeru,
-        minPhilipine == "" ? "0" : minPhilipine,
-        minPoland == "" ? "0" : minPoland,
-        minRomania == "" ? "0" : minRomania,
-        minRussia == "" ? "0" : minRussia,
-        minSingapore == "" ? "0" : minSingapore,
-        minThailand == "" ? "0" : minThailand,
-        minTurkey == "" ? "0" : minTurkey,
-        minTaiwan == "" ? "0" : minTaiwan,
-        minVietnam == "" ?  "0" : minVietnam,
-        minSA == "" ? "0" : minSA,
-        DminPrice == "" ? "0" : DminPrice
-      ],
-      "maxPrice": [
-        maxUSA == "" ? "0" : maxUSA,
-        maxAustralia == "" ?  "0" : maxAustralia,
-        maxBrazil == "" ? "0" : maxBrazil,
-        maxCanada == "" ? "0" : maxCanada,
-        maxChile == "" ? "0" : maxChile,
-        maxColumbia == "" ? "0" : maxColumbia,
-        maxEgypt == "" ? "0" : maxEgypt,
-        maxEU == "" ? "0" : maxEU,
-        maxGB == "" ? "0" : maxGB,
-        maxindonedia == "" ? "0" : maxindonedia,
-        maxIsrael == "" ? "0" : maxIsrael,
-        maxIndia == "" ? "0" : maxIndia,
-        maxJapan == "" ? "0" : maxJapan,
-        maxKorea == "" ? "0" : maxKorea,
-        maxMexico == "" ? "0" : maxMexico,
-        maxMalaysia == "" ? "0" : maxMalaysia,
-        maxNigeria == "" ? "0" : maxNigeria,
-        maxNorway == "" ? "0" : maxNorway,
-        maxPeru == "" ? "0" : maxPeru,
-        maxPhilipine == "" ? "0" : maxPhilipine,
-        maxPoland == "" ? "0" : maxPoland,
-        maxRomania == "" ? "0" : maxRomania,
-        maxRussia == "" ? "0" : maxRussia,
-        maxSingapore == "" ? "0" : maxSingapore,
-        maxThailand == "" ? "0" : maxThailand,
-        maxTurkey == "" ? "0" : maxTurkey,
-        maxTaiwan == "" ?  "0" : maxTaiwan,
-        maxVietnam == "" ? "0" : maxVietnam,
-        maxSA == "" ? "0" : maxSA,
-        DmaxPrice == "" ? "0" : DmaxPrice
-      ]
-    }
+    console.log(USATip)
+    console.log(USAminValue)
+
+    const item = [
+      {
+          "country": "America",
+          "minPrice": `${minUSA}`,
+          "maxPrice": `${maxUSA}`,
+          "tip": `${USATip}`,
+          "minimumPrice": `${USAminValue}`
+      },
+      {
+          "country": "Australia",
+          "minPrice": `${minAustralia}`,
+          "maxPrice": `${maxAustralia}`,
+          "tip": `${AusTip}`,
+          "minimumPrice": `${AusminValue}`
+      },
+      {
+          "country": "Brazil",
+          "minPrice": `${minBrazil}`,
+          "maxPrice": `${maxBrazil}`,
+          "tip": `${BrazilTip}`,
+          "minimumPrice": `${BrazilminValue}`,
+      },
+      {
+          "country": "Canada",
+          "minPrice": `${minCanada}`,
+          "maxPrice": `${maxCanada}`,
+          "tip": `${CanadaTip}`,
+          "minimumPrice": `${CanadaminValue}`,
+      },
+      {
+          "country": "Chile",
+          "minPrice": `${minChile}`,
+          "maxPrice": `${maxChile}`,
+          "tip": `${ChileTip}`,
+          "minimumPrice": `${ChileminValue}`
+      },
+      {
+          "country": "Columbia",
+          "minPrice": `${minColumbia}`,
+          "maxPrice": `${maxColumbia}`,
+          "tip": `${ColumbiaTip}`,
+          "minimumPrice": `${ColumbiaMinValue}`
+      },
+      {
+          "country": "Egypt",
+          "minPrice": `${minEgypt}`,
+          "maxPrice": `${maxEgypt}`,
+          "tip": `${EgyptTip}`,
+          "minimumPrice": `${EgyptminValue}`
+      },
+      {
+          "country": "European Union",
+          "minPrice": `${minEU}`,
+          "maxPrice": `${maxEU}`,
+          "tip": `${EUTip}`,
+          "minimumPrice": `${EUminValue}`,
+      },
+      {
+          "country": "Great Britain",
+          "minPrice": `${minGB}`,
+          "maxPrice": `${maxGB}`,
+          "tip": `${GBPTip}`,
+          "minimumPrice": `${GBPminValue}`
+      },
+      {
+          "country": "Indonesia",
+          "minPrice": `${minindonedia}`,
+          "maxPrice": `${maxindonedia}`,
+          "tip": `${IndoTip}`,
+          "minimumPrice": `${IndominValue}`
+      },
+      {
+          "country": "Israel",
+          "minPrice": `${minIsrael}`,
+          "maxPrice": `${maxIsrael}`,
+          "tip": `${IsrealTip}`,
+          "minimumPrice": `${IsrealminValue}`
+      },
+      {
+          "country": "India",
+          "minPrice": `${minIndia}`,
+          "maxPrice": `${maxIndia}`,
+          "tip": `${IndiaTip}`,
+          "minimumPrice": `${IndiaminValue}`
+      },
+      {
+          "country": "Japan",
+          "minPrice": `${minJapan}`,
+          "maxPrice": `${maxJapan}`,
+          "tip": `${JapanTip}`,
+          "minimumPrice": `${JapanminValue}`
+      },
+      {
+          "country": "South Korea",
+          "minPrice": `${minKorea}`,
+          "maxPrice": `${maxKorea}`,
+          "tip": `${KoreaTip}`,
+          "minimumPrice": `${KoreaminValue}`
+      },
+      {
+          "country": "Mexico",
+          "minPrice": `${minMexico}`,
+          "maxPrice": `${maxMexico}`,
+          "tip": `${MexicoTip}`,
+          "minimumPrice": `${MexicominValue}`
+      },
+      {
+          "country": "Malaysia",
+          "minPrice": `${minMalaysia}`,
+          "maxPrice": `${maxMalaysia}`,
+          "tip": `${MalaysiaTip}`,
+          "minimumPrice": `${MalaysiaminValue}`
+      },
+      {
+          "country": "Nigeria",
+          "minPrice": `${minNigeria}`,
+          "maxPrice": `${maxNigeria}`,
+          "tip": `${NigeriaTip}`,
+          "minimumPrice": `${NigeriaminValue}`
+      },
+      {
+          "country": "Norway",
+          "minPrice": `${minNorway}`,
+          "maxPrice": `${maxNorway}`,
+          "tip": `${NorwayTip}`,
+          "minimumPrice": `${NorwayminValue}`
+      },
+      {
+          "country": "Peru",
+          "minPrice": `${minPeru}`,
+          "maxPrice": `${maxPeru}`,
+          "tip": `${PeruTip}`,
+          "minimumPrice": `${PeruminValue}`,
+      },
+      {
+          "country": "Philippines",
+          "minPrice": `${minPhilipine}`,
+          "maxPrice": `${maxPhilipine}`,
+          "tip": `${PhilippinesTip}`,
+          "minimumPrice": `${PhilippinesminValue}`
+      },
+      {
+          "country": "Poland",
+          "minPrice": `${minPoland}`,
+          "maxPrice": `${maxPoland}`,
+          "tip": `${PolandTip}`,
+          "minimumPrice": `${PolandminValue}`,
+      },
+      {
+          "country": "Romania",
+          "minPrice": `${minRomania}`,
+          "maxPrice": `${maxRomania}`,
+          "tip": `${RomaniaTip}`,
+          "minimumPrice": `${RomaniaminValue}`
+      },
+      {
+          "country": "Russia",
+          "minPrice": `${minRussia}`,
+          "maxPrice": `${maxRussia}`,
+          "tip": `${RussiaTip}`,
+          "minimumPrice": `${RussiaminValue}`
+      },
+      {
+          "country": "Singapore",
+          "minPrice": `${minSingapore}`,
+          "maxPrice": `${maxSingapore}`,
+          "tip": `${SingaporeTip}`,
+          "minimumPrice": `${SingaporeminValue}`
+      },
+      {
+          "country": "Thailand",
+          "minPrice": `${minThailand}`,
+          "maxPrice": `${maxThailand}`,
+          "tip": `${ThailandTip}`,
+          "minimumPrice": `${ThailandminValue}`
+      },
+      {
+          "country": "Turkey",
+          "minPrice": `${minTurkey}`,
+          "maxPrice": `${maxTurkey}`,
+          "tip": `${TurkeyTip}`,
+          "minimumPrice": `${TurkeyminValue}`
+      },
+      {
+          "country": "Taiwan",
+          "minPrice": `${minTaiwan}`,
+          "maxPrice": `${maxTaiwan}`,
+          "tip": `${TaiwanTip}`,
+          "minimumPrice": `${TaiwanminValue}`
+      },
+      {
+          "country": "Vietnam",
+          "minPrice": `${minVietnam}`,
+          "maxPrice": `${maxVietnam}`,
+          "tip": `${VietnamTip}`,
+          "minimumPrice": `${VietnamminValue}`
+      },
+      {
+          "country": "South Africa",
+          "minPrice": `${minSA}`,
+          "maxPrice": `${maxSA}`,
+          "tip": `${SATip}`,
+          "minimumPrice": `${SAminValue}`
+      }
+  ]
 
     AddSetPricing(item)
 
@@ -366,7 +477,67 @@ const ManagePricing = () => {
       setminVietnam,
       setmaxVietnam,
       setminSA,
-      setmaxSA
+      setmaxSA,
+      setUSATip,
+      setUSAminValue,
+      setAusTip,
+      setAusminValue,
+      setBrazilTip,
+      setBrazilminValue,
+      setCanadaTip,
+      setCanadaminValue,
+      setChileTip,
+      setChileminValue,
+      setColumbiaTip,
+      setColumbiaMinValue,
+      setEgyptTip,
+      setEgyptminValue,
+      setEUTip,
+      setEUminValue,
+      setGBPTip,
+      setGBPminValue,
+      setIndoTip,
+      setIndominValue,
+      setIsrealTip,
+      setIsrealminValue,
+      setIndiaTip,
+      setIndiaminValue,
+      setJapanTip,
+      setJapanminValue,
+      setKoreaTip,
+      setKoreaminValue,
+      setMexicoTip,
+      setMexicominValue,
+      setMalaysiaTip,
+      setMalaysiaminValue,
+      setNigeriaTip,
+      setNigeriaminValue,
+      setNorwayTip,
+      setNorwayminValue,
+      setPeruTip,
+      setPeruminValue,
+      setPhilippinesTip,
+      setPhilippinesminValue,
+      setPolandTip,
+      setPolandminValue,
+      setRomaniaTip,
+      setRomaniaminValue,
+      setRussiaTip,
+      setRussiaminValue,
+      setSingaporeTip,
+      setSingaporeminValue,
+      setThailandTip,
+      setThailandminValue,
+      setTurkeyTip,
+      setTurkeyminValue,
+      setTaiwanTip,
+      setTaiwanminValue,
+      setVietnamTip,
+      setVietnamminValue,
+      setSATip,
+      setSAminValue,
+      setDTip,
+      setDminValue
       )
   },[])
   

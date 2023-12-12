@@ -175,15 +175,17 @@ fetch("https://aethenosinstructor.exon.lk:2053/aethenos-api/course/setDisapprove
 
 }
 
-export const AddSetDefaultPricing = (DminPrice,DmaxPrice) =>{
+export const AddSetDefaultPricing = (DminPrice,DmaxPrice,DTip,DminValue) =>{
 
   
   var myHeaders = new Headers();
   myHeaders.append("Authorization", `Bearer ${CURRENT_USER.token}`);
 
   var formdata = new FormData();
-  formdata.append("min_price", `${DminPrice}`);
-  formdata.append("max_price", `${DmaxPrice}`);
+  formdata.append("minPrice", `${DminPrice}`);
+  formdata.append("maxPrice", `${DmaxPrice}`);
+  formdata.append("tip", `${DTip}`);
+  formdata.append("minimumPrice", `${DminValue}`);
   
   var requestOptions = {
     method: 'POST',
@@ -192,10 +194,17 @@ export const AddSetDefaultPricing = (DminPrice,DmaxPrice) =>{
     redirect: 'follow'
   };
   
-  fetch("https://aethenosinstructor.exon.lk:2053/aethenos-api/admin/setDefaultPrice", requestOptions)
+  fetch("https://aethenosinstructor.exon.lk:2053/aethenos-api/managecourse/setDefaultPriceRange", requestOptions)
     .then(response => response.json())
     .then(result => {
       console.log(result)
+
+      if(result.variable == "200"){
+        SuccessAlert("Saved!",result.message)
+      }else{
+        ErrorAlert("Error",result.message)
+      }
+
       Unauthorized(result.status,"set-pricing")
     })
     .catch(error => console.log('error', error));
@@ -207,11 +216,11 @@ export const AddSetPricing = (item) =>{
   myHeaders.append("Authorization", `Bearer ${CURRENT_USER.token}`);
   myHeaders.append('Content-Type', 'application/json');
 
-  var raw = item
+  
 
   var requestOptions = {
     method: 'POST',
-    body: JSON.stringify(raw),
+    body: JSON.stringify(item),
     headers: myHeaders,
     redirect: 'follow'
   };
@@ -224,7 +233,7 @@ fetch("https://aethenosinstructor.exon.lk:2053/aethenos-api/managecourse/setCour
     if(result.variable == "200"){
       SuccessAlert("Prices Saved!",result.message)
     }else{
-      ErrorAlert("Error",result.message)
+      ErrorAlert("Error",result.variable)
     }
 
     Unauthorized(result.status,"set-pricing")
@@ -292,7 +301,68 @@ export const GetPricingRange = (
       setminVietnam,
       setmaxVietnam,
       setminSA,
-      setmaxSA) =>{
+      setmaxSA,
+      setUSATip,
+      setUSAminValue,
+      setAusTip,
+      setAusminValue,
+      setBrazilTip,
+      setBrazilminValue,
+      setCanadaTip,
+      setCanadaminValue,
+      setChileTip,
+      setChileminValue,
+      setColumbiaTip,
+      setColumbiaMinValue,
+      setEgyptTip,
+      setEgyptminValue,
+      setEUTip,
+      setEUminValue,
+      setGBPTip,
+      setGBPminValue,
+      setIndoTip,
+      setIndominValue,
+      setIsrealTip,
+      setIsrealminValue,
+      setIndiaTip,
+      setIndiaminValue,
+      setJapanTip,
+      setJapanminValue,
+      setKoreaTip,
+      setKoreaminValue,
+      setMexicoTip,
+      setMexicominValue,
+      setMalaysiaTip,
+      setMalaysiaminValue,
+      setNigeriaTip,
+      setNigeriaminValue,
+      setNorwayTip,
+      setNorwayminValue,
+      setPeruTip,
+      setPeruminValue,
+      setPhilippinesTip,
+      setPhilippinesminValue,
+      setPolandTip,
+      setPolandminValue,
+      setRomaniaTip,
+      setRomaniaminValue,
+      setRussiaTip,
+      setRussiaminValue,
+      setSingaporeTip,
+      setSingaporeminValue,
+      setThailandTip,
+      setThailandminValue,
+      setTurkeyTip,
+      setTurkeyminValue,
+      setTaiwanTip,
+      setTaiwanminValue,
+      setVietnamTip,
+      setVietnamminValue,
+      setSATip,
+      setSAminValue,
+      setDTip,
+      setDminValue
+      ) =>{
 
   var myHeaders = new Headers();
   myHeaders.append("Authorization", `Bearer ${CURRENT_USER.token}`);
@@ -309,97 +379,162 @@ export const GetPricingRange = (
     .then(result => {
       console.log(result)
 
+      
+      Unauthorized(result.status,"set-pricing")
       setDminPrice(result[29].minPrice)
       setDmaxPrice(result[29].maxPrice)
+      setDTip(result[29].tip)
+      setDminValue(result[29].minimumPrice)
 
       setminUSA(result[0].minPrice)
       setmaxUSA(result[0].maxPrice)
+      setUSATip(result[0].tip)
+      setUSAminValue(result[0].minimumPrice)
+
 
       setminAustralia(result[1].minPrice)
       setmaxAustralia(result[1].maxPrice)
+      setAusTip(result[1].tip)
+      setAusminValue(result[1].minimumPrice)
 
       setminBrazil(result[2].minPrice)
       setmaxBrazil(result[2].maxPrice)
+      setBrazilTip(result[2].tip)
+      setBrazilminValue(result[2].minimumPrice)
 
       setminCanada(result[3].minPrice)
       setmaxCanada(result[3].maxPrice)
+      setCanadaTip(result[3].tip)
+      setCanadaminValue(result[3].minimumPrice)
 
       setminChile(result[4].minPrice)
       setmaxChile(result[4].maxPrice)
+      setChileTip(result[4].tip)
+      setChileminValue(result[4].minimumPrice)
 
       setminColumbia(result[5].minPrice)
       setmaxColumbia(result[5].maxPrice)
+      setColumbiaTip(result[5].tip)
+      setColumbiaMinValue(result[5].minimumPrice)
 
       setminEgypt(result[6].minPrice)
       setmaxEgypt(result[6].maxPrice)
+      setEgyptTip(result[6].tip)
+      setEgyptminValue(result[6].minimumPrice)
 
       setminEU(result[7].minPrice)
       setmaxEU(result[7].maxPrice)
+      setEUTip(result[7].tip)
+      setEUminValue(result[7].minimumPrice)
 
       setminGB(result[8].minPrice)
       setmaxGB(result[8].maxPrice)
+      setGBPTip(result[8].tip)
+      setGBPminValue(result[8].minimumPrice)
 
       setminindonedia(result[9].minPrice)
       setmaxindonedia(result[9].maxPrice)
+      setIndoTip(result[9].tip)
+      setIndominValue(result[9].minimumPrice)
 
       setminIsrael(result[10].minPrice)
       setmaxIsrael(result[10].maxPrice)
+      setIsrealTip(result[10].tip)
+      setIsrealminValue(result[10].minimumPrice)
 
       setminIndia(result[11].minPrice)
       setmaxIndia(result[11].maxPrice)
+      setIndiaTip(result[11].tip)
+      setIndiaminValue(result[11].minimumPrice)
 
       setminJapan(result[12].minPrice)
       setmaxJapan(result[12].maxPrice)
+      setJapanTip(result[12].tip)
+      setJapanminValue(result[12].minimumPrice)
 
       setminKorea(result[13].minPrice)
       setmaxKorea(result[13].maxPrice)
+      setKoreaTip(result[13].tip)
+      setKoreaminValue(result[13].minimumPrice)
 
       setminMexico(result[14].minPrice)
       setmaxMexico(result[14].maxPrice)
+      setMexicoTip(result[14].tip)
+      setMexicominValue(result[14].minimumPrice)
 
       setminMalaysia(result[15].minPrice)
       setmaxMalaysia(result[15].maxPrice)
+      setMalaysiaTip(result[15].tip)
+      setMalaysiaminValue(result[15].minimumPrice)
 
       setminNigeria(result[16].minPrice)
       setmaxNigeria(result[16].maxPrice)
+      setNigeriaTip(result[16].tip)
+      setNigeriaminValue(result[16].minimumPrice)
 
       setminNorway(result[17].minPrice)
       setmaxNorway(result[17].maxPrice)
+      setNorwayTip(result[17].tip)
+      setNorwayminValue(result[17].minimumPrice)
 
       setminPeru(result[18].minPrice)
       setmaxPeru(result[18].maxPrice)
+      setPeruTip(result[18].tip)
+      setPeruminValue(result[18].minimumPrice)
 
       setminPhilipine(result[19].minPrice)
       setmaxPhilipine(result[19].maxPrice)
+      setPhilippinesTip(result[19].tip)
+      setPhilippinesminValue(result[19].minimumPrice)
 
       setminPoland(result[20].minPrice)
       setmaxPoland(result[20].maxPrice)
+      setPolandTip(result[20].tip)
+      setPolandminValue(result[20].minimumPrice)
 
       setminRomania(result[21].minPrice)
       setmaxRomania(result[21].maxPrice)
+      setRomaniaTip(result[21].tip)
+      setRomaniaminValue(result[21].minimumPrice)
 
       setminRussia(result[22].minPrice)
       setmaxRussia(result[22].maxPrice)
+      setRussiaTip(result[22].tip)
+      setRussiaminValue(result[22].minimumPrice)
 
       setminSingapore(result[23].minPrice)
       setmaxSingapore(result[23].maxPrice)
+      setSingaporeTip(result[23].tip)
+      setSingaporeminValue(result[23].minimumPrice)
 
       setminThailand(result[24].minPrice)
       setmaxThailand(result[24].maxPrice)
+      setThailandTip(result[24].tip)
+      setThailandminValue(result[24].minimumPrice)
 
       setminTurkey(result[25].minPrice)
       setmaxTurkey(result[25].maxPrice)
+      setTurkeyTip(result[25].tip)
+      setTurkeyminValue(result[25].minimumPrice)
 
       setminTaiwan(result[26].minPrice)
       setmaxTaiwan(result[26].maxPrice)
+      setTaiwanTip(result[26].tip)
+      setTaiwanminValue(result[26].minimumPrice)
 
       setminVietnam(result[27].minPrice)
       setmaxVietnam(result[27].maxPrice)
+      setVietnamTip(result[27].tip)
+      setVietnamminValue(result[27].minimumPrice)
 
       setminSA(result[28].minPrice)
       setmaxSA(result[28].maxPrice)
+      setSATip(result[28].tip)
+      setSAminValue(result[28].minimumPrice)
 
-      Unauthorized(result.status,"set-pricing")
+     
+
+      
     })
     .catch(error => console.log('error', error));
 }

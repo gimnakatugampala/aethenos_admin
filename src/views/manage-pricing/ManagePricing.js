@@ -537,7 +537,8 @@ const ManagePricing = () => {
       setSATip,
       setSAminValue,
       setDTip,
-      setDminValue
+      setDminValue,
+     
       )
   },[])
   

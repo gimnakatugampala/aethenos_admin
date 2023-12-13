@@ -202,7 +202,7 @@ export const AddSetDefaultPricing = (DminPrice,DmaxPrice,DTip,DminValue) =>{
       if(result.variable == "200"){
         SuccessAlert("Saved!",result.message)
       }else{
-        ErrorAlert("Error",result.message)
+        ErrorAlert("Error",result.variable)
       }
 
       Unauthorized(result.status,"set-pricing")
@@ -302,6 +302,7 @@ export const GetPricingRange = (
       setmaxVietnam,
       setminSA,
       setmaxSA,
+      // -------
       setUSATip,
       setUSAminValue,
       setAusTip,

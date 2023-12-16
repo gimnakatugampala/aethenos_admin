@@ -7,6 +7,7 @@ import { useSelector } from 'react-redux';
 import ListItem from '@mui/material/ListItem';
 import InboxIcon from '@mui/icons-material/Inbox';
 import DraftsIcon from '@mui/icons-material/Drafts';
+import Cookies from 'js-cookie';
 
 // material-ui
 import { useTheme } from '@mui/material/styles';
@@ -56,12 +57,12 @@ const ProfileSection = () => {
   const [notification, setNotification] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(-1);
   const [open, setOpen] = useState(false);
-  /**
-   * anchorRef is used on different componets and specifying one type leads to other components throwing an error
-   * */
+ 
+
   const anchorRef = useRef(null);
   const handleLogout = async () => {
-    console.log('Logout');
+    Cookies.remove('aethenos_admin')
+    window.location.href = `/login`
   };
 
   const handleClose = (event) => {
@@ -180,7 +181,7 @@ const ProfileSection = () => {
                       <ListItemText primary="Profile" />
                     </ListItemButton>
                   </ListItem>
-                  <ListItem component="a" href="/login" disablePadding>
+                  <ListItem onClick={handleLogout} component="a"  disablePadding>
                     <ListItemButton>
                       <ListItemIcon>
                         <DraftsIcon />

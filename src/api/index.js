@@ -1,36 +1,21 @@
 import ErrorAlert from "commonFunctions/Alerts/ErrorAlert";
 import SuccessAlert from "commonFunctions/Alerts/SuccessAlert";
+import Cookies from 'js-cookie';
 
-const CURRENT_USER = JSON.parse(window.localStorage.getItem("aethenos"));
+
+const CURRENT_USER = Cookies.get('aethenos_admin')
 
 // Unauthorized
 const Unauthorized = (result,rediect_url) =>{
 
     if(result == 401){
-      window.localStorage.removeItem("aethenos")
+      // window.localStorage.removeItem("aethenos_admin")
+      Cookies.remove('aethenos_admin')
       window.location.href = `/login?sessionTimeout=true&rediect-url=${rediect_url}`
     }
   
   }
 
-  export const AdminVerify = async() =>{
-     
-    if(CURRENT_USER != null){
-
-      if(CURRENT_USER.status == "Admin"){
-
-        return true
-
-      }else if(CURRENT_USER.status == "Student"){
-        return false
-      }
-        
-    }else{
-
-      return false
-    }
-
-}
 
 
 export const AdminLogin = (email, password,setloading) =>{
@@ -68,18 +53,20 @@ export const AdminLogin = (email, password,setloading) =>{
             
             setloading(false)
 
-            const user = {
-                token:result.token,
-                email:result.email,
-                firstname:result.fname,
-                lastname:result.lname,
-                status:"Admin"
-              }
+            Cookies.set('aethenos_admin', `${result.token}`, { expires: 7, path: '' })
+
+
+            // const user = {
+            //     token:result.token,
+            //     email:result.email,
+            //     firstname:result.fname,
+            //     lastname:result.lname
+            //   }
       
-              window.localStorage.setItem("aethenos", JSON.stringify(user));
+            //   window.localStorage.setItem("aethenos_admin", JSON.stringify(user));
       
       
-              window.location.href = `/dashboard/default`
+              window.location.href = `/dashboard`
         }
 
     })
@@ -89,7 +76,7 @@ export const AdminLogin = (email, password,setloading) =>{
 export const GellAllDraftCourses = (setcourses) =>{
 
     var myHeaders = new Headers();
-    myHeaders.append("Authorization", `Bearer ${CURRENT_USER.token}`);
+    myHeaders.append("Authorization", `Bearer ${CURRENT_USER}`);
     
     var requestOptions = {
       method: 'GET',
@@ -112,7 +99,7 @@ export const GellAllDraftCourses = (setcourses) =>{
 export const ApproveDraftCourse = (code) =>{
 
     var myHeaders = new Headers();
-myHeaders.append("Authorization", `Bearer ${CURRENT_USER.token}`);
+myHeaders.append("Authorization", `Bearer ${CURRENT_USER}`);
 
 var formdata = new FormData();
 
@@ -143,7 +130,7 @@ fetch(`https://aethenosinstructor.exon.lk:2053/aethenos-api/course/setApproveCou
 export const DisapproveDraftCourse = (code,comment,setshowDisapprove,setcomment) =>{
 
     var myHeaders = new Headers();
-myHeaders.append("Authorization", `Bearer ${CURRENT_USER.token}`);
+myHeaders.append("Authorization", `Bearer ${CURRENT_USER}`);
 
 var formdata = new FormData();
 formdata.append("code", `${code}`);
@@ -179,7 +166,7 @@ export const AddSetDefaultPricing = (DminPrice,DmaxPrice,DTip,DminValue) =>{
 
   
   var myHeaders = new Headers();
-  myHeaders.append("Authorization", `Bearer ${CURRENT_USER.token}`);
+  myHeaders.append("Authorization", `Bearer ${CURRENT_USER}`);
 
   var formdata = new FormData();
   formdata.append("minPrice", `${DminPrice}`);
@@ -213,7 +200,7 @@ export const AddSetDefaultPricing = (DminPrice,DmaxPrice,DTip,DminValue) =>{
 export const AddSetPricing = (item) =>{
 
   var myHeaders = new Headers();
-  myHeaders.append("Authorization", `Bearer ${CURRENT_USER.token}`);
+  myHeaders.append("Authorization", `Bearer ${CURRENT_USER}`);
   myHeaders.append('Content-Type', 'application/json');
 
   
@@ -366,7 +353,7 @@ export const GetPricingRange = (
       ) =>{
 
   var myHeaders = new Headers();
-  myHeaders.append("Authorization", `Bearer ${CURRENT_USER.token}`);
+  myHeaders.append("Authorization", `Bearer ${CURRENT_USER}`);
 
 
   var requestOptions = {

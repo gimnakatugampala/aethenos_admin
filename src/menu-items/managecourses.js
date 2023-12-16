@@ -1,9 +1,10 @@
 // assets
-import { IconKey } from '@tabler/icons';
+import { IconKey , IconBooks } from '@tabler/icons';
 
 // constant
 const icons = {
-  IconKey
+  IconKey,
+  IconBooks
 };
 
 
@@ -16,7 +17,7 @@ const managecourses = {
       id: 'course',
       title: 'Manage Courses',
       type: 'collapse',
-      icon: icons.IconKey,
+      icon: icons.IconBooks,
 
       children: [
         {

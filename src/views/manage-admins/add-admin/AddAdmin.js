@@ -34,11 +34,11 @@ const AddAdmin = () => {
     const handleSaveAdmin = (e) =>{
         e.preventDefault();
 
-        console.log(firstname)
-        console.log(lastname)
-        console.log(email)
-        console.log(password)
-        console.log(user_type)
+        // console.log(firstname)
+        // console.log(lastname)
+        // console.log(email)
+        // console.log(password)
+        // console.log(user_type)
 
         if(firstname == "" || lastname == "" || email == "" || password == "" || conpassword == "" || user_type == ""){
             ErrorAlert("Empty Fields","Please Fill All Fields")

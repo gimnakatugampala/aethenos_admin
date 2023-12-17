@@ -17,10 +17,16 @@ import Chip from '@mui/material/Chip';
 
 import 'video-react/dist/video-react.css'; // import css
 import './AllAdmins.css'
+import { useEffect } from 'react';
+import { ActivateAdminAPI, ViewAdminAPI } from 'api';
+
+let adminsData = []
 
 const AllAdmins = () => {
 
-  const handledeactive = () =>{
+  const [admins, setadmins] = useState([])
+
+  const handledeactive = (id) =>{
     Swal.fire({
       title: 'Are you sure?',
       text: "You won't be able to revert this!",
@@ -31,16 +37,17 @@ const AllAdmins = () => {
       confirmButtonText: 'Yes, Deactivate it!'
     }).then((result) => {
       if (result.isConfirmed) {
-        Swal.fire(
-          'Deactivated!',
-          'Admin has been Deactivated.',
-          'success'
-        )
+        ActivateAdminAPI(id)
+        // Swal.fire(
+        //   'Deactivated!',
+        //   'Admin has been Deactivated.',
+        //   'success'
+        // )
       }
     })
   }
 
-  const handleActive = () =>{
+  const handleActive = (id) =>{
     Swal.fire({
       title: 'Are you sure?',
       text: "You won't be able to revert this!",
@@ -51,14 +58,35 @@ const AllAdmins = () => {
       confirmButtonText: 'Yes, Active it!'
     }).then((result) => {
       if (result.isConfirmed) {
-        Swal.fire(
-          'Activated!',
-          'Admin has been Activated.',
-          'success'
-        )
+        ActivateAdminAPI(id)
+        // Swal.fire(
+        //   'Activated!',
+        //   'Admin has been Activated.',
+        //   'success'
+        // )
       }
     })
   }
+
+  useEffect(() => {
+    ViewAdminAPI(setadmins)
+
+    adminsData = admins.map((admin,index) => {
+      
+      return {
+        ...admin,
+        index:index+1,
+        status: admin.isActive == 1 ? <Chip label="Active" color="success" /> : <Chip label="Inactive" color="error" /> ,
+        actions: admin.isActive == 1 ? <div className='d-flex'>
+          <Button onClick={() => handledeactive(admin.id)} className='mx-1' variant="contained"><CloseIcon /></Button></div> : <div className='d-flex'>
+          <Button onClick={() => handleActive(admin.id)} className='mx-1' color="success" variant="contained"><CheckIcon /></Button>
+          </div>
+      }
+
+    })
+    
+  }, [adminsData])
+  
 
   return (
     <div>  
@@ -71,17 +99,14 @@ const AllAdmins = () => {
       <MaterialTable
       title="Admins"
       columns={[
-        { title: '#ID', field: 'id' },
-        { title: 'First Name', field: 'first_name' },
-        { title: 'Last Name', field: 'last_name' },
+        { title: '#ID', field: 'index' },
+        { title: 'First Name', field: 'firstName' },
+        { title: 'Last Name', field: 'lastName' },
         { title: 'Email', field: 'email' },
         { title: 'Status', field: 'status' },
         { title: 'Actions', field: 'actions' },
       ]}
-      data={[
-        { id: '001', first_name: 'Baran', last_name: 'John', email: 'john@gmail.com', status: <Chip label="Active" color="success" />, actions:<div className='d-flex'><Button onClick={handledeactive} className='mx-1' variant="contained"><CloseIcon /></Button><Button onClick={handleActive} className='mx-1' color="success" variant="contained"><CheckIcon /></Button></div>},
-        { id: '002', first_name: 'Baran', last_name: 'John', email: 'john@gmail.com',status: <Chip label="Inactive" color="error" /> , actions:<div className='d-flex'><Button onClick={handledeactive} className='mx-1' variant="contained"><CloseIcon /></Button><Button onClick={handleActive} className='mx-1' color="success" variant="contained"><CheckIcon /></Button></div>},
-      ]}        
+      data={adminsData}        
       options={{
         search: true
       }}

@@ -554,7 +554,57 @@ export const AddAdminAPI = (firstname,lastname,email,conpassword,user_type) =>{
       if(result.variable == "200"){
         SuccessAlert("Admin Added",result.message)
       }
-      
+
+    })
+    .catch(error => console.log('error', error));
+
+}
+
+export const ViewAdminAPI = (setadmins) =>{
+
+    
+  var myHeaders = new Headers();
+  myHeaders.append("Authorization", `Bearer ${CURRENT_USER}`);
+
+  var requestOptions = {
+    method: 'GET',
+    headers: myHeaders,
+    redirect: 'follow'
+  };
+  
+  fetch("https://aethenosinstructor.exon.lk:2053/aethenos-api/manageAdmins/view", requestOptions)
+    .then(response => response.json())
+    .then(result => {
+
+      Unauthorized(result.status,"all-admins")
+      console.log(result)
+      setadmins(result)
+    })
+    .catch(error => console.log('error', error));
+
+}
+
+export const ActivateAdminAPI = (id) =>{
+
+  var myHeaders = new Headers();
+  myHeaders.append("Authorization", `Bearer ${CURRENT_USER}`);
+  myHeaders.append('Content-Type', 'application/json');
+
+  var requestOptions = {
+    method: 'GET',
+    headers: myHeaders,
+    redirect: 'follow'
+  };
+  
+  fetch(`https://aethenosinstructor.exon.lk:2053/aethenos-api/manageAdmins/activate/${id}`, requestOptions)
+    .then(response => response.json())
+    .then(result => {
+      Unauthorized(result.status,"all-admins")
+      console.log(result)
+      if(result.variable == "200"){
+        SuccessAlert("Success",result.message)
+        return
+      }
     })
     .catch(error => console.log('error', error));
 

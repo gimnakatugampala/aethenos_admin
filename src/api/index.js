@@ -526,3 +526,36 @@ export const GetPricingRange = (
     })
     .catch(error => console.log('error', error));
 }
+export const AddAdminAPI = (firstname,lastname,email,conpassword,user_type) =>{
+  
+  var myHeaders = new Headers();
+  myHeaders.append("Authorization", `Bearer ${CURRENT_USER}`);
+
+  var formdata = new FormData();
+  formdata.append("firstName", `${firstname}`);
+  formdata.append("lastName", `${lastname}`);
+  formdata.append("email", `${email}`);
+  formdata.append("password", `${conpassword}`);
+  formdata.append("gup_type_id", `${user_type}`);
+  
+  var requestOptions = {
+    method: 'POST',
+    body: formdata,
+    headers: myHeaders,
+    redirect: 'follow'
+  };
+  
+  fetch("https://aethenosinstructor.exon.lk:2053/aethenos-api/manageAdmins/add", requestOptions)
+    .then(response => response.json())
+    .then(result => {
+      console.log(result)
+      Unauthorized(result.status,"add-admin")
+
+      if(result.variable == "200"){
+        SuccessAlert("Admin Added",result.message)
+      }
+      
+    })
+    .catch(error => console.log('error', error));
+
+}

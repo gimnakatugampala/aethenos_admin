@@ -2,6 +2,7 @@ import ErrorAlert from "commonFunctions/Alerts/ErrorAlert";
 import SuccessAlert from "commonFunctions/Alerts/SuccessAlert";
 import Cookies from 'js-cookie';
 
+const BACKEND_HOST = "https://aethenosinstructor.exon.lk:2053/aethenos-api"
 
 const CURRENT_USER = Cookies.get('aethenos_admin')
 
@@ -32,7 +33,7 @@ export const AdminLogin = (email, password,setloading) =>{
     redirect: 'follow'
     };
 
-    fetch("https://aethenosinstructor.exon.lk:2053/aethenos-api/authentication/admin", requestOptions)
+    fetch(`${BACKEND_HOST}/authentication/admin`, requestOptions)
     .then(response => response.json())
     .then(result => {
         console.log(result)
@@ -49,12 +50,16 @@ export const AdminLogin = (email, password,setloading) =>{
             setloading(false)
             ErrorAlert(result.message,result.variable)
             return
+        }else if(result.message == "Your admin account deactivated."){
+          setloading(false)
+          ErrorAlert(result.message,result.variable)
+          return
         }else{
             
             setloading(false)
 
             Cookies.set('aethenos_admin', `${result.token}`, { expires: 7, path: '' })
-
+console.log(result)
 
             // const user = {
             //     token:result.token,
@@ -84,7 +89,7 @@ export const GellAllDraftCourses = (setcourses) =>{
       redirect: 'follow'
     };
     
-    fetch("https://aethenosinstructor.exon.lk:2053/aethenos-api/course/getDraftcourses", requestOptions)
+    fetch(`${BACKEND_HOST}/course/getDraftcourses`, requestOptions)
       .then(response => response.json())
       .then(result => {
         //   console.log(result)
@@ -110,7 +115,7 @@ var requestOptions = {
   redirect: 'follow'
 };
 
-fetch(`https://aethenosinstructor.exon.lk:2053/aethenos-api/course/setApproveCourse/${code}`, requestOptions)
+fetch(`${BACKEND_HOST}/course/setApproveCourse/${code}`, requestOptions)
   .then(response => response.json())
   .then(result => {
 
@@ -143,7 +148,7 @@ var requestOptions = {
   redirect: 'follow'
 };
 
-fetch("https://aethenosinstructor.exon.lk:2053/aethenos-api/course/setDisapproveCourse", requestOptions)
+fetch(`${BACKEND_HOST}/course/setDisapproveCourse`, requestOptions)
   .then(response => response.json())
   .then(result => {
 
@@ -181,7 +186,7 @@ export const AddSetDefaultPricing = (DminPrice,DmaxPrice,DTip,DminValue) =>{
     redirect: 'follow'
   };
   
-  fetch("https://aethenosinstructor.exon.lk:2053/aethenos-api/managecourse/setDefaultPriceRange", requestOptions)
+  fetch(`${BACKEND_HOST}/managecourse/setDefaultPriceRange`, requestOptions)
     .then(response => response.json())
     .then(result => {
       console.log(result)
@@ -212,7 +217,7 @@ export const AddSetPricing = (item) =>{
     redirect: 'follow'
   };
 
-fetch("https://aethenosinstructor.exon.lk:2053/aethenos-api/managecourse/setCoursePricing", requestOptions)
+fetch(`${BACKEND_HOST}/managecourse/setCoursePricing`, requestOptions)
   .then(response => response.json())
   .then(result => {
     console.log(result)
@@ -362,7 +367,7 @@ export const GetPricingRange = (
     redirect: 'follow'
   };
   
-  fetch("https://aethenosinstructor.exon.lk:2053/aethenos-api/managecourse/getpricingrange", requestOptions)
+  fetch(`${BACKEND_HOST}/managecourse/getpricingrange`, requestOptions)
     .then(response => response.json())
     .then(result => {
       console.log(result)
@@ -545,7 +550,7 @@ export const AddAdminAPI = (firstname,lastname,email,conpassword,user_type) =>{
     redirect: 'follow'
   };
   
-  fetch("https://aethenosinstructor.exon.lk:2053/aethenos-api/manageAdmins/add", requestOptions)
+  fetch(`${BACKEND_HOST}/manageAdmins/add`, requestOptions)
     .then(response => response.json())
     .then(result => {
       console.log(result)
@@ -572,7 +577,7 @@ export const ViewAdminAPI = (setadmins) =>{
     redirect: 'follow'
   };
   
-  fetch("https://aethenosinstructor.exon.lk:2053/aethenos-api/manageAdmins/view", requestOptions)
+  fetch(`${BACKEND_HOST}/manageAdmins/view`, requestOptions)
     .then(response => response.json())
     .then(result => {
 
@@ -596,7 +601,7 @@ export const ActivateAdminAPI = (id) =>{
     redirect: 'follow'
   };
   
-  fetch(`https://aethenosinstructor.exon.lk:2053/aethenos-api/manageAdmins/activate/${id}`, requestOptions)
+  fetch(`${BACKEND_HOST}/manageAdmins/activate/${id}`, requestOptions)
     .then(response => response.json())
     .then(result => {
       Unauthorized(result.status,"all-admins")

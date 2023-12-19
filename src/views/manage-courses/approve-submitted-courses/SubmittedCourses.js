@@ -1,4 +1,4 @@
-import React, { useState ,useMemo } from 'react'
+import React, { useState ,useMemo, useEffect } from 'react'
 import './SubmittedCourses.css'
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
@@ -23,10 +23,13 @@ import ListGroup from 'react-bootstrap/ListGroup';
 import CardMedia from '@mui/material/CardMedia';
 import Chip from '@mui/material/Chip';
 import Stack from '@mui/material/Stack';
+import MaterialTable from 'material-table'
 import { Player } from 'video-react';
 import 'video-react/dist/video-react.css'; // import css
 
 import { MaterialReactTable } from 'material-react-table';
+import { GetSubmitReview , ApproveSubmittedCourse } from 'api';
+
 
 const data = [
     {
@@ -45,11 +48,15 @@ const data = [
     },
   ];
 
+  let coursesData = []
+
 const SubmittedCourses = () => {
 
     const [show, setShow] = useState(false);
     const [showDisapprove, setshowDisapprove] = useState(false)
     const [key, setKey] = useState('intended-learners');
+
+    const [courses, setcourses] = useState([])
     
     const countries = [
       { country: "America", currency: "USD" },
@@ -128,7 +135,7 @@ const SubmittedCourses = () => {
     [],
   );
 
-  const approveDraftCourse = () =>{
+  const approveDraftCourse = (code) =>{
 
     Swal.fire({
       title: 'Are you sure?',
@@ -140,11 +147,14 @@ const SubmittedCourses = () => {
       confirmButtonText: 'Yes, Approve it!'
     }).then((result) => {
       if (result.isConfirmed) {
-        Swal.fire(
-          'Approved!',
-          'Course has been Approved.',
-          'success'
-        )
+
+        ApproveSubmittedCourse(code)
+
+        // Swal.fire(
+        //   'Approved!',
+        //   'Course has been Approved.',
+        //   'success'
+        // )
       }
     })
 
@@ -170,6 +180,32 @@ const SubmittedCourses = () => {
     })
   }
 
+  useEffect(() => {
+    
+    setTimeout(() => {
+      
+    GetSubmitReview(setcourses)
+
+    coursesData = courses.map((course,index) => {
+      // Create a new object with modified property
+      return { ...course, 
+        index: index + 1,
+        courseCategory: course.courseCategory.name,
+        instructor: `${course.instructorId.generalUserProfile.firstName} ${course.instructorId.generalUserProfile.lastName}`,
+        actions: (
+          <>
+           <Button size='sm' onClick={handleShow} className='mx-1' variant="primary"><RemoveRedEyeIcon /></Button>
+          <Button size='sm' onClick={() => approveDraftCourse(course.code)} className='mx-1' variant="success"><CheckIcon /></Button>
+          <Button size='sm' onClick={handleDisapproveShow} className='mx-1' variant="danger"><CloseIcon /></Button>
+          </>
+        )
+       };
+  })
+  }, 1000)
+
+  }, [coursesData])
+  
+
   return (
     <>
     <Card sx={{ minWidth: 275 }}>
@@ -178,7 +214,21 @@ const SubmittedCourses = () => {
         Approve Submitted Courses
       </Typography>
 
-      <MaterialReactTable columns={columns} data={data} />
+  
+      <MaterialTable
+      title=""
+      columns={[
+        { title: 'ID', field: 'index' },
+        { title: 'Course Title', field: 'courseTitle' },
+        { title: 'Course Category', field: 'courseCategory'},
+        { title: 'Instrutor', field: 'instructor'},
+        { title: 'Actions', field: 'actions'},
+      ]}
+      data={coursesData}        
+      options={{
+        exportButton: true
+      }}
+    />
   
     </CardContent>
   </Card>

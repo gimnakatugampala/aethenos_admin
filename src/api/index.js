@@ -614,3 +614,65 @@ export const ActivateAdminAPI = (id) =>{
     .catch(error => console.log('error', error));
 
 }
+
+export const GetSubmitReview = (setcourses) =>{
+
+  var myHeaders = new Headers();
+  myHeaders.append("Authorization", `Bearer ${CURRENT_USER}`);
+
+  var requestOptions = {
+    method: 'GET',
+    headers: myHeaders,
+    redirect: 'follow'
+  };
+  
+  fetch(`${BACKEND_HOST}/course/getAllRequestedCourse`, requestOptions)
+    .then(response => response.json())
+    .then(result => {
+      console.log(result)
+      Unauthorized(result.status,"submit-courses")
+      setcourses(result)
+      if(result.message == "Error"){
+      setcourses([])
+
+      }
+    })
+    .catch(error => console.log('error', error));
+
+}
+
+export const ApproveSubmittedCourse = (code) =>{
+
+  var myHeaders = new Headers();
+  myHeaders.append("Authorization", `Bearer ${CURRENT_USER}`);
+
+  var requestOptions = {
+    method: 'PUT',
+    headers: myHeaders,
+    redirect: 'follow'
+  };
+  
+  fetch(`${BACKEND_HOST}/course/approveRequestedCourse/${code}`, requestOptions)
+    .then(response => response.json())
+    .then(result => {
+      console.log(result)
+      Unauthorized(result.status,"submit-courses")
+
+      if(result.variable == "200"){
+        SuccessAlert("Success",result.message)
+        return
+      }
+
+      if(result.message == "Error"){
+        ErrorAlert("Error",result.variable)
+        return
+      }
+
+    })
+    .catch(error => console.log('error', error));
+
+}
+
+export const DispproveSubmittedCourse = (code) =>{
+
+}

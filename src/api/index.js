@@ -774,3 +774,26 @@ export const GetIntendedLeaners = async(code,setstudentsLearnData,setrequirement
     .catch(error => console.log('error', error));
 
  }
+ export const GetCountriesListPricing = async(code, setcountriesData) =>{
+
+  var myHeaders = new Headers();
+  myHeaders.append("Authorization",`Bearer ${CURRENT_USER}`);
+
+
+  var requestOptions = {
+    method: 'GET',
+    headers: myHeaders,
+    redirect: 'follow'
+  };
+  
+  fetch(`https://aethenosinstructor.exon.lk:2053/aethenos-api/managecourse/getCoursePricing/${code}`, requestOptions)
+    .then(response => response.json())
+    .then(result => {
+
+      setcountriesData(result)
+      console.log(result)
+
+
+    })
+    .catch(error => console.log('error', error));
+ }

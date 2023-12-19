@@ -28,9 +28,11 @@ import { Player } from 'video-react';
 import 'video-react/dist/video-react.css'; // import css
 
 import { MaterialReactTable } from 'material-react-table';
-import { GetSubmitReview , ApproveSubmittedCourse , DispproveSubmittedCourse , GetIntendedLeaners , GetCourseLandingPage } from 'api';
+import { GetSubmitReview , ApproveSubmittedCourse , DispproveSubmittedCourse , GetIntendedLeaners , GetCourseLandingPage , GetCountriesListPricing } from 'api';
 import ErrorAlert from 'commonFunctions/Alerts/ErrorAlert';
 import { FILE_PATH } from 'commonFunctions/FilePaths';
+import formatNumber from 'commonFunctions/NumberFormat';
+import getSymbolFromCurrency from 'currency-symbol-map'
 
 
 const data = [
@@ -76,43 +78,12 @@ const SubmittedCourses = () => {
     const [keywords, setkeywords] = useState([])
     const [course_image, setcourse_image] = useState("")
     const [promo_vid, setpromo_vid] = useState("")
-  
     const [preview_img, setpreview_img] = useState("")
-  
     const [videoSrc , seVideoSrc] = useState("");
+
+    const [countriesData, setcountriesData] = useState([])
     
-    const countries = [
-      { country: "America", currency: "USD" },
-      { country: "Australia", currency: "AUD" },
-      { country: "Brazil", currency: "BRL" },
-      { country: "Canada", currency: "CAD" },
-      { country: "Chile", currency: "CLP" },
-      { country: "Colombia", currency: "COP" },
-      { country: "Egypt", currency: "EGP" },
-      { country: "Great Britain", currency: "GBP" },
-      { country: "India", currency: "INR" },
-      { country: "Indonesia", currency: "IDR" },
-      { country: "Israel", currency: "ILS" },
-      { country: "Japan", currency: "JPY" },
-      { country: "Malaysia", currency: "MYR" },
-      { country: "Mexico", currency: "MXN" },
-      { country: "Nigeria", currency: "NGN" },
-      { country: "Norway", currency: "NOK" },
-      { country: "Peru", currency: "PEN" },
-      { country: "Philippines", currency: "PHP" },
-      { country: "Poland", currency: "PLN" },
-      { country: "Romania", currency: "RON" },
-      { country: "Russia", currency: "RUB" },
-      { country: "Singapore", currency: "SGD" },
-      { country: "South Africa", currency: "ZAR" },
-      { country: "South Korea", currency: "KRW" },
-      { country: "Taiwan", currency: "TWD" },
-      { country: "Thailand", currency: "THB" },
-      { country: "Turkey", currency: "TRY" },
-      { country: "Vietnam", currency: "VND" },
-      { country: "European Union", currency: "EUR" },
-      { country: "Other Countries", currency: "Unknown" },
-    ];
+  
   
     // Show Course Details
     const handleShow = (code) => {
@@ -120,6 +91,7 @@ const SubmittedCourses = () => {
       console.log(code)
       GetIntendedLeaners(code,setstudentsLearnData,setrequirementsData,setwhosData)
       GetCourseLandingPage(code,setcourse_title,setcourse_subtitle,setcourse_desc,setpreview_img,seVideoSrc,setkeywords,setcourse_cat,setcourse_sub_cat,setlevel,setlang,setpromo_vid)
+      GetCountriesListPricing(code,setcountriesData)
     };
 
     const handleClose = () => setShow(false);
@@ -541,19 +513,23 @@ const SubmittedCourses = () => {
               </tr>
             </thead>
             <tbody>
-              {countries.map((countryData, index) => (
+              {countriesData.map((countryData, index) => (
                 <tr key={index}>
                   <td>{countryData.country}</td>
                   <td>{countryData.currency}</td>
                   <td>
-                    3000.00
+                    {formatNumber(countryData.value)}
                   </td>
-                  <td>$100-$200</td>
+                  <td>{getSymbolFromCurrency(countryData.currency)} {formatNumber(countryData.minPrice)} - {getSymbolFromCurrency(countryData.currency)} {formatNumber(countryData.maxPrice)}</td>
                   <td>
-                    By Percentage
+                  {countryData.discountType}
                   </td>
                   <td>
-                    30.00
+                    {
+                      countryData.discountTypeId == 1 ? `${getSymbolFromCurrency(countryData.currency) != null ?  getSymbolFromCurrency(countryData.currency) : '' } ${formatNumber(countryData.value)}` : 
+                      countryData.discountTypeId == 2 ? `${getSymbolFromCurrency(countryData.currency) != null ?  getSymbolFromCurrency(countryData.currency) : '' } ${formatNumber((countryData.value) - ((countryData.value * countryData.discountValue)/100))}` :
+                      `${getSymbolFromCurrency(countryData.currency) != null ?  getSymbolFromCurrency(countryData.currency) : '' } ${formatNumber((countryData.value) - (countryData.discountValue))}`
+                    }
                   </td>
                 </tr>
               ))}

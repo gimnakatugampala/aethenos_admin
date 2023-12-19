@@ -28,7 +28,7 @@ import { Player } from 'video-react';
 import 'video-react/dist/video-react.css'; // import css
 
 import { MaterialReactTable } from 'material-react-table';
-import { GetSubmitReview , ApproveSubmittedCourse , DispproveSubmittedCourse } from 'api';
+import { GetSubmitReview , ApproveSubmittedCourse , DispproveSubmittedCourse , GetIntendedLeaners } from 'api';
 import ErrorAlert from 'commonFunctions/Alerts/ErrorAlert';
 
 
@@ -60,6 +60,10 @@ const SubmittedCourses = () => {
     const [courses, setcourses] = useState([])
     const [comment, setcomment] = useState("")
     const [CODE, setCODE] = useState("")
+
+    const [studentsLearnData, setstudentsLearnData] = useState([])
+    const [requirementsData, setrequirementsData] = useState([])
+    const [whosData, setwhosData] = useState([])
     
     const countries = [
       { country: "America", currency: "USD" },
@@ -94,7 +98,13 @@ const SubmittedCourses = () => {
       { country: "Other Countries", currency: "Unknown" },
     ];
   
-    const handleShow = () => setShow(true);
+    // Show Course Details
+    const handleShow = (code) => {
+      setShow(true)
+      console.log(code)
+      GetIntendedLeaners(code,setstudentsLearnData,setrequirementsData,setwhosData)
+    };
+
     const handleClose = () => setShow(false);
   
     const handleDisapproveShow = (code) => {
@@ -174,7 +184,7 @@ const SubmittedCourses = () => {
         instructor: `${course.instructorId.generalUserProfile.firstName} ${course.instructorId.generalUserProfile.lastName}`,
         actions: (
           <>
-           <Button size='sm' onClick={handleShow} className='mx-1' variant="primary"><RemoveRedEyeIcon /></Button>
+           <Button size='sm' onClick={() => handleShow(course.code)} className='mx-1' variant="primary"><RemoveRedEyeIcon /></Button>
           <Button size='sm' onClick={() => approveDraftCourse(course.code)} className='mx-1' variant="success"><CheckIcon /></Button>
           <Button size='sm' onClick={() => handleDisapproveShow(course.code)} className='mx-1' variant="danger"><CloseIcon /></Button>
           </>
@@ -226,17 +236,16 @@ const SubmittedCourses = () => {
       onSelect={(k) => setKey(k)}
       className="mb-3"
     >
+      
       <Tab eventKey="intended-learners" title="Intended Learners">
         <Typography variant="h4" gutterBottom>
         What will students learn in your course?
         </Typography>
 
         <ListGroup className='my-3'>
-          <ListGroup.Item>Cras justo odio</ListGroup.Item>
-          <ListGroup.Item>Dapibus ac facilisis in</ListGroup.Item>
-          <ListGroup.Item>Morbi leo risus</ListGroup.Item>
-          <ListGroup.Item>Porta ac consectetur ac</ListGroup.Item>
-          <ListGroup.Item>Vestibulum at eros</ListGroup.Item>
+          {studentsLearnData.length > 0 ? studentsLearnData.map((learn,index) => (
+          <ListGroup.Item key={index}>{learn}</ListGroup.Item>
+          )) : <p>No Items Available</p>}
         </ListGroup>
 
         <Typography variant="h4" gutterBottom>
@@ -244,11 +253,9 @@ const SubmittedCourses = () => {
         </Typography>
 
         <ListGroup className='my-3'>
-          <ListGroup.Item>Cras justo odio</ListGroup.Item>
-          <ListGroup.Item>Dapibus ac facilisis in</ListGroup.Item>
-          <ListGroup.Item>Morbi leo risus</ListGroup.Item>
-          <ListGroup.Item>Porta ac consectetur ac</ListGroup.Item>
-          <ListGroup.Item>Vestibulum at eros</ListGroup.Item>
+        {requirementsData.length > 0 ? requirementsData.map((req,index) => (
+          <ListGroup.Item key={index}>{req}</ListGroup.Item>
+          )) : <p>No Items Available</p>}
         </ListGroup>
 
         <Typography variant="h4" gutterBottom>
@@ -256,11 +263,9 @@ const SubmittedCourses = () => {
         </Typography>
 
         <ListGroup className='my-3'>
-          <ListGroup.Item>Cras justo odio</ListGroup.Item>
-          <ListGroup.Item>Dapibus ac facilisis in</ListGroup.Item>
-          <ListGroup.Item>Morbi leo risus</ListGroup.Item>
-          <ListGroup.Item>Porta ac consectetur ac</ListGroup.Item>
-          <ListGroup.Item>Vestibulum at eros</ListGroup.Item>
+        {whosData.length > 0 ? whosData.map((who,index) => (
+          <ListGroup.Item key={index}>{who}</ListGroup.Item>
+          )) : <p>No Items Available</p>}
         </ListGroup>
 
 

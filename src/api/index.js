@@ -712,3 +712,31 @@ fetch(`${BACKEND_HOST}/course/disapproveRequestedCourse`, requestOptions)
   .catch(error => console.log('error', error));
 
 }
+
+export const GetIntendedLeaners = async(code,setstudentsLearnData,setrequirementsData,setwhosData) =>{
+
+  var myHeaders = new Headers();
+  myHeaders.append("Authorization",`Bearer ${CURRENT_USER}`);
+  
+  var requestOptions = {
+    method: 'GET',
+    headers: myHeaders,
+    redirect: 'follow'
+  };
+  
+  fetch(`https://aethenosinstructor.exon.lk:2053/aethenos-api/managecourse/getIntendedLearners/${code}`, requestOptions)
+    .then(response => response.json())
+    .then(result => {
+
+      Unauthorized(result.status,`submit-courses`)
+
+      setstudentsLearnData(result.studentsLearn)
+      setrequirementsData(result.requirements)
+      setwhosData(result.who)
+
+      console.log(result)
+    
+    })
+    .catch(error => console.log('error', error));
+
+ }

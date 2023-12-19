@@ -28,7 +28,8 @@ import { Player } from 'video-react';
 import 'video-react/dist/video-react.css'; // import css
 
 import { MaterialReactTable } from 'material-react-table';
-import { GetSubmitReview , ApproveSubmittedCourse } from 'api';
+import { GetSubmitReview , ApproveSubmittedCourse , DispproveSubmittedCourse } from 'api';
+import ErrorAlert from 'commonFunctions/Alerts/ErrorAlert';
 
 
 const data = [
@@ -57,6 +58,8 @@ const SubmittedCourses = () => {
     const [key, setKey] = useState('intended-learners');
 
     const [courses, setcourses] = useState([])
+    const [comment, setcomment] = useState("")
+    const [CODE, setCODE] = useState("")
     
     const countries = [
       { country: "America", currency: "USD" },
@@ -94,46 +97,12 @@ const SubmittedCourses = () => {
     const handleShow = () => setShow(true);
     const handleClose = () => setShow(false);
   
-    const handleDisapproveShow = () => setshowDisapprove(true)
+    const handleDisapproveShow = (code) => {
+      setCODE(code)
+      setshowDisapprove(true)
+    }
     const handleDisapproveClose = () => setshowDisapprove(false)
-    
-  const columns = useMemo(
-    () => [
-      {
-        accessorKey: 'id', //access nested data with dot notation
-        header: 'ID',
-        size: 100,
-      },
-      {
-        accessorKey: 'title',
-        header: 'Course Title',
-        size: 200,
-      },
-      {
-        accessorKey: 'category', //normal accessorKey
-        header: 'Course Category',
-        size: 250,
-      },
-      {
-        accessorKey: 'instructor',
-        header: 'Instrutor',
-        size: 250,
-      },
-      {
-        accessorKey: 'actions',
-        header: 'Actions',
-        size: 300,
-        Cell: ({ cell }) => (
-          <>
-          <Button onClick={handleShow} className='mx-1' variant="primary"><RemoveRedEyeIcon /></Button>
-          <Button onClick={approveDraftCourse} className='mx-1' variant="success"><CheckIcon /></Button>
-          <Button onClick={handleDisapproveShow} className='mx-1' variant="danger"><CloseIcon /></Button>
-          </>
-        ),
-      },
-    ],
-    [],
-  );
+
 
   const approveDraftCourse = (code) =>{
 
@@ -161,6 +130,20 @@ const SubmittedCourses = () => {
   }
 
   const disapproveDraftCourse = () => {
+    console.log()
+    console.log(comment)
+
+    if(comment == ""){
+      ErrorAlert("Empty Field","Please Enter a Comment")
+      return
+    }
+
+    if(CODE == ""){
+      ErrorAlert("Invalid Course ID","Please Select Course Code")
+      return
+    }
+
+    
     Swal.fire({
       title: 'Are you sure?',
       text: "You won't be able to revert this!",
@@ -171,11 +154,8 @@ const SubmittedCourses = () => {
       confirmButtonText: 'Yes, disaprove it!'
     }).then((result) => {
       if (result.isConfirmed) {
-        Swal.fire(
-          'Disaproved!',
-          'Course has been Disaproved.',
-          'success'
-        )
+   
+        DispproveSubmittedCourse(CODE,comment,setshowDisapprove)
       }
     })
   }
@@ -196,7 +176,7 @@ const SubmittedCourses = () => {
           <>
            <Button size='sm' onClick={handleShow} className='mx-1' variant="primary"><RemoveRedEyeIcon /></Button>
           <Button size='sm' onClick={() => approveDraftCourse(course.code)} className='mx-1' variant="success"><CheckIcon /></Button>
-          <Button size='sm' onClick={handleDisapproveShow} className='mx-1' variant="danger"><CloseIcon /></Button>
+          <Button size='sm' onClick={() => handleDisapproveShow(course.code)} className='mx-1' variant="danger"><CloseIcon /></Button>
           </>
         )
        };
@@ -676,7 +656,7 @@ const SubmittedCourses = () => {
         <Form>
           <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
             <Form.Label>Admin Remark</Form.Label>
-            <Form.Control as="textarea" rows={3} />
+            <Form.Control onChange={(e) => setcomment(e.target.value)} as="textarea" rows={3} />
           </Form.Group>
         </Form>
        </Modal.Body>

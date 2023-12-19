@@ -629,7 +629,7 @@ export const GetSubmitReview = (setcourses) =>{
   fetch(`${BACKEND_HOST}/course/getAllRequestedCourse`, requestOptions)
     .then(response => response.json())
     .then(result => {
-      console.log(result)
+      // console.log(result)
       Unauthorized(result.status,"submit-courses")
       setcourses(result)
       if(result.message == "Error"){
@@ -655,7 +655,7 @@ export const ApproveSubmittedCourse = (code) =>{
   fetch(`${BACKEND_HOST}/course/approveRequestedCourse/${code}`, requestOptions)
     .then(response => response.json())
     .then(result => {
-      console.log(result)
+      // console.log(result)
       Unauthorized(result.status,"submit-courses")
 
       if(result.variable == "200"){
@@ -673,6 +673,42 @@ export const ApproveSubmittedCourse = (code) =>{
 
 }
 
-export const DispproveSubmittedCourse = (code) =>{
+export const DispproveSubmittedCourse = (CODE,comment,setshowDisapprove) =>{
+
+  var myHeaders = new Headers();
+  myHeaders.append("Authorization", `Bearer ${CURRENT_USER}`);
+
+  var formdata = new FormData();
+formdata.append("code", `${CODE}`);
+formdata.append("comment", `${comment}`);
+
+var requestOptions = {
+  method: 'PUT',
+  body: formdata,
+  headers: myHeaders,
+  redirect: 'follow'
+};
+
+fetch(`${BACKEND_HOST}/course/disapproveRequestedCourse`, requestOptions)
+  .then(response => response.json())
+  .then(result => {
+    console.log(result)
+
+    Unauthorized(result.status,"submit-courses")
+
+
+    if(result.message == "Error"){
+      ErrorAlert("Error",result.variable)
+      return
+    }
+
+    if(result.variable == "200"){
+      SuccessAlert("Disapproved",result.message)
+      setshowDisapprove(false)
+      return
+    }
+
+  })
+  .catch(error => console.log('error', error));
 
 }

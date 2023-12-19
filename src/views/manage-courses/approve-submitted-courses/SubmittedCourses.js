@@ -28,8 +28,9 @@ import { Player } from 'video-react';
 import 'video-react/dist/video-react.css'; // import css
 
 import { MaterialReactTable } from 'material-react-table';
-import { GetSubmitReview , ApproveSubmittedCourse , DispproveSubmittedCourse , GetIntendedLeaners } from 'api';
+import { GetSubmitReview , ApproveSubmittedCourse , DispproveSubmittedCourse , GetIntendedLeaners , GetCourseLandingPage } from 'api';
 import ErrorAlert from 'commonFunctions/Alerts/ErrorAlert';
+import { FILE_PATH } from 'commonFunctions/FilePaths';
 
 
 const data = [
@@ -64,6 +65,21 @@ const SubmittedCourses = () => {
     const [studentsLearnData, setstudentsLearnData] = useState([])
     const [requirementsData, setrequirementsData] = useState([])
     const [whosData, setwhosData] = useState([])
+
+    const [course_title, setcourse_title] = useState("")
+    const [course_subtitle, setcourse_subtitle] = useState("")
+    const [course_desc, setcourse_desc] = useState("")
+    const [lang, setlang] = useState("")
+    const [level, setlevel] = useState("")
+    const [course_cat, setcourse_cat] = useState("")
+    const [course_sub_cat, setcourse_sub_cat] = useState("")
+    const [keywords, setkeywords] = useState([])
+    const [course_image, setcourse_image] = useState("")
+    const [promo_vid, setpromo_vid] = useState("")
+  
+    const [preview_img, setpreview_img] = useState("")
+  
+    const [videoSrc , seVideoSrc] = useState("");
     
     const countries = [
       { country: "America", currency: "USD" },
@@ -103,6 +119,7 @@ const SubmittedCourses = () => {
       setShow(true)
       console.log(code)
       GetIntendedLeaners(code,setstudentsLearnData,setrequirementsData,setwhosData)
+      GetCourseLandingPage(code,setcourse_title,setcourse_subtitle,setcourse_desc,setpreview_img,seVideoSrc,setkeywords,setcourse_cat,setcourse_sub_cat,setlevel,setlang,setpromo_vid)
     };
 
     const handleClose = () => setShow(false);
@@ -421,7 +438,7 @@ const SubmittedCourses = () => {
                       Language
               </Typography>
               <Typography variant="body2" color="text.secondary">
-                English (US)
+                {lang}
               </Typography>
             </div>
 
@@ -430,7 +447,7 @@ const SubmittedCourses = () => {
                       Level
               </Typography>
               <Typography variant="body2" color="text.secondary">
-                Expert Level
+                {level}
               </Typography>
             </div>
 
@@ -442,7 +459,7 @@ const SubmittedCourses = () => {
                           Category
                   </Typography>
                   <Typography variant="body2" color="text.secondary">
-                    IT & Software
+                    {course_cat}
                   </Typography>
                 </div>
 
@@ -451,7 +468,7 @@ const SubmittedCourses = () => {
                           Sub Category
                   </Typography>
                   <Typography variant="body2" color="text.secondary">
-                    Software Development
+                    {course_sub_cat}
                   </Typography>
                 </div>
               </div>
@@ -466,9 +483,9 @@ const SubmittedCourses = () => {
               <Typography variant="body2" color="text.secondary">
 
               <Stack direction="row" spacing={1}>
-                <Chip label="Business Fundermentals" variant="outlined" />
-                <Chip label="Photoshop" variant="outlined" />
-                <Chip label="Graphic Design" variant="outlined" />
+                {keywords.map((keyword,index) => (
+                <Chip key={index} label={keyword} variant="outlined" />
+                ))}
               </Stack>
 
               </Typography>
@@ -481,8 +498,7 @@ const SubmittedCourses = () => {
               </Typography>
 
               <Typography variant="body2" color="text.secondary">
-                Lizards are a widespread group of squamate reptiles, with over 6,000
-                species, ranging across all continents except Antarctica
+                {course_desc}
               </Typography>
           </div>
           </div>
@@ -491,15 +507,15 @@ const SubmittedCourses = () => {
               <Card>
 
               <Player>
-                <source src="https://media.w3.org/2010/05/sintel/trailer_hd.mp4" />
+                <source src={`${FILE_PATH}${videoSrc}`} />
               </Player>
 
                   <CardContent>
                     <Typography gutterBottom variant="h5" component="div">
-                      Introduction To Fiber Optic Cabling
+                      {course_title}
                     </Typography>
                     <Typography gutterBottom variant="h6" component="div">
-                      Computer Networks
+                      {course_subtitle}
                     </Typography>
 
           

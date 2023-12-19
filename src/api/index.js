@@ -740,3 +740,37 @@ export const GetIntendedLeaners = async(code,setstudentsLearnData,setrequirement
     .catch(error => console.log('error', error));
 
  }
+
+ export const GetCourseLandingPage = async(code,setcourse_title,setcourse_subtitle,setcourse_desc,setpreview_img,seVideoSrc,setkeywords,setcourse_cat,setcourse_sub_cat,setlevel,setlang) =>{
+
+  var myHeaders = new Headers();
+  myHeaders.append("Authorization",`Bearer ${CURRENT_USER}`);
+
+  var requestOptions = {
+    method: 'GET',
+    headers: myHeaders,
+    redirect: 'follow'
+  };
+  
+  fetch(`https://aethenosinstructor.exon.lk:2053/aethenos-api/managecourse/getcourselandingpage/${code}`, requestOptions)
+    .then(response => response.json())
+    .then(result => {
+
+      console.log(result)
+      Unauthorized(result.status,`submit-courses`)
+
+      setcourse_title(result.courseTitle)
+      setcourse_subtitle(result.courseSubTitle)
+      setcourse_desc(result.description)
+      setkeywords(result.keywords)
+      setcourse_cat(result.category)
+      setcourse_sub_cat(result.subCategory)
+      setlevel(result.level)
+      setlang(result.language)
+      setpreview_img(`${result.courseImage}`)
+      seVideoSrc(`${result.promotionalVideo}`)
+
+    })
+    .catch(error => console.log('error', error));
+
+ }

@@ -797,3 +797,38 @@ export const GetIntendedLeaners = async(code,setstudentsLearnData,setrequirement
     })
     .catch(error => console.log('error', error));
  }
+
+ const removeHtmlTags = (htmlString) => {
+  // Create a new DOMParser
+  const parser = new DOMParser();
+
+  // Parse the HTML string
+  const doc = parser.parseFromString(htmlString, 'text/html');
+
+  // Get the text content
+  const textContent = doc.body.textContent || '';
+
+  return textContent;
+};
+
+ export const GetCourseMessages = async(code,setcongratsmsg,setwelcomemsg) =>{
+  var myHeaders = new Headers();
+  myHeaders.append("Authorization", `Bearer ${CURRENT_USER}`);
+
+  var requestOptions = {
+    method: 'GET',
+    headers: myHeaders,
+    redirect: 'follow'
+  };
+  
+  fetch(`https://aethenosinstructor.exon.lk:2053/aethenos-api/managecourse/getMessages/${code}`, requestOptions)
+    .then(response => response.json())
+    .then(result => {
+
+      setcongratsmsg(removeHtmlTags(result.congratulations_msg))
+      setwelcomemsg(removeHtmlTags(result.welcome_msg))
+
+
+    })
+    .catch(error => console.log('error', error));
+ }

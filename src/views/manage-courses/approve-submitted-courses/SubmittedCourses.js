@@ -28,7 +28,7 @@ import { Player } from 'video-react';
 import 'video-react/dist/video-react.css'; // import css
 
 import { MaterialReactTable } from 'material-react-table';
-import { GetSubmitReview , ApproveSubmittedCourse , DispproveSubmittedCourse , GetIntendedLeaners , GetCourseLandingPage , GetCountriesListPricing } from 'api';
+import { GetSubmitReview , ApproveSubmittedCourse , DispproveSubmittedCourse , GetIntendedLeaners , GetCourseLandingPage , GetCountriesListPricing ,GetCourseMessages } from 'api';
 import ErrorAlert from 'commonFunctions/Alerts/ErrorAlert';
 import { FILE_PATH } from 'commonFunctions/FilePaths';
 import formatNumber from 'commonFunctions/NumberFormat';
@@ -82,6 +82,9 @@ const SubmittedCourses = () => {
     const [videoSrc , seVideoSrc] = useState("");
 
     const [countriesData, setcountriesData] = useState([])
+
+    const [welcomemsg, setwelcomemsg] = useState("")
+   const [congratsmsg, setcongratsmsg] = useState("")
     
   
   
@@ -92,6 +95,7 @@ const SubmittedCourses = () => {
       GetIntendedLeaners(code,setstudentsLearnData,setrequirementsData,setwhosData)
       GetCourseLandingPage(code,setcourse_title,setcourse_subtitle,setcourse_desc,setpreview_img,seVideoSrc,setkeywords,setcourse_cat,setcourse_sub_cat,setlevel,setlang,setpromo_vid)
       GetCountriesListPricing(code,setcountriesData)
+      GetCourseMessages(code,setcongratsmsg,setwelcomemsg)
     };
 
     const handleClose = () => setShow(false);
@@ -545,17 +549,17 @@ const SubmittedCourses = () => {
         Welcome Message
       </Typography>
 
-      <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using Content here, content here, making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for lorem ipsum will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).</p>
+      <p>{welcomemsg}</p>
 
       </div>
 
-
+ 
       <div className='m-3'>
       <Typography variant="h4" gutterBottom>
       Congratulations Message
       </Typography>
 
-      <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using Content here, content here, making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for lorem ipsum will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).</p>
+      <p>{congratsmsg}</p>
 
       </div>
 

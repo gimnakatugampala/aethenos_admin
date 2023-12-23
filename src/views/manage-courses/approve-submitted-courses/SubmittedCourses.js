@@ -28,11 +28,14 @@ import { Player } from 'video-react';
 import 'video-react/dist/video-react.css'; // import css
 
 import { MaterialReactTable } from 'material-react-table';
-import { GetSubmitReview , ApproveSubmittedCourse , DispproveSubmittedCourse , GetIntendedLeaners , GetCourseLandingPage , GetCountriesListPricing ,GetCourseMessages } from 'api';
+import { GetSubmitReview , ApproveSubmittedCourse , DispproveSubmittedCourse , GetIntendedLeaners , GetCourseLandingPage , GetCountriesListPricing ,GetCourseMessages, GetCurriculum } from 'api';
 import ErrorAlert from 'commonFunctions/Alerts/ErrorAlert';
 import { FILE_PATH } from 'commonFunctions/FilePaths';
 import formatNumber from 'commonFunctions/NumberFormat';
 import getSymbolFromCurrency from 'currency-symbol-map'
+import LaunchIcon from '@mui/icons-material/Launch';
+import Badge from 'react-bootstrap/Badge';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 
 
 const data = [
@@ -85,6 +88,8 @@ const SubmittedCourses = () => {
 
     const [welcomemsg, setwelcomemsg] = useState("")
    const [congratsmsg, setcongratsmsg] = useState("")
+
+   const [sectionData, setsectionData] = useState([])
     
   
   
@@ -96,6 +101,8 @@ const SubmittedCourses = () => {
       GetCourseLandingPage(code,setcourse_title,setcourse_subtitle,setcourse_desc,setpreview_img,seVideoSrc,setkeywords,setcourse_cat,setcourse_sub_cat,setlevel,setlang,setpromo_vid)
       GetCountriesListPricing(code,setcountriesData)
       GetCourseMessages(code,setcongratsmsg,setwelcomemsg)
+      GetCurriculum(code,setsectionData)
+      
     };
 
     const handleClose = () => setShow(false);
@@ -267,138 +274,123 @@ const SubmittedCourses = () => {
       <Tab eventKey="curriculum" title="Curriculum">
 
       <div className='p-3'>
-
-      <Card className='p-3 m-2' variant="outlined">
+      
+      {sectionData !== null && sectionData.length > 0 && sectionData.map((section,index) => (
+      <Card key={index} className='p-3 m-2' variant="outlined">
       <Typography variant="h4" gutterBottom>
-        Section 1 : Introduction
+        Section {index + 1} : {section.courseSection.sectionName}
       </Typography>
 
-      <Accordion>
+        {section.courseSection.sectionCurriculumItem.map((item,index) => (
+      <Accordion key={index}>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
           aria-controls="panel1a-content"
           id="panel1a-header"
         >
-          <Typography>Lecture 1 : <b>Introduction</b></Typography>
+          <Typography>{item.type} {index + 1} : <b>{item.title}</b></Typography>
         </AccordionSummary>
         <AccordionDetails>
 
-          <Typography>
-          <Card>
-          <Player>
-            <source src="https://media.w3.org/2010/05/sintel/trailer_hd.mp4" />
-          </Player>
-            <CardContent>
-              <Typography gutterBottom variant="h5" component="div">
-              35428820.mp4
-              </Typography>
-              <Typography variant="body2" color="text.secondary">
-                21:25
-              </Typography>
-            </CardContent>
-          </Card>
-          </Typography>
+          {item.type == "Lecture" && (
+            item.curriculumItemFiles.map((files,index) => (
+              files.filetype == "Video" &&
+          <Typography key={index}>
+            <Card>
+            <Player>
+              <source src={`${FILE_PATH}${files.url}`} />
+            </Player>
+              <CardContent>
+                <Typography gutterBottom variant="h5" component="div">
+                {files.url}
+                </Typography>
+              </CardContent>
+            </Card>
+            </Typography>
+            ))
+          )}
+
+        {item.type == "Lecture" && (
+      <div className="p-2">
+      <h6><b>Downloadable Files</b></h6>
+      <ListGroup>
+           { item.curriculumItemFiles.map((files,index) => (
+              files.filetype == "Downloadable Items" &&
+              <ListGroup.Item key={index}>{files.url}</ListGroup.Item>
+            ))}
+          </ListGroup>
+          </div>
+          )}
+
+          {item.type == "Lecture" && (
+          <div className="p-2">
+        <h6><b>External Resources</b></h6>
+        <ListGroup>
+              {item.curriculumItemFiles.map((link,index) => (
+                link.filetype == "External Resourses" &&
+                <ListGroup.Item key={index}>
+                  <a rel="noreferrer" target="_blank" href={link.url}><LaunchIcon fontSize="10" />{link.title}</a>
+              </ListGroup.Item>
+              ))}
+            </ListGroup>
+            </div>
+            )}
+        
+          {item.type == "Lecture" && (
+            <div className="p-2">
+        <h6><b>Source Code</b></h6>
+        <ListGroup>
+            {item.curriculumItemFiles.map((link,index) => (
+                link.filetype == "Source Code" &&
+                <ListGroup.Item key={index}>{link.url}</ListGroup.Item>
+              ))}
+            </ListGroup>
+            </div>
+            )}
+
+            {item.type == "Quiz" && (
+              item.getQuizs.length > 0 &&
+              <div>
+                <h6><b>{item.getQuizs[0].question}</b></h6>
+                <ListGroup as="ol" numbered>
+                  {item.getQuizs.length > 0 && item.getQuizs[0].getAnswers.map((quiz,index) => (
+                  <ListGroup.Item
+                    key={index}
+                    as="li"
+                    className="d-flex justify-content-between align-items-start"
+                  >
+                    <div className="ms-2 me-auto">
+                      <div className="fw-bold">{quiz.name}</div>
+                      {quiz.explanation}
+                    </div>
+                    {quiz.correctAnswer && (
+                    // <Badge bg="primary" pill>
+                      <CheckCircleIcon />
+                    // </Badge>
+                    )}
+                  </ListGroup.Item>
+                  ))}
+
+
+
+    </ListGroup>
+  
+
+              </div>
+            )}
+        
 
         </AccordionDetails>
+
       </Accordion>
-      <Accordion>
-        <AccordionSummary
-          expandIcon={<ExpandMoreIcon />}
-          aria-controls="panel2a-content"
-          id="panel2a-header"
-        >
-          <Typography>Lecture 2 : <b>Deep Learning</b></Typography>
-        </AccordionSummary>
-        <AccordionDetails>
+        ))}
 
-          <Typography>
-          <Card>
-          <Player>
-            <source src="https://media.w3.org/2010/05/sintel/trailer_hd.mp4" />
-          </Player>
-            <CardContent>
-              <Typography gutterBottom variant="h5" component="div">
-              35428820.mp4
-              </Typography>
-              <Typography variant="body2" color="text.secondary">
-                21:25
-              </Typography>
-            </CardContent>
-          </Card>
-          </Typography>
-
-
-        </AccordionDetails>
-      </Accordion>
 
 
       </Card>
+      ))}
 
-      <Card className='p-3 m-2' variant="outlined">
-      <Typography variant="h4" gutterBottom>
-        Section 1 : Introduction
-      </Typography>
-
-      <Accordion>
-        <AccordionSummary
-          expandIcon={<ExpandMoreIcon />}
-          aria-controls="panel1a-content"
-          id="panel1a-header"
-        >
-          <Typography>Lecture 1 : <b>Introduction</b></Typography>
-        </AccordionSummary>
-        <AccordionDetails>
-
-          <Typography>
-          <Card>
-          <Player>
-            <source src="https://media.w3.org/2010/05/sintel/trailer_hd.mp4" />
-          </Player>
-            <CardContent>
-              <Typography gutterBottom variant="h5" component="div">
-              35428820.mp4
-              </Typography>
-              <Typography variant="body2" color="text.secondary">
-                21:25
-              </Typography>
-            </CardContent>
-          </Card>
-          </Typography>
-
-        </AccordionDetails>
-      </Accordion>
-      <Accordion>
-        <AccordionSummary
-          expandIcon={<ExpandMoreIcon />}
-          aria-controls="panel2a-content"
-          id="panel2a-header"
-        >
-          <Typography>Lecture 2 : <b>Deep Learning</b></Typography>
-        </AccordionSummary>
-        <AccordionDetails>
-
-          <Typography>
-          <Card>
-          <Player>
-            <source src="https://media.w3.org/2010/05/sintel/trailer_hd.mp4" />
-          </Player>
-            <CardContent>
-              <Typography gutterBottom variant="h5" component="div">
-              35428820.mp4
-              </Typography>
-              <Typography variant="body2" color="text.secondary">
-                21:25
-              </Typography>
-            </CardContent>
-          </Card>
-          </Typography>
-
-
-        </AccordionDetails>
-      </Accordion>
-
-
-      </Card>
+    
 
       </div>
       </Tab>

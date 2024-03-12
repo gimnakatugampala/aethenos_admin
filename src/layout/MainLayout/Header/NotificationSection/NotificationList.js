@@ -115,7 +115,7 @@ const NotificationList = () => {
               <Grid container justifyContent="flex-end">
                 <Grid item xs={12}>
                   <Typography variant="caption" display="block" gutterBottom>
-                    {notification.notificationTime}
+                    {moment(notification.notificationTime).startOf('hour').fromNow()}
                   </Typography>
                 </Grid>
               </Grid>

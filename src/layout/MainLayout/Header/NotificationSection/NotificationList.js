@@ -94,45 +94,57 @@ const NotificationList = () => {
       }}
     >
   
-      <ListItemWrapper>
-        <ListItem alignItems="center">
-          <ListItemAvatar>
-            <Avatar
-              sx={{
-                color: theme.palette.success.dark,
-                backgroundColor: theme.palette.success.light,
-                border: 'none',
-                borderColor: theme.palette.success.main
-              }}
-            >
-              <NotificationsIcon stroke={1.5} size="1.3rem" />
-            </Avatar>
-          </ListItemAvatar>
-          <ListItemText primary={<Typography variant="subtitle1">New</Typography>} />
-          <ListItemSecondaryAction>
-            <Grid container justifyContent="flex-end">
-              <Grid item xs={12}>
-                <Typography variant="caption" display="block" gutterBottom>
-                  2 min ago
-                </Typography>
+  {myNotifications.length > 0 ? myNotifications.map((notification,index) => (
+      <span key={index}>
+        <ListItemWrapper>
+          <ListItem alignItems="center">
+            <ListItemAvatar>
+              <Avatar
+                sx={{
+                  color: theme.palette.success.dark,
+                  backgroundColor: theme.palette.success.light,
+                  border: 'none',
+                  borderColor: theme.palette.success.main
+                }}
+              >
+                <NotificationsIcon stroke={1.5} size="1.3rem" />
+              </Avatar>
+            </ListItemAvatar>
+            <ListItemText primary={<Typography variant="subtitle1">New</Typography>} />
+            <ListItemSecondaryAction>
+              <Grid container justifyContent="flex-end">
+                <Grid item xs={12}>
+                  <Typography variant="caption" display="block" gutterBottom>
+                    {notification.notificationTime}
+                  </Typography>
+                </Grid>
+              </Grid>
+            </ListItemSecondaryAction>
+          </ListItem>
+          <Grid container direction="column" className="list-container">
+            <Grid item xs={12} sx={{ pb: 2 }}>
+              <Typography variant="subtitle2">{notification.notification}</Typography>
+            </Grid>
+            {notification.isRead == false && (
+            <Grid item xs={12}>
+              <Grid container>
+                <Grid item>
+                  <Chip label="Unread" sx={chipErrorSX} />
+                </Grid>
               </Grid>
             </Grid>
-          </ListItemSecondaryAction>
-        </ListItem>
-        <Grid container direction="column" className="list-container">
-          <Grid item xs={12} sx={{ pb: 2 }}>
-            <Typography variant="subtitle2">We have successfully received your request.</Typography>
+            )}
           </Grid>
-          <Grid item xs={12}>
-            <Grid container>
-              <Grid item>
-                <Chip label="Unread" sx={chipErrorSX} />
-              </Grid>
-            </Grid>
-          </Grid>
-        </Grid>
-      </ListItemWrapper>
-      <Divider />
+        </ListItemWrapper>
+        <Divider />
+      </span>
+  )) : 
+  <ListItemWrapper>
+          <ListItem alignItems="center">
+          <ListItemText primary={<Typography variant="subtitle1">No Notifications</Typography>} />
+          </ListItem>
+    </ListItemWrapper>
+  }
 
     </List>
   );

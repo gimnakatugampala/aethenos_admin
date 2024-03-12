@@ -84,7 +84,7 @@ const SubmittedCourses = () => {
     const [preview_img, setpreview_img] = useState("")
     const [videoSrc , seVideoSrc] = useState("");
 
-    const [countriesData, setcountriesData] = useState([])
+    const [countriesData, setcountriesData] = useState(null)
 
     const [welcomemsg, setwelcomemsg] = useState("")
    const [congratsmsg, setcongratsmsg] = useState("")
@@ -509,23 +509,19 @@ const SubmittedCourses = () => {
               </tr>
             </thead>
             <tbody>
-              {countriesData.map((countryData, index) => (
+              {countriesData != null && countriesData.prices.map((countryData, index) => (
                 <tr key={index}>
                   <td>{countryData.country}</td>
                   <td>{countryData.currency}</td>
                   <td>
-                    {formatNumber(countryData.value)}
+                    {formatNumber(countryData.listPrice)}
                   </td>
                   <td>{getSymbolFromCurrency(countryData.currency)} {formatNumber(countryData.minPrice)} - {getSymbolFromCurrency(countryData.currency)} {formatNumber(countryData.maxPrice)}</td>
                   <td>
                   {countryData.discountType}
                   </td>
                   <td>
-                    {
-                      countryData.discountTypeId == 1 ? `${getSymbolFromCurrency(countryData.currency) != null ?  getSymbolFromCurrency(countryData.currency) : '' } ${formatNumber(countryData.value)}` : 
-                      countryData.discountTypeId == 2 ? `${getSymbolFromCurrency(countryData.currency) != null ?  getSymbolFromCurrency(countryData.currency) : '' } ${formatNumber((countryData.value) - ((countryData.value * countryData.discountValue)/100))}` :
-                      `${getSymbolFromCurrency(countryData.currency) != null ?  getSymbolFromCurrency(countryData.currency) : '' } ${formatNumber((countryData.value) - (countryData.discountValue))}`
-                    }
+                  {countryData.discountAmount}
                   </td>
                 </tr>
               ))}

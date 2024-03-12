@@ -27,6 +27,13 @@ const managepricing = {
           url: '/set-pricing',
           // target: true
         },
+        {
+          id: 'set-vat',
+          title: 'Set VAT',
+          type: 'item',
+          url: '/vat-prices',
+          // target: true
+        }
         // {
         //   id: 'submit-course',
         //   title: 'Approve Submits',

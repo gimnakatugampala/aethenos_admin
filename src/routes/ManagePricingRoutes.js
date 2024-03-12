@@ -6,6 +6,7 @@ import Loadable from 'ui-component/Loadable';
 
 // dashboard routing
 const ManagePricing = Loadable(lazy(() => import('views/manage-pricing/ManagePricing')));
+const ManageVAT = Loadable(lazy(() => import('views/manage-pricing/ManageVAT')));
 
 
 
@@ -20,6 +21,9 @@ const ManagePricingRoutes = {
     {
       path: '/set-pricing',
       element: <ManagePricing />
+    },{
+      path: '/vat-prices',
+      element: <ManageVAT />
     }
   ]
 };

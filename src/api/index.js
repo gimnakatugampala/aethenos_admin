@@ -985,3 +985,25 @@ fetch("https://aethenosinstructor.exon.lk:2053/aethenos-api/common/updateVat", r
     .catch((error) => console.error(error));
 
  }
+
+ export const GetNotifications = async(setmyNotifications) =>{
+
+  var myHeaders = new Headers();
+  myHeaders.append("Authorization", `Bearer ${CURRENT_USER}`);
+
+  const requestOptions = {
+    method: "GET",
+    headers: myHeaders,
+    redirect: "follow"
+  };
+  
+  fetch("https://aethenosinstructor.exon.lk:2053/aethenos-api/notification/getOwnNotifications", requestOptions)
+    .then((response) => response.json())
+    .then((result) => {
+      console.log(result)
+      Unauthorized(result.status,"dashboard")
+      setmyNotifications(result)
+    })
+    .catch((error) => console.error(error));
+
+ }

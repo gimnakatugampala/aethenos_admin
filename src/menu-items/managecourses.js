@@ -29,7 +29,7 @@ const managecourses = {
         },
         {
           id: 'submit-course',
-          title: 'Approve Submits',
+          title: 'Approve Submissions',
           type: 'item',
           url: '/submit-courses',
         //   target: true

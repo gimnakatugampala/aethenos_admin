@@ -1,9 +1,14 @@
 import React from 'react'
 import Table from 'react-bootstrap/Table';
 import Form from 'react-bootstrap/Form';
+import { Button } from '@mui/material';
+import AddIcon from '@mui/icons-material/Add';
 import CardContent from '@mui/material/CardContent';
 import Card from '@mui/material/Card';
+import Typography from '@mui/material/Typography';
 import { useState } from 'react';
+import { useEffect } from 'react';
+import { AddVATPrices, GetVATPrices } from 'api';
 
 const ManageVAT = () => {
 
@@ -39,6 +44,159 @@ const ManageVAT = () => {
 
 
 
+    useEffect(() => {
+        GetVATPrices(
+            setAustriaVAT,
+            setBelgiumVAT,
+            setBulgariaVAT,
+            setCyprusVAT,
+            setCzechRepublicVAT,
+            setGermanyVAT,
+            setDenmarkVAT,
+            setEstoniaVAT,
+            setGreeceVAT,
+            setSpainVAT,
+            setFinlandVAT,
+            setFranceVAT,
+            setUnitedKingdomVAT,
+            setCroatiaVAT,
+            setHungaryVAT,
+            setIrelandVAT,
+            setItalyVAT,
+            setLithuaniaVAT,
+            setLuxembourgVAT,
+            setLatviaVAT,
+            setMaltaVAT,
+            setNetherlandsVAT,
+            setPolandVAT,
+            setPortugalVAT,
+            setRomaniaVAT,
+            setSwedenVAT,
+            setSloveniaVAT,
+            setSlovakRepublicVAT
+        )
+    }, [])
+    
+
+    const handleSaveVAT = () => {
+
+        const raw = [
+            {
+                "country": "Austria ",
+                "vat": AustriaVAT
+            },
+            {
+                "country": "Belgium",
+                "vat": BelgiumVAT
+            },
+            {
+                "country": "Bulgaria",
+                "vat": BulgariaVAT
+            },
+            {
+                "country": "Cyprus",
+                "vat": CyprusVAT
+            },
+            {
+                "country": "Czech Republic",
+                "vat": CzechRepublicVAT
+            },
+            {
+                "country": "Germany",
+                "vat": GermanyVAT
+            },
+            {
+                "country": "Denmark",
+                "vat": DenmarkVAT
+            },
+            {
+                "country": "Estonia",
+                "vat": EstoniaVAT
+            },
+            {
+                "country": "Greece",
+                "vat": GreeceVAT
+            },
+            {
+                "country": "Spain",
+                "vat": SpainVAT
+            },
+            {
+                "country": "Finland",
+                "vat": FinlandVAT
+            },
+            {
+                "country": "France",
+                "vat": FranceVAT
+            },
+            {
+                "country": "United Kingdom",
+                "vat": UnitedKingdomVAT
+            },
+            {
+                "country": "Croatia",
+                "vat": CroatiaVAT
+            },
+            {
+                "country": "Hungary",
+                "vat": HungaryVAT
+            },
+            {
+                "country": "Ireland",
+                "vat": IrelandVAT
+            },
+            {
+                "country": "Italy",
+                "vat": ItalyVAT
+            },
+            {
+                "country": "Lithuania",
+                "vat": LithuaniaVAT
+            },
+            {
+                "country": "Luxembourg",
+                "vat": LuxembourgVAT
+            },
+            {
+                "country": "Latvia",
+                "vat": LatviaVAT
+            },
+            {
+                "country": "Malta",
+                "vat": MaltaVAT
+            },
+            {
+                "country": "Netherlands",
+                "vat": NetherlandsVAT
+            },
+            {
+                "country": "Poland",
+                "vat": PolandVAT
+            },
+            {
+                "country": "Portugal",
+                "vat": PortugalVAT
+            },
+            {
+                "country": "Romania",
+                "vat": RomaniaVAT
+            },
+            {
+                "country": "Sweden",
+                "vat": SwedenVAT
+            },
+            {
+                "country": "Slovenia",
+                "vat": SloveniaVAT
+            },
+            {
+                "country": "Slovak Republic",
+                "vat": SlovakRepublicVAT
+            }
+        ];
+
+        AddVATPrices(raw)
+    }
 
 
 
@@ -48,6 +206,15 @@ const ManageVAT = () => {
     <div className='row'>
 
     <Card className='col-md-12'>
+
+    <div className='d-flex justify-content-start my-5'> 
+    <Typography  variant="h2">
+        Set VAT Prices
+      </Typography>
+    </div>
+    <div className='d-flex justify-content-end my-3'> 
+        <Button onClick={handleSaveVAT} className='mx-1' variant="contained"><AddIcon /> Save</Button>
+    </div>
 
     <CardContent className='row'>
     <Table className='col-md-8 mx-auto' responsive striped bordered hover>

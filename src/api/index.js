@@ -855,3 +855,133 @@ export const GetIntendedLeaners = async(code,setstudentsLearnData,setrequirement
     })
     .catch(error => console.log('error', error));
  }
+
+ export const GetVATPrices = async(
+  setAustriaVAT,
+            setBelgiumVAT,
+            setBulgariaVAT,
+            setCyprusVAT,
+            setCzechRepublicVAT,
+            setGermanyVAT,
+            setDenmarkVAT,
+            setEstoniaVAT,
+            setGreeceVAT,
+            setSpainVAT,
+            setFinlandVAT,
+            setFranceVAT,
+            setUnitedKingdomVAT,
+            setCroatiaVAT,
+            setHungaryVAT,
+            setIrelandVAT,
+            setItalyVAT,
+            setLithuaniaVAT,
+            setLuxembourgVAT,
+            setLatviaVAT,
+            setMaltaVAT,
+            setNetherlandsVAT,
+            setPolandVAT,
+            setPortugalVAT,
+            setRomaniaVAT,
+            setSwedenVAT,
+            setSloveniaVAT,
+            setSlovakRepublicVAT
+ ) =>{
+
+  const requestOptions = {
+    method: "GET",
+    redirect: "follow"
+  };
+  
+  fetch("https://aethenosinstructor.exon.lk:2053/aethenos-api/common/getVat", requestOptions)
+    .then((response) => response.json())
+    .then((result) => {
+      console.log(result)
+      setAustriaVAT(result[0].vat)
+      setBelgiumVAT(result[1].vat)
+      setBulgariaVAT(result[2].vat)
+      setCyprusVAT(result[3].vat)
+      setCzechRepublicVAT(result[4].vat)
+      setGermanyVAT(result[5].vat)
+      setDenmarkVAT(result[6].vat)
+      setEstoniaVAT(result[7].vat)
+      setGreeceVAT(result[8].vat)
+      setSpainVAT(result[9].vat)
+      setFinlandVAT(result[10].vat)
+      setFranceVAT(result[11].vat)
+      setUnitedKingdomVAT(result[12].vat)
+      setCroatiaVAT(result[13].vat)
+      setHungaryVAT(result[14].vat)
+      setIrelandVAT(result[15].vat)
+      setItalyVAT(result[16].vat)
+      setLithuaniaVAT(result[17].vat)
+      setLuxembourgVAT(result[18].vat)
+      setLatviaVAT(result[19].vat)
+      setMaltaVAT(result[20].vat)
+      setNetherlandsVAT(result[21].vat)
+      setPolandVAT(result[22].vat)
+      setPortugalVAT(result[23].vat)
+      setRomaniaVAT(result[24].vat)
+      setSwedenVAT(result[25].vat)
+      setSloveniaVAT(result[26].vat)
+      setSlovakRepublicVAT(result[27].vat)
+
+    })
+    .catch((error) => console.error(error));
+
+ }
+
+ export const AddVATPrices = async(raw) =>{
+
+  var myHeaders = new Headers();
+  myHeaders.append("Authorization", `Bearer ${CURRENT_USER}`);
+  myHeaders.append('Content-Type', 'application/json');
+
+  
+const requestOptions = {
+  method: "PUT",
+  body: JSON.stringify(raw),
+  headers: myHeaders,
+  redirect: "follow"
+};
+
+fetch("https://aethenosinstructor.exon.lk:2053/aethenos-api/common/updateVat", requestOptions)
+  .then((response) => response.json())
+  .then((result) => {
+    Unauthorized(result.status,"vat-prices")
+    console.log(result)
+
+    if(result.variable == "200"){
+      SuccessAlert("Updated",result.message)
+    }
+
+  })
+  .catch((error) => console.error(error));
+
+ }
+
+ export const GetDashboardData = async(setinstructorCount,setstudentCount,setdraftCoursesCount,setsubmitsCoursesCount) =>{
+
+  var myHeaders = new Headers();
+  myHeaders.append("Authorization", `Bearer ${CURRENT_USER}`);
+
+  const requestOptions = {
+    method: "GET",
+    headers: myHeaders,
+    redirect: "follow"
+  };
+  
+  fetch("https://aethenosinstructor.exon.lk:2053/aethenos-api/common/getAdminDashboardCards", requestOptions)
+    .then((response) => response.json())
+    .then((result) => {
+      Unauthorized(result.status,"dashboard")
+      console.log(result)
+
+      setinstructorCount(result.instructorsCount)
+      setstudentCount(result.studentsCount)
+      setdraftCoursesCount(result.draftCoursesCount)
+      setsubmitsCoursesCount(result.coursesSubmissionsCount)
+
+    })
+    .catch((error) => console.error(error));
+
+ }

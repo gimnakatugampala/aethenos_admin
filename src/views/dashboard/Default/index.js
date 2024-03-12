@@ -16,14 +16,27 @@ import CountInstructors from './CountInstructors';
 import CountStudents from './CountStudents';
 import CountDraftCourses from './CountDraftCourses';
 import CountCourseSubmissions from './CountCourseSubmissions';
+import { GetDashboardData } from 'api';
 
 // ==============================|| DEFAULT DASHBOARD ||============================== //
 
 const Dashboard = () => {
   const [isLoading, setLoading] = useState(true);
+
+  const [instructorCount, setinstructorCount] = useState(0)
+  const [studentCount, setstudentCount] = useState(0)
+  const [draftCoursesCount, setdraftCoursesCount] = useState(0)
+  const [submitsCoursesCount, setsubmitsCoursesCount] = useState(0)
+
+
   useEffect(() => {
     setLoading(false);
   }, []);
+
+  useEffect(() => {
+    GetDashboardData(setinstructorCount,setstudentCount,setdraftCoursesCount,setsubmitsCoursesCount)
+  }, [])
+  
 
   return (
     <Grid container spacing={gridSpacing}>
@@ -33,19 +46,19 @@ const Dashboard = () => {
 
     
               <Grid item sm={6} xs={12} md={6} lg={3}>
-                <CountInstructors isLoading={isLoading} />
+                <CountInstructors instructorCount={instructorCount} isLoading={isLoading} />
               </Grid>
               
               <Grid item sm={6} xs={12} md={6} lg={3}>
-                <CountStudents isLoading={isLoading} />
+                <CountStudents studentCount={studentCount} isLoading={isLoading} />
               </Grid>
 
               <Grid item sm={6} xs={12} md={6} lg={3}>
-                <CountDraftCourses isLoading={isLoading} />
+                <CountDraftCourses draftCoursesCount={draftCoursesCount} isLoading={isLoading} />
               </Grid>
 
               <Grid item sm={6} xs={12} md={6} lg={3}>
-                <CountCourseSubmissions isLoading={isLoading} />
+                <CountCourseSubmissions submitsCoursesCount={submitsCoursesCount} isLoading={isLoading} />
               </Grid>
      
 

@@ -2,7 +2,7 @@
   "name": "aethenos-admin",
   "version": "3.3.2",
   "private": true,
-  "homepage": "https://aethenos.com/",
+  "homepage": "https://admin.aethenos.com/",
   "dependencies": {
     "@ant-design/icons": "^5.2.6",
     "@emotion/cache": "^11.9.3",

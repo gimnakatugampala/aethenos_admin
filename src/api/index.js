@@ -1007,3 +1007,93 @@ fetch("https://aethenosinstructor.exon.lk:2053/aethenos-api/common/updateVat", r
     .catch((error) => console.error(error));
 
  }
+
+
+ export const GetRefunds = async(setrefunds) =>{
+
+  const myHeaders = new Headers();
+  myHeaders.append("Authorization", `Bearer ${CURRENT_USER}`);
+
+const requestOptions = {
+  method: "GET",
+  headers: myHeaders,
+  redirect: "follow"
+};
+
+fetch("https://aethenosinstructor.exon.lk:2053/aethenos-api/payment/getAllRefunds", requestOptions)
+  .then((response) => response.json())
+  .then((result) => {
+    console.log(result)
+    Unauthorized(result.status,"refunds")
+    setrefunds(result)
+  })
+  .catch((error) => console.error(error));
+
+ }
+
+ export const DisappoveRefund = async(refundCode,admin_remark,setShow,setadmin_remark,setrefund) =>{
+
+  const myHeaders = new Headers();
+  myHeaders.append("Authorization", `Bearer ${CURRENT_USER}`);
+
+const formdata = new FormData();
+formdata.append("refundCode", `${refundCode}`);
+formdata.append("refundStatusId", "3");
+formdata.append("comment", `${admin_remark}`);
+
+const requestOptions = {
+  method: "PUT",
+  headers: myHeaders,
+  body: formdata,
+  redirect: "follow"
+};
+
+fetch("https://aethenosinstructor.exon.lk:2053/aethenos-api/payment/updateRefundStatus", requestOptions)
+  .then((response) => response.json())
+  .then((result) => {
+    Unauthorized(result.status,"refunds")
+    console.log(result)
+
+    if(result.variable == "200"){
+      SuccessAlert("Success",result.message)
+      setadmin_remark("")
+      setrefund(null)
+      setShow(false)
+      return
+    }
+
+  })
+  .catch((error) => console.error(error));
+
+ }
+
+
+ export const AppoveRefund = async(refundCode) =>{
+
+  const myHeaders = new Headers();
+  myHeaders.append("Authorization", `Bearer ${CURRENT_USER}`);
+
+const formdata = new FormData();
+formdata.append("refundCode", `${refundCode}`);
+formdata.append("refundStatusId", "4");
+formdata.append("comment", "");
+
+const requestOptions = {
+  method: "PUT",
+  headers: myHeaders,
+  body: formdata,
+  redirect: "follow"
+};
+
+fetch("https://aethenosinstructor.exon.lk:2053/aethenos-api/payment/updateRefundStatus", requestOptions)
+  .then((response) => response.json())
+  .then((result) => {
+    Unauthorized(result.status,"refunds")
+    console.log(result)
+    if(result.variable == "200"){
+      SuccessAlert("Success",result.message)
+    }
+  })
+  .catch((error) => console.error(error));
+
+ }

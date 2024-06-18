@@ -152,7 +152,7 @@ const DraftCourses = () => {
     <Card sx={{ minWidth: 275 }}>
     <CardContent>
     <Typography variant="h2" gutterBottom>
-        Approve Draft Courses
+        Approve Test Video
       </Typography>
 
       <MaterialTable

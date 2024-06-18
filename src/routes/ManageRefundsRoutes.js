@@ -6,6 +6,7 @@ import Loadable from 'ui-component/Loadable';
 
 // dashboard routing
 const ManageRefundsList = Loadable(lazy(() => import('views/manage-refunds/RefundsList.js')));
+const ManageCompletedRefundsList = Loadable(lazy(() => import('views/manage-refunds/CompletedRefundList.js')));
 
 
 
@@ -20,6 +21,10 @@ const ManageRefundsRoutes = {
     {
       path: '/refunds',
       element: <ManageRefundsList />
+    },
+    {
+      path: '/transferred-refunds',
+      element: <ManageCompletedRefundsList />
     }
   ]
 };

@@ -187,14 +187,15 @@ const ManagePricing = () => {
     }else if(DmaxPrice == ""){
       ErrorAlert("Empty Field","Please Enter a Default Maximum Price")
       return
-    }else if(!(/^\d*$/.test(DminPrice))){
-      ErrorAlert("Invalid Input","Please Enter Only Numbers for Default Minimum Value")
-      return
-    }else if(!(/^\d*$/.test(DmaxPrice))){
-      ErrorAlert("Invalid Input","Please Enter Only Numbers for Default Maximum Value")
-      return
     }
 
+    // else if(!(/^\d*$/.test(DminPrice))){
+    //   ErrorAlert("Invalid Input","Please Enter Only Numbers for Default Minimum Value")
+    //   return
+    // }else if(!(/^\d*$/.test(DmaxPrice))){
+    //   ErrorAlert("Invalid Input","Please Enter Only Numbers for Default Maximum Value")
+    //   return
+    // }
     AddSetDefaultPricing(DminPrice,DmaxPrice,DTip,DminValue)
 
   }

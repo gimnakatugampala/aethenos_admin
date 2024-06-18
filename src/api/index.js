@@ -3,6 +3,7 @@ import SuccessAlert from "commonFunctions/Alerts/SuccessAlert";
 import Cookies from 'js-cookie';
 
 const BACKEND_HOST = "https://aethenosinstructor.exon.lk:2053/aethenos-api"
+export const IMG_HOST = "https://aethenosinstructor.exon.lk:2053/aethenos-assert/"
 
 const CURRENT_USER = Cookies.get('aethenos_admin')
 
@@ -33,7 +34,7 @@ export const AdminLogin = (email, password,setloading) =>{
     redirect: 'follow'
     };
 
-    fetch(`${BACKEND_HOST}/authentication/admin`, requestOptions)
+    fetch(`https://aethenosinstructor.exon.lk:2053/aethenos-api/authentication/admin`, requestOptions)
     .then(response => response.json())
     .then(result => {
         console.log(result)
@@ -89,7 +90,7 @@ export const GellAllDraftCourses = (setcourses) =>{
       redirect: 'follow'
     };
     
-    fetch(`${BACKEND_HOST}/course/getDraftcourses`, requestOptions)
+    fetch(`https://aethenosinstructor.exon.lk:2053/aethenos-api/course/getDraftcourses`, requestOptions)
       .then(response => response.json())
       .then(result => {
         //   console.log(result)
@@ -115,7 +116,7 @@ var requestOptions = {
   redirect: 'follow'
 };
 
-fetch(`${BACKEND_HOST}/course/setApproveCourse/${code}`, requestOptions)
+fetch(`https://aethenosinstructor.exon.lk:2053/aethenos-api/course/setApproveCourse/${code}`, requestOptions)
   .then(response => response.json())
   .then(result => {
 
@@ -148,14 +149,14 @@ var requestOptions = {
   redirect: 'follow'
 };
 
-fetch(`${BACKEND_HOST}/course/setDisapproveCourse`, requestOptions)
+fetch(`https://aethenosinstructor.exon.lk:2053/aethenos-api/course/setDisapproveCourse`, requestOptions)
   .then(response => response.json())
   .then(result => {
 
     Unauthorized(result.status,"draft-courses")
     console.log(result)
     if(result.variable == "200"){
-        SuccessAlert("Course Disapproved!",result.message)
+        SuccessAlert("Course Rejected!",result.message)
         setshowDisapprove(false)
         setcomment("")
     }else{
@@ -186,7 +187,7 @@ export const AddSetDefaultPricing = (DminPrice,DmaxPrice,DTip,DminValue) =>{
     redirect: 'follow'
   };
   
-  fetch(`${BACKEND_HOST}/managecourse/setDefaultPriceRange`, requestOptions)
+  fetch(`https://aethenosinstructor.exon.lk:2053/aethenos-api/managecourse/setDefaultPriceRange`, requestOptions)
     .then(response => response.json())
     .then(result => {
       console.log(result)
@@ -217,7 +218,7 @@ export const AddSetPricing = (item) =>{
     redirect: 'follow'
   };
 
-fetch(`${BACKEND_HOST}/managecourse/setCoursePricing`, requestOptions)
+fetch(`https://aethenosinstructor.exon.lk:2053/aethenos-api/managecourse/setCoursePricing`, requestOptions)
   .then(response => response.json())
   .then(result => {
     console.log(result)
@@ -367,7 +368,7 @@ export const GetPricingRange = (
     redirect: 'follow'
   };
   
-  fetch(`${BACKEND_HOST}/managecourse/getpricingrange`, requestOptions)
+  fetch(`https://aethenosinstructor.exon.lk:2053/aethenos-api/managecourse/getpricingrange`, requestOptions)
     .then(response => response.json())
     .then(result => {
       console.log(result)
@@ -550,7 +551,7 @@ export const AddAdminAPI = (firstname,lastname,email,conpassword,user_type) =>{
     redirect: 'follow'
   };
   
-  fetch(`${BACKEND_HOST}/manageAdmins/add`, requestOptions)
+  fetch(`https://aethenosinstructor.exon.lk:2053/aethenos-api/manageAdmins/add`, requestOptions)
     .then(response => response.json())
     .then(result => {
       console.log(result)
@@ -577,7 +578,7 @@ export const ViewAdminAPI = (setadmins) =>{
     redirect: 'follow'
   };
   
-  fetch(`${BACKEND_HOST}/manageAdmins/view`, requestOptions)
+  fetch(`https://aethenosinstructor.exon.lk:2053/aethenos-api/manageAdmins/view`, requestOptions)
     .then(response => response.json())
     .then(result => {
 
@@ -601,7 +602,7 @@ export const ActivateAdminAPI = (id) =>{
     redirect: 'follow'
   };
   
-  fetch(`${BACKEND_HOST}/manageAdmins/activate/${id}`, requestOptions)
+  fetch(`https://aethenosinstructor.exon.lk:2053/aethenos-api/manageAdmins/activate/${id}`, requestOptions)
     .then(response => response.json())
     .then(result => {
       Unauthorized(result.status,"all-admins")
@@ -626,7 +627,7 @@ export const GetSubmitReview = (setcourses) =>{
     redirect: 'follow'
   };
   
-  fetch(`${BACKEND_HOST}/course/getAllRequestedCourse`, requestOptions)
+  fetch(`https://aethenosinstructor.exon.lk:2053/aethenos-api/course/getAllRequestedCourse`, requestOptions)
     .then(response => response.json())
     .then(result => {
       // console.log(result)
@@ -652,7 +653,7 @@ export const ApproveSubmittedCourse = (code) =>{
     redirect: 'follow'
   };
   
-  fetch(`${BACKEND_HOST}/course/approveRequestedCourse/${code}`, requestOptions)
+  fetch(`https://aethenosinstructor.exon.lk:2053/aethenos-api/course/approveRequestedCourse/${code}`, requestOptions)
     .then(response => response.json())
     .then(result => {
       // console.log(result)
@@ -689,7 +690,7 @@ var requestOptions = {
   redirect: 'follow'
 };
 
-fetch(`${BACKEND_HOST}/course/disapproveRequestedCourse`, requestOptions)
+fetch(`https://aethenosinstructor.exon.lk:2053/aethenos-api/course/disapproveRequestedCourse`, requestOptions)
   .then(response => response.json())
   .then(result => {
     console.log(result)
@@ -1096,4 +1097,65 @@ fetch("https://aethenosinstructor.exon.lk:2053/aethenos-api/payment/updateRefund
   })
   .catch((error) => console.error(error));
 
+ }
+
+ export const ChangeStatusToTransfered = async(rCode, setrefunds, setselectedCheckbox) =>{
+
+  const myHeaders = new Headers();
+  myHeaders.append("Authorization", `Bearer ${CURRENT_USER}`);
+
+const formdata = new FormData();
+formdata.append("refundCode", `${rCode}`);
+formdata.append("refundStatusId", "5");
+formdata.append("comment", "");
+
+const requestOptions = {
+  method: "PUT",
+  headers: myHeaders,
+  body: formdata,
+  redirect: "follow"
+};
+
+fetch("https://aethenosinstructor.exon.lk:2053/aethenos-api/payment/updateRefundStatus", requestOptions)
+  .then((response) => response.json())
+  .then((result) => {
+    console.log(result)
+    
+    Unauthorized(result.status,"refunds")
+    if(result.variable == "200"){
+      SuccessAlert("Success", result.message)
+      GetRefunds(setrefunds)
+      setselectedCheckbox(false)
+      return
+    }else{
+      ErrorAlert("Error",result.message)
+      GetRefunds(setrefunds)
+      setselectedCheckbox(false)
+
+    }
+
+  })
+  .catch((error) => console.error(error));
+
+ }
+
+ export const GetAllTransferedRefunds = async(settransferedList) =>{
+  const myHeaders = new Headers();
+  myHeaders.append("Authorization", `Bearer ${CURRENT_USER}`);
+
+const requestOptions = {
+  method: "GET",
+  headers: myHeaders,
+  redirect: "follow"
+};
+
+fetch("https://aethenosinstructor.exon.lk:2053/aethenos-api/payment/getCompletedRefunds", requestOptions)
+  .then((response) => response.json())
+  .then((result) => {
+    
+    console.log(result)
+    Unauthorized(result.status,"transferred-refunds")
+    settransferedList(result)
+  })
+  .catch((error) => console.error(error));
  }

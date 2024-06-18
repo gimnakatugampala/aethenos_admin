@@ -22,7 +22,7 @@ const managecourses = {
       children: [
         {
           id: 'draft-course',
-          title: 'Approve Drafts',
+          title: 'Test Video',
           type: 'item',
           url: '/draft-courses',
           // target: true

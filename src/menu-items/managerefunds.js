@@ -1,10 +1,11 @@
 // assets
-import { IconKey , IconUserCheck } from '@tabler/icons';
+import { IconKey , IconUserCheck , IconCashOff } from '@tabler/icons';
 
 // constant
 const icons = {
   IconKey,
-  IconUserCheck
+  IconUserCheck,
+  IconCashOff
 };
 
 
@@ -17,14 +18,20 @@ const managerefunds = {
       id: 'refunds',
       title: 'Manage Refunds',
       type: 'collapse',
-      icon: icons.IconUserCheck,
+      icon: icons.IconCashOff,
 
       children: [
         {
           id: 'refunds',
-          title: 'Refunds',
+          title: 'Pending refunds',
           type: 'item',
           url: '/refunds'
+        },
+        {
+          id: 'refunds',
+          title: 'Transferred refunds',
+          type: 'item',
+          url: '/transferred-refunds'
         }
        
       ]

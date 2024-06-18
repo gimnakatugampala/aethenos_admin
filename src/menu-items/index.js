@@ -4,6 +4,7 @@ import managecourses from './managecourses';
 import managepricing from './managepricing';
 import manageadmins from './manageadmins';
 import managerefunds from './managerefunds'
+import managepayments from './managepayments';
 import utilities from './utilities';
 import other from './other';
 
@@ -15,7 +16,8 @@ const menuItems = {
     managecourses,
     managepricing,
     manageadmins,
-    managerefunds
+    managerefunds,
+    managepayments
   ]
 };
 

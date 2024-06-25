@@ -1,26 +1,31 @@
+import { GetPaypalAndPayoneer } from 'api'
 import MaterialTable from 'material-table'
-import React from 'react'
+import React, { useState } from 'react'
+import { useEffect } from 'react'
 // lookup: { 34: 'İstanbul', 63: 'Şanlıurfa' } 
 const ManagePaymentProcesses = () => {
+
+  const [PaymentData, setPaymentData] = useState([])
+
+
+  useEffect(() => {
+    GetPaypalAndPayoneer(setPaymentData)
+  }, [PaymentData])
+  
+
   return (
     <div> 
     <MaterialTable
     title="Payment Proccess"
     columns={[
-      { title: 'Instructor Name', field: 'instructor_name' },
-      { title: 'Account Type', field: 'account_type', lookup: { Stripe: 'Stripe', Paypal: 'Paypal' }  },
-      { title: 'PayPal/Stripe AC Name', field: 'ac_name' },
+      { title: 'Instructor Name', field: 'instructorName' },
+      { title: 'Account Type', field: 'accountType', lookup: { Payoneer: 'Payoneer', Paypal: 'Paypal' }  },
+      { title: 'Username', field: 'userName' },
       { title: 'Email', field: 'email'},
       { title: 'Amount', field: 'amount'}
 
     ]}
-    data={[{
-      instructor_name: "Gimna Katugampala",
-      account_type: "Paypal",
-      ac_name:"2009342049124",
-      email:"gimnakatugampala1@gmail.com",
-      amount:"98,000"
-    }]}  
+    data={PaymentData}  
     options={{
       filtering: true,
       exportButton: true

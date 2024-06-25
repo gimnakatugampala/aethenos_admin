@@ -1,26 +1,29 @@
-import React from 'react'
+import React, { useState } from 'react'
 import MaterialTable from 'material-table'
+import { useEffect } from 'react'
+import { GetUKBank } from 'api'
 
 const ManageUKBank = () => {
+
+  const [PaymentData, setPaymentData] = useState([])
+
+  useEffect(() => {
+    GetUKBank(setPaymentData)
+  }, [])
+  
+
   return (
     <div> 
     <MaterialTable
     title="UK Bank"
     columns={[
-        { title: 'Instructor Name', field: 'instructor_name' },
-        { title: 'Bank AC Name', field: 'ac_name' },
-        { title: 'Sort code', field: 'sort_code'},
-        { title: 'Account No', field: 'account_no'},
+        { title: 'Instructor Name', field: 'instructorName' },
+        { title: 'Sort code', field: 'sortCode'},
+        { title: 'Account No', field: 'accountNo'},
         { title: 'Amount', field: 'amount'}
   
       ]}
-      data={[{
-        instructor_name: "Gimna Katugampala",
-        ac_name:"2009342049124",
-        sort_code:"50:00",
-        account_no:"504576334600",
-        amount:"98,000"
-      }]}  
+      data={PaymentData}  
       options={{
         filtering: true,
         exportButton: true

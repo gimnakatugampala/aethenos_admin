@@ -23,9 +23,9 @@ const managepayments = {
       children: [
         {
           id: 'payments',
-          title: 'Paypal/Stripe',
+          title: 'Paypal/Payoneer',
           type: 'item',
-          url: '/paypal-stripe',
+          url: '/paypal-payoneer',
           // target: true
         },
         {

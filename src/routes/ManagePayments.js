@@ -14,7 +14,7 @@ const ManagePayments = {
     element: <MainLayout />,
     children: [
       {
-        path: '/paypal-stripe',
+        path: '/paypal-payoneer',
         element: <ManagePaymentProcesses />
       },{
         path: '/uk-bank',

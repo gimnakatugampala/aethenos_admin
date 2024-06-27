@@ -23,7 +23,7 @@ const ManageRefundsRoutes = {
       element: <ManageRefundsList />
     },
     {
-      path: '/transferred-refunds',
+      path: '/completed-refunds',
       element: <ManageCompletedRefundsList />
     }
   ]

@@ -25,7 +25,7 @@ const CompletedRefundList = () => {
   return (
     <div>
       <MaterialTable
-      title="Transferred Refunds"
+      title="Completed Refunds"
       columns={[
         { title: 'ID', field: 'id' },
         { title: 'Course Title', field: 'courseTitle' },

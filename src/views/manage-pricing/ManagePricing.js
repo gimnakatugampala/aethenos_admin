@@ -564,7 +564,8 @@ const ManagePricing = () => {
     </div>
 
    
-    <div className='row my-3'>
+    <div className='row my-3 border border-dark p-4'>
+    <p className='m-0 p-0'><b>Global Pricing</b></p>
     <div className='col-md-2'>
     <Form.Label>Minimum Price (USD)</Form.Label>
     <InputGroup className="mb-3">
@@ -637,7 +638,7 @@ const ManagePricing = () => {
       <tbody>
 
         <tr>
-          <td><b>America</b></td>
+          <td><b>United States of America</b></td>
           <td>USD</td>
           <td>
             <Form.Control value={minUSA} onChange={(e) => setminUSA(e.target.value)} type="text" placeholder="Min Price" />
@@ -1063,7 +1064,7 @@ const ManagePricing = () => {
           </td>
         </tr>
 
-        <tr>
+        {/* <tr>
           <td><b>Turkey</b></td>
           <td>TRY</td>
           <td>
@@ -1078,7 +1079,7 @@ const ManagePricing = () => {
           <td>
           <Form.Control value={TurkeyminValue} onChange={(e) => setTurkeyminValue(e.target.value)} type="text" placeholder="Minimum Value" />
           </td>
-        </tr>
+        </tr> */}
 
         <tr>
           <td><b>Taiwan</b></td>

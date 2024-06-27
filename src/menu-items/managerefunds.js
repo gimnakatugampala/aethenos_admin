@@ -29,9 +29,9 @@ const managerefunds = {
         },
         {
           id: 'refunds',
-          title: 'Transferred refunds',
+          title: 'Completed refunds',
           type: 'item',
-          url: '/transferred-refunds'
+          url: '/completed-refunds'
         }
        
       ]

@@ -558,7 +558,7 @@ export const AddAdminAPI = (firstname,lastname,email,conpassword,user_type) =>{
       Unauthorized(result.status,"add-admin")
 
       if(result.variable == "200"){
-        SuccessAlert("Admin Added",result.message)
+        SuccessAlert("Admin added",result.message)
       }
 
     })

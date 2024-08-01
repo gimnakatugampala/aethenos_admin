@@ -30,6 +30,7 @@ const CompletedRefundList = () => {
         { title: 'ID', field: 'id' },
         { title: 'Course Title', field: 'courseTitle' },
         { title: 'Purchased Date', field: 'purchasedDate' },
+        { title: 'Transferred Date', field: 'transferredDate' },
         { title: 'Purchased Amount', field: 'purchasedAmount' },
         { title: 'Refund Amount', field: 'refundAmount' },
         { title: 'Student Name', field: 'studentName' }

@@ -1203,3 +1203,107 @@ fetch(`${BACKEND_HOST}/revenue/getAllInstructorsUkBankDetailsForManagePayments`,
   .catch((error) => console.error(error));
 
  }
+
+ export const SendEmailVerficationCode = async(email,setbtnLoading,setshowVerificationInputs) =>{
+
+  setbtnLoading(true)
+
+  const requestOptions = {
+    method: "PUT",
+    redirect: "follow"
+  };
+  
+  fetch(`${BACKEND_HOST}/studentProfile/forgotPasswords/${email}`, requestOptions)
+    .then((response) => response.json())
+    .then((result) => {
+
+      console.log(result)
+      if(result.variable == "200"){
+        console.log(result)
+        setshowVerificationInputs(true)
+        setbtnLoading(false)
+
+      }else{
+        ErrorAlert("Error",result.message)
+        setbtnLoading(false)
+        return
+      }
+
+    })
+    .catch((error) => console.error(error));
+
+}
+
+export const VerifyCode = async(VerficationCode,email,setcodeSuccess,setbtnLoading) =>{
+
+  setbtnLoading(true)
+
+  const formdata = new FormData();
+formdata.append("verificationCode", `${VerficationCode}`);
+formdata.append("email", `${email}`);
+
+const requestOptions = {
+  method: "POST",
+  body: formdata,
+  redirect: "follow"
+};
+
+fetch(`${BACKEND_HOST}/studentProfile/verifyVerificationCode`, requestOptions)
+  .then((response) => response.json())
+  .then((result) => {
+    console.log(result)
+
+    if(result){
+      setcodeSuccess(true)
+      setbtnLoading(false)
+
+      return
+    }else{
+      ErrorAlert("Error","invalid code")
+      setbtnLoading(false)
+      setcodeSuccess(false)
+      return
+    }
+
+  })
+  .catch((error) => console.error(error));
+
+}
+
+export const ChangeToNewPassword = async(VerficationCode,email,conPassword,setbtnLoading) =>{
+
+  setbtnLoading(true)
+
+  const formdata = new FormData();
+  formdata.append("verificationCode", `${VerficationCode}`);
+formdata.append("email", `${email}`);
+formdata.append("newPassword", `${conPassword}`);
+  
+  const requestOptions = {
+    method: "PUT",
+    body: formdata,
+    redirect: "follow"
+  };
+  
+  fetch(`${BACKEND_HOST}/studentProfile/updatePassword`, requestOptions)
+    .then((response) => response.json())
+    .then((result) => {
+      console.log(result)
+      if(result.variable == "200"){
+          SuccessAlert("Success",result.message)
+
+          setTimeout(() => {
+              setbtnLoading(false)
+              window.location.href = "/login"
+          },2500)
+
+          return
+      }else{
+        ErrorAlert("Error",result.message)
+        setbtnLoading(false)
+        return
+      }
+    })
+    .catch((error) => console.error(error));
+
+}

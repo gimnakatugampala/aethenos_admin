@@ -172,6 +172,8 @@ const FirebaseLogin = ({ ...others }) => {
         </InputGroup.Text>
       </InputGroup>
 
+      <a className="text-danger text-decoration-none" href="/forgot-password">Forgot Password ?</a>
+
         <Box sx={{ mt: 2 }}>
               <AnimateButton >
                 <Button disableElevation  fullWidth size="large" type="submit" variant="contained" color="secondary">

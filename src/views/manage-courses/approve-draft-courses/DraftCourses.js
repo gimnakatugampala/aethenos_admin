@@ -1,73 +1,51 @@
-import React, { useState ,useMemo } from 'react'
-import './DraftCourses.css'
+import React, { useState, useEffect } from 'react';
+import './DraftCourses.css';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import Button from 'react-bootstrap/Button';
 import Typography from '@mui/material/Typography';
-import Table from 'react-bootstrap/Table';
-import PlayCircleIcon from '@mui/icons-material/PlayCircle';
-import CheckIcon from '@mui/icons-material/Check';
-import CloseIcon from '@mui/icons-material/Close';
+import MaterialTable from 'material-table';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import Swal from 'sweetalert2';
-import { MaterialReactTable } from 'material-react-table';
 import { Player } from 'video-react';
-import { GellAllDraftCourses } from 'api';
-import MaterialTable from 'material-table';
+import { GellAllDraftCourses, ApproveDraftCourse, DisapproveDraftCourse } from 'api';
 import { FILE_PATH } from 'commonFunctions/FilePaths';
 import 'video-react/dist/video-react.css'; // import css
 import ErrorAlert from 'commonFunctions/Alerts/ErrorAlert';
-import { useEffect } from 'react';
-import { ApproveDraftCourse } from 'api';
-import { DisapproveDraftCourse } from 'api';
-
-
-//nested data is ok, see accessorKeys in ColumnDef below
-const data = [
-  {
-    id:"01",
-    title: 'Photoshop C6',
-    category: 'IT & Software',
-    instructor: 'Gimna Katugampala',
-    actions: `33`
-  },
-  {
-    id:"01",
-    title: 'Photoshop C6',
-    category: 'IT & Software',
-    instructor: 'Gimna Katugampala',
-    actions: `00`
-  },
-];
-
-let coursesData = []
+import PlayCircleIcon from '@mui/icons-material/PlayCircle';
+import CheckIcon from '@mui/icons-material/Check';
+import CloseIcon from '@mui/icons-material/Close';
 
 const DraftCourses = () => {
-
-  // Material 5 table
   const [show, setShow] = useState(false);
-  const [showDisapprove, setshowDisapprove] = useState(false)
-  
+  const [showDisapprove, setShowDisapprove] = useState(false);
+  const [VIDEOURL, setVIDEOURL] = useState("");
+  const [courses, setCourses] = useState([]);
+  const [comment, setComment] = useState("");
+  const [ID, setID] = useState("");
 
   const handleShow = () => setShow(true);
   const handleClose = () => setShow(false);
+  const handleDisapproveShow = () => setShowDisapprove(true);
+  const handleDisapproveClose = () => setShowDisapprove(false);
 
-  const handleDisapproveShow = () => setshowDisapprove(true)
-  const handleDisapproveClose = () => setshowDisapprove(false)
-  const [VIDEOURL, setVIDEOURL] = useState("")
+  useEffect(() => {
+    // Fetch draft courses and set up the data
+    GellAllDraftCourses(setCourses);
+  }, []);
 
-  const [courses, setcourses] = useState([])
+  useEffect(() => {
+    // Preload video when URL is set
+    if (VIDEOURL) {
+      const video = document.createElement('video');
+      video.src = `${FILE_PATH}${VIDEOURL}`;
+      video.preload = 'auto';
+    }
+  }, [VIDEOURL]);
 
-  const [comment, setcomment] = useState("")
-  const [ID, setID] = useState("")
-
-
-  const approveDraftCourse = (code) =>{
-
-    console.log(code)
-
+  const approveDraftCourse = (code) => {
     Swal.fire({
       title: 'Are you sure?',
       text: "You won't be able to revert this!",
@@ -78,27 +56,16 @@ const DraftCourses = () => {
       confirmButtonText: 'Yes, Approve it!'
     }).then((result) => {
       if (result.isConfirmed) {
-
-        ApproveDraftCourse(code)
-
-        // Swal.fire(
-        //   'Approved!',
-        //   'Course has been Approved.',
-        //   'success'
-        // )
+        ApproveDraftCourse(code);
       }
-    })
-
-  }
+    });
+  };
 
   const disapproveDraftCourse = () => {
-
-    if(comment == ""){
-      ErrorAlert("Empty Field!","Please Give a Comment")
-      return
+    if (comment === "") {
+      ErrorAlert("Empty Field!", "Please Give a Comment");
+      return;
     }
-
-    
 
     Swal.fire({
       title: 'Are you sure?',
@@ -110,111 +77,98 @@ const DraftCourses = () => {
       confirmButtonText: 'Yes, reject it!'
     }).then((result) => {
       if (result.isConfirmed) {
-  
-        DisapproveDraftCourse(ID,comment,setshowDisapprove,setcomment)
+        DisapproveDraftCourse(ID, comment, setShowDisapprove, setComment);
       }
-    })
-  }
+    });
+  };
 
-  useEffect(() => {
-
-    setTimeout(() => {
-      
-      GellAllDraftCourses(setcourses)
-  
-      coursesData = courses.map((course,index) => {
-        // Create a new object with modified property
-        return { ...course, 
-          index: index + 1,
-          courseCategory: course.courseCategory.name,
-          instructor: `${course.instructorId.generalUserProfile.firstName} ${course.instructorId.generalUserProfile.lastName}`,
-          actions: (
-            <>
-            <Button onClick={() => {
-              setVIDEOURL(course.test_video)
-              handleShow()
-              }}  variant="warning"><PlayCircleIcon /></Button>
-            <Button onClick={() => approveDraftCourse(course.code)}  variant="success"><CheckIcon /></Button>
-            <Button onClick={() => {
-              setID(course.code)
-              handleDisapproveShow()}}  variant="danger"><CloseIcon /></Button>
-            </>
-          )
-         };
-    })
-    }, 1000);
-
-  }, [coursesData])
-  
+  const coursesData = courses.map((course, index) => {
+    return {
+      ...course,
+      index: index + 1,
+      courseCategory: course.courseCategory.name,
+      instructor: `${course.instructorId.generalUserProfile.firstName} ${course.instructorId.generalUserProfile.lastName}`,
+      actions: (
+        <>
+          <Button onClick={() => {
+            setVIDEOURL(course.test_video);
+            handleShow();
+          }} variant="warning"><PlayCircleIcon /></Button>
+          <Button onClick={() => approveDraftCourse(course.code)} variant="success"><CheckIcon /></Button>
+          <Button onClick={() => {
+            setID(course.code);
+            handleDisapproveShow();
+          }} variant="danger"><CloseIcon /></Button>
+        </>
+      )
+    };
+  });
 
   return (
     <>
-    <Card sx={{ minWidth: 275 }}>
-    <CardContent>
-    <Typography variant="h2" gutterBottom>
-        Approve Test Video
-      </Typography>
+      <Card sx={{ minWidth: 275 }}>
+        <CardContent>
+          <Typography variant="h2" gutterBottom>
+            Approve Test Video
+          </Typography>
 
-      <MaterialTable
-      title=""
-      columns={[
-        { title: 'ID', field: 'index' },
-        { title: 'Course Title', field: 'courseTitle' },
-        { title: 'Course Category', field: 'courseCategory' },
-        { title: 'Instrutor', field: 'instructor' },
-        { title: 'Actions', field: 'actions' },
-      ]}
-      data={coursesData}        
-      options={{
-        exportButton: true
-      }}
-    />
-  
-    </CardContent>
-  </Card>
+          <MaterialTable
+            title=""
+            columns={[
+              { title: 'ID', field: 'index' },
+              { title: 'Course Title', field: 'courseTitle' },
+              { title: 'Course Category', field: 'courseCategory' },
+              { title: 'Instrutor', field: 'instructor' },
+              { title: 'Actions', field: 'actions' },
+            ]}
+            data={coursesData}
+            options={{
+              exportButton: true
+            }}
+          />
+        </CardContent>
+      </Card>
 
-
-  {/* Video */}
-  <Modal show={show} onHide={handleClose}>
+      {/* Video Modal */}
+      <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>Test Video</Modal.Title>
         </Modal.Header>
         <Modal.Body>
+          <Player poster="path/to/poster-image.jpg">
+            <source src={`${FILE_PATH}${VIDEOURL}`} />
+          </Player>
+        </Modal.Body>
+      </Modal>
 
-    <Player>
-      <source src={`${FILE_PATH}${VIDEOURL}`}/>
-    </Player>
-          
-          </Modal.Body>
-    </Modal>
+      {/* Disapprove Modal */}
+      <Modal show={showDisapprove} onHide={handleDisapproveClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Reject Course</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form>
+            <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
+              <Form.Label>Admin Remark</Form.Label>
+              <Form.Control
+                onChange={(e) => setComment(e.target.value)}
+                as="textarea"
+                rows={3}
+              />
+            </Form.Group>
+          </Form>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="danger" onClick={disapproveDraftCourse}>
+            Reject
+          </Button>
+          <Button variant="secondary" onClick={handleDisapproveClose}>
+            Cancel
+          </Button>
+        </Modal.Footer>
+      </Modal>
+    </>
+  );
+};
 
-      {/* Disaprove */}
-  <Modal show={showDisapprove} onHide={handleDisapproveClose}>
-      <Modal.Header closeButton>
-        <Modal.Title>Reject Course</Modal.Title>
-      </Modal.Header>
-
-      <Modal.Body>
-        <Form>
-          <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
-            <Form.Label>Admin Remark</Form.Label>
-            <Form.Control onChange={(e) => setcomment(e.target.value)} as="textarea" rows={3} />
-          </Form.Group>
-        </Form>
-       </Modal.Body>
-
-      <Modal.Footer>
-        <Button variant="danger" onClick={disapproveDraftCourse}>
-          Reject
-        </Button>
-        <Button variant="secondary" onClick={handleDisapproveClose}>
-          Cancel
-        </Button>
-      </Modal.Footer>
-    </Modal>
-
-  </>
-  )
-}
-
-export default DraftCourses
+export default DraftCourses;

@@ -93,7 +93,7 @@ export const GellAllDraftCourses = (setcourses) =>{
     fetch(`${BACKEND_HOST}/course/getDraftcourses`, requestOptions)
       .then(response => response.json())
       .then(result => {
-        //   console.log(result)
+          console.log(result)
           
           Unauthorized(result.status,"draft-courses")
           setcourses(result.sort((a, b) => new Date(b.created_date) - new Date(a.created_date)))

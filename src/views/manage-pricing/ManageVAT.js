@@ -195,7 +195,7 @@ const ManageVAT = () => {
             }
         ];
 
-        AddVATPrices(raw)
+        AddVATPrices(raw) 
     }
 
 
@@ -203,21 +203,21 @@ const ManageVAT = () => {
 
 
   return (
-    <div className='row'>
+    <div className=''>
 
     <Card className='col-md-12'>
+    <CardContent >
 
-    <div className='d-flex justify-content-start my-5'> 
     <Typography  variant="h2">
         Set VAT Prices
       </Typography>
-    </div>
-    <div className='d-flex justify-content-end my-3'> 
+ 
+    <div className='d-flex justify-content-end my-2'> 
         <Button onClick={handleSaveVAT} className='mx-1' variant="contained"><AddIcon /> Save</Button>
     </div>
 
-    <CardContent className='row'>
-    <Table className='col-md-8 mx-auto' responsive striped bordered hover>
+
+    <Table className='col-md-8 mx-auto  my-3' responsive striped bordered hover>
       <thead>
         <tr>
           <th>Country</th>

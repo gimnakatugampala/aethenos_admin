@@ -24,6 +24,7 @@ import User1 from 'assets/images/users/user-round.svg';
 import { useEffect } from 'react';
 import { GetNotifications } from 'api';
 import { useState } from 'react';
+import moment from 'moment';
 
 // styles
 const ListItemWrapper = styled('div')(({ theme }) => ({
@@ -41,7 +42,7 @@ const ListItemWrapper = styled('div')(({ theme }) => ({
 
 const NotificationList = () => {
   const theme = useTheme();
-  const [myNotifications, setmyNotifications] = useState([])
+  const [myNotifications, setmyNotifications] = useState([]);
 
   const chipSX = {
     height: 24,
@@ -67,10 +68,9 @@ const NotificationList = () => {
     height: 28
   };
 
-
   useEffect(() => {
-    GetNotifications(setmyNotifications)
-  }, [])
+    GetNotifications(setmyNotifications);
+  }, []);
 
   return (
     <List
@@ -93,59 +93,58 @@ const NotificationList = () => {
         }
       }}
     >
-  
-  {myNotifications.length > 0 ? myNotifications.map((notification,index) => (
-      <span key={index}>
+      {myNotifications.length > 0 ? (
+        myNotifications.map((notification, index) => (
+          <span key={index}>
+            <ListItemWrapper>
+              <ListItem alignItems="center">
+                <ListItemAvatar>
+                  <Avatar
+                    sx={{
+                      color: theme.palette.success.dark,
+                      backgroundColor: theme.palette.success.light,
+                      border: 'none',
+                      borderColor: theme.palette.success.main
+                    }}
+                  >
+                    <NotificationsIcon stroke={1.2} size="1.2rem" />
+                  </Avatar>
+                </ListItemAvatar>
+                <ListItemSecondaryAction>
+                  <Grid container justifyContent="flex-end">
+                    <Grid item xs={12}>
+                      <Typography variant="caption" display="block" gutterBottom>
+                        {moment(notification.notificationTime).startOf('hour').fromNow()}
+                      </Typography>
+                    </Grid>
+                  </Grid>
+                </ListItemSecondaryAction>
+              </ListItem>
+              <Grid container direction="column" className="list-container">
+                <Grid item xs={12} sx={{ pb: 2 }}>
+                  <Typography variant="h6">{notification.notification}</Typography>
+                </Grid>
+                {/* {notification.isRead == false && (
+                  <Grid item xs={12}>
+                    <Grid container>
+                      <Grid item>
+                        <Chip label="Unread" sx={chipErrorSX} />
+                      </Grid>
+                    </Grid>
+                  </Grid>
+                )} */}
+              </Grid>
+            </ListItemWrapper>
+            <Divider />
+          </span>
+        ))
+      ) : (
         <ListItemWrapper>
           <ListItem alignItems="center">
-            <ListItemAvatar>
-              <Avatar
-                sx={{
-                  color: theme.palette.success.dark,
-                  backgroundColor: theme.palette.success.light,
-                  border: 'none',
-                  borderColor: theme.palette.success.main
-                }}
-              >
-                <NotificationsIcon stroke={1.5} size="1.3rem" />
-              </Avatar>
-            </ListItemAvatar>
-            <ListItemText primary={<Typography variant="subtitle1">New</Typography>} />
-            <ListItemSecondaryAction>
-              <Grid container justifyContent="flex-end">
-                <Grid item xs={12}>
-                  <Typography variant="caption" display="block" gutterBottom>
-                    {moment(notification.notificationTime).startOf('hour').fromNow()}
-                  </Typography>
-                </Grid>
-              </Grid>
-            </ListItemSecondaryAction>
+            <ListItemText primary={<Typography variant="subtitle1">No Notifications</Typography>} />
           </ListItem>
-          <Grid container direction="column" className="list-container">
-            <Grid item xs={12} sx={{ pb: 2 }}>
-              <Typography variant="subtitle2">{notification.notification}</Typography>
-            </Grid>
-            {notification.isRead == false && (
-            <Grid item xs={12}>
-              <Grid container>
-                <Grid item>
-                  <Chip label="Unread" sx={chipErrorSX} />
-                </Grid>
-              </Grid>
-            </Grid>
-            )}
-          </Grid>
         </ListItemWrapper>
-        <Divider />
-      </span>
-  )) : 
-  <ListItemWrapper>
-          <ListItem alignItems="center">
-          <ListItemText primary={<Typography variant="subtitle1">No Notifications</Typography>} />
-          </ListItem>
-    </ListItemWrapper>
-  }
-
+      )}
     </List>
   );
 };

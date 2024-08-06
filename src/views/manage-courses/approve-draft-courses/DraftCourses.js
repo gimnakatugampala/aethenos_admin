@@ -21,10 +21,10 @@ import CloseIcon from '@mui/icons-material/Close';
 const DraftCourses = () => {
   const [show, setShow] = useState(false);
   const [showDisapprove, setShowDisapprove] = useState(false);
-  const [VIDEOURL, setVIDEOURL] = useState("");
+  const [VIDEOURL, setVIDEOURL] = useState('');
   const [courses, setCourses] = useState([]);
-  const [comment, setComment] = useState("");
-  const [ID, setID] = useState("");
+  const [comment, setComment] = useState('');
+  const [ID, setID] = useState('');
 
   const handleShow = () => setShow(true);
   const handleClose = () => setShow(false);
@@ -62,8 +62,8 @@ const DraftCourses = () => {
   };
 
   const disapproveDraftCourse = () => {
-    if (comment === "") {
-      ErrorAlert("Empty Field!", "Please Give a Comment");
+    if (comment === '') {
+      ErrorAlert('Empty Field!', 'Please Give a Comment');
       return;
     }
 
@@ -90,15 +90,29 @@ const DraftCourses = () => {
       instructor: `${course.instructorId.generalUserProfile.firstName} ${course.instructorId.generalUserProfile.lastName}`,
       actions: (
         <>
-          <Button onClick={() => {
-            setVIDEOURL(course.test_video);
-            handleShow();
-          }} variant="warning"><PlayCircleIcon /></Button>
-          <Button onClick={() => approveDraftCourse(course.code)} variant="success"><CheckIcon /></Button>
-          <Button onClick={() => {
-            setID(course.code);
-            handleDisapproveShow();
-          }} variant="danger"><CloseIcon /></Button>
+          <div style={{ display: 'flex', gap: '8px' }}>
+            <Button
+              onClick={() => {
+                setVIDEOURL(course.test_video);
+                handleShow();
+              }}
+              variant="warning"
+            >
+              <PlayCircleIcon />
+            </Button>
+            <Button onClick={() => approveDraftCourse(course.code)} variant="success">
+              <CheckIcon />
+            </Button>
+            <Button
+              onClick={() => {
+                setID(course.code);
+                handleDisapproveShow();
+              }}
+              variant="danger"
+            >
+              <CloseIcon />
+            </Button>
+          </div>
         </>
       )
     };
@@ -119,7 +133,7 @@ const DraftCourses = () => {
               { title: 'Course Title', field: 'courseTitle' },
               { title: 'Course Category', field: 'courseCategory' },
               { title: 'Instrutor', field: 'instructor' },
-              { title: 'Actions', field: 'actions' },
+              { title: 'Actions', field: 'actions' }
             ]}
             data={coursesData}
             options={{
@@ -150,11 +164,7 @@ const DraftCourses = () => {
           <Form>
             <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
               <Form.Label>Admin Remark</Form.Label>
-              <Form.Control
-                onChange={(e) => setComment(e.target.value)}
-                as="textarea"
-                rows={3}
-              />
+              <Form.Control onChange={(e) => setComment(e.target.value)} as="textarea" rows={3} />
             </Form.Group>
           </Form>
         </Modal.Body>

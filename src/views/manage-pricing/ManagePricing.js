@@ -547,10 +547,10 @@ const ManagePricing = () => {
               </div>
 
               <div className="row my-3 border p-2 mx-1">
-                <p className="m-0 p-0">
+                <p className="mx-2 p-0 my-2">
                   <b>Global Pricing</b>
                 </p>
-                <div className="col-md-2">
+                <div className="col-md-3">
                   <Form.Label>Minimum Price (USD)</Form.Label>
                   <InputGroup className="mb-3">
                     <InputGroup.Text id="basic-addon1">$</InputGroup.Text>
@@ -564,7 +564,7 @@ const ManagePricing = () => {
                   </InputGroup>
                 </div>
 
-                <div className="col-md-2">
+                <div className="col-md-3">
                   <Form.Label>Maximum Price (USD)</Form.Label>
                   <InputGroup className="mb-3">
                     <InputGroup.Text id="basic-addon1">$</InputGroup.Text>
@@ -590,7 +590,7 @@ const ManagePricing = () => {
                   />
                 </div>
 
-                <div className="col-md-2">
+                <div className="col-md-3">
                   <Form.Label>Min Value (USD)</Form.Label>
                   <InputGroup className="mb-3">
                     <InputGroup.Text id="basic-addon1">$</InputGroup.Text>
@@ -604,7 +604,7 @@ const ManagePricing = () => {
                   </InputGroup>
                 </div>
 
-                <div className="col-md-3 d-flex align-items-center mt-2">
+                <div className="col-md-12 d-flex align-items-center my-2 justify-content-end" style={{}}>
                   <Button onClick={handleDefaultPrice} className="mx-1" variant="contained">
                     Submit
                   </Button>

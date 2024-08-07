@@ -26,6 +26,19 @@ const AllAdmins = () => {
 
   const [admins, setadmins] = useState([])
 
+  
+  const buttonStyle = {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    minWidth: '15px',
+    width: '40px',
+    borderRadius: '25px',
+    padding: '0px',
+    height: '35px'
+  };
+
+
   const handledeactive = (id) =>{
     Swal.fire({
       title: 'Are you sure?',
@@ -78,8 +91,8 @@ const AllAdmins = () => {
         index:index+1,
         status: admin.isActive == 1 ? <Chip label="Active" color="success" /> : <Chip label="Inactive" color="error" /> ,
         actions: admin.isActive == 1 ? <div className='d-flex'>
-          <Button onClick={() => handledeactive(admin.id)} className='mx-1' variant="contained"><CloseIcon /></Button></div> : <div className='d-flex'>
-          <Button onClick={() => handleActive(admin.id)} className='mx-1' color="success" variant="contained"><CheckIcon /></Button>
+          <Button onClick={() => handledeactive(admin.id)} className='mx-1'  style={buttonStyle} variant="contained"><CloseIcon /></Button></div> : <div className='d-flex'>
+          <Button onClick={() => handleActive(admin.id)} className='mx-1'  style={buttonStyle} color="success" variant="contained"><CheckIcon /></Button>
           </div>
       }
 

@@ -174,7 +174,7 @@ const RefundsList = () => {
           Pending Refunds
           </Typography>
           <MaterialTable
-            title="Refunds"
+            title=""
             columns={[
               { title: 'ID', field: 'id' },
               { title: 'Course Title', field: 'c_title' },

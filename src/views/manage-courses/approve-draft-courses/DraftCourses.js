@@ -31,6 +31,17 @@ const DraftCourses = () => {
   const handleDisapproveShow = () => setShowDisapprove(true);
   const handleDisapproveClose = () => setShowDisapprove(false);
 
+  const buttonStyle = {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    minWidth: '15px',
+    width: '40px',
+    borderRadius: '25px',
+    padding: '0px',
+    height: '35px'
+  };
+
   useEffect(() => {
     // Fetch draft courses and set up the data
     GellAllDraftCourses(setCourses);
@@ -97,10 +108,16 @@ const DraftCourses = () => {
                 handleShow();
               }}
               variant="warning"
+            
+              style={buttonStyle}
             >
               <PlayCircleIcon />
             </Button>
-            <Button onClick={() => approveDraftCourse(course.code)} variant="success">
+            <Button
+              onClick={() => approveDraftCourse(course.code)}
+              variant="success"
+              style={buttonStyle}
+            >
               <CheckIcon />
             </Button>
             <Button
@@ -109,6 +126,7 @@ const DraftCourses = () => {
                 handleDisapproveShow();
               }}
               variant="danger"
+              style={buttonStyle}
             >
               <CloseIcon />
             </Button>

@@ -76,11 +76,11 @@ const NotificationList = () => {
     <List
       sx={{
         width: '100%',
-        maxWidth: 330,
+        maxWidth: '350px',
         py: 0,
         borderRadius: '10px',
         [theme.breakpoints.down('md')]: {
-          maxWidth: 300
+          maxWidth: 350
         },
         '& .MuiListItemSecondaryAction-root': {
           top: 22
@@ -96,33 +96,41 @@ const NotificationList = () => {
       {myNotifications.length > 0 ? (
         myNotifications.map((notification, index) => (
           <span key={index}>
-            <ListItemWrapper>
+            <ListItemWrapper style={{ width: '350px' }}>
               <ListItem alignItems="center">
-                <ListItemAvatar>
-                  <Avatar
-                    sx={{
-                      color: theme.palette.success.dark,
-                      backgroundColor: theme.palette.success.light,
-                      border: 'none',
-                      borderColor: theme.palette.success.main
-                    }}
-                  >
-                    <NotificationsIcon stroke={1.2} size="1.2rem" />
-                  </Avatar>
-                </ListItemAvatar>
+                <div>
+                  <ListItemAvatar>
+                    <Avatar
+                      sx={{
+                        color: '#fff',
+                        backgroundColor: '#d42a34',
+                        border: 'none',
+                        borderColor: theme.palette.success.main
+                      }}
+                    >
+                      <NotificationsIcon />
+                    </Avatar>
+                  </ListItemAvatar>
+                </div>
                 <ListItemSecondaryAction>
-                  <Grid container justifyContent="flex-end">
-                    <Grid item xs={12}>
-                      <Typography variant="caption" display="block" gutterBottom>
-                        {moment(notification.notificationTime).startOf('hour').fromNow()}
+                  <Grid container justifyContent="d-flex">
+                    <Grid>
+                      <Typography variant="h6">
+                        <span className="d-flex ">
+                          {notification.notification.length > 35
+                            ? `${notification.notification.substring(0, 35)}...`
+                            : notification.notification}
+                        </span>
                       </Typography>
                     </Grid>
                   </Grid>
                 </ListItemSecondaryAction>
               </ListItem>
               <Grid container direction="column" className="list-container">
-                <Grid item xs={12} sx={{ pb: 2 }}>
-                  <Typography variant="h6">{notification.notification}</Typography>
+                <Grid>
+                  <Typography variant="caption">
+                    <span className="d-flex justify-content-end">{moment(notification.notificationTime).startOf('hour').fromNow()}</span>
+                  </Typography>
                 </Grid>
                 {/* {notification.isRead == false && (
                   <Grid item xs={12}>

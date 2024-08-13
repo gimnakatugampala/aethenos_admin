@@ -32,6 +32,7 @@ import NotificationList from './NotificationList';
 // assets
 import { IconBell } from '@tabler/icons';
 import { GetNotifications } from 'api';
+import { width } from '@mui/system';
 
 // notification status options
 const status = [
@@ -57,6 +58,7 @@ const status = [
 
 const NotificationSection = () => {
   const theme = useTheme();
+  const [myNotifications, setmyNotifications] = useState([]);
   const matchesXs = useMediaQuery(theme.breakpoints.down('md'));
 
   const [open, setOpen] = useState(false);
@@ -87,9 +89,9 @@ const NotificationSection = () => {
     if (event?.target.value) setValue(event?.target.value);
   };
 
-
-
-  
+  useEffect(() => {
+    GetNotifications(setmyNotifications);
+  }, []);
 
   return (
     <>
@@ -102,7 +104,28 @@ const NotificationSection = () => {
           }
         }}
       >
+        <style>
+          {`
+          .notification-count {
+            position: absolute;
+            top: -5px;
+            right: -10px;
+            background-color: red;
+            color: white;
+            border-radius: 50%;
+            padding: 2px 6px;
+            font-size: 0.65em;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index : 99
+          }
+        
+        `}
+        </style>
         <ButtonBase sx={{ borderRadius: '12px' }}>
+        <span className="notification-count">{myNotifications.length}</span>
           <Avatar
             variant="rounded"
             sx={{
@@ -121,7 +144,8 @@ const NotificationSection = () => {
             aria-haspopup="true"
             onClick={handleToggle}
             color="inherit"
-          >
+          >        
+          
             <IconBell stroke={1.5} size="1.3rem" />
           </Avatar>
         </ButtonBase>
@@ -199,7 +223,7 @@ const NotificationSection = () => {
                             <Divider sx={{ my: 0 }} />
                           </Grid>
                         </Grid> */}
-                        <NotificationList />
+                        <NotificationList style={{width: "350px"}} />
                       </PerfectScrollbar>
                     </Grid>
                   </Grid>

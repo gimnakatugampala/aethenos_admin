@@ -16,6 +16,9 @@ const SubmittedCourses = Loadable(lazy(() => import('views/manage-courses/approv
 // Approve Submitted Courses
 const ApproveLectures = Loadable(lazy(() => import('views/manage-courses/approve-lectures/ApproveLectures')));
 
+// All  Courses
+const AllCourses = Loadable(lazy(() => import('views/manage-courses/all-courses/AllCourses')));
+
 // utilities routing
 // const UtilsTypography = Loadable(lazy(() => import('views/utilities/Typography')));
 const UtilsColor = Loadable(lazy(() => import('views/utilities/Color')));
@@ -41,7 +44,11 @@ const ManageCoursesRoutes = {
     {
         path: '/approve-lectures',
         element: <ApproveLectures />
-      }
+      },
+      {
+          path: '/courses',
+          element: <AllCourses />
+        }
   ]
 };
 

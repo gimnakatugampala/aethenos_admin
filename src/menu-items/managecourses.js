@@ -21,6 +21,13 @@ const managecourses = {
 
       children: [
         {
+          id: 'all-course',
+          title: 'Courses',
+          type: 'item',
+          url: '/courses',
+          // target: true
+        },
+        {
           id: 'draft-course',
           title: 'Test Video',
           type: 'item',

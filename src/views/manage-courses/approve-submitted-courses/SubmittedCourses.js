@@ -499,6 +499,18 @@ const SubmittedCourses = () => {
                   </tr>
                 </thead>
                 <tbody>
+                <tr >
+                        <td>Worldwide</td>
+                        <td>USD</td>
+                        <td>{countriesData != null && formatNumber(countriesData.globalListPrice)}</td>
+                        <td>
+                          $ {countriesData != null && formatNumber(countriesData.priceRange[29].minPrice)} -{' '}
+                          $ {countriesData != null && formatNumber(countriesData.priceRange[29].maxPrice)}
+                        </td>
+                        <td>{countriesData != null && countriesData.discountType}</td>
+                        <td>{countriesData != null && countriesData.discountAmount}</td>
+                  </tr>
+
                   {countriesData != null &&
                     countriesData.prices.map((countryData, index) => (
                       <tr key={index}>

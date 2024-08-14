@@ -591,7 +591,7 @@ export const GetSubmitReview = (setcourses) => {
   fetch(`${BACKEND_HOST}/course/getAllRequestedCourse`, requestOptions)
     .then((response) => response.json())
     .then((result) => {
-      // console.log(result)
+      console.log(result)
       Unauthorized(result.status, 'submit-courses');
       setcourses(result);
       if (result.message == 'Error') {

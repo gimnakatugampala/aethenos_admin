@@ -33,6 +33,13 @@ const managepricing = {
           type: 'item',
           url: '/vat-prices',
           // target: true
+        },
+        {
+          id: 'revenue-prices',
+          title: 'Revenue Prices',
+          type: 'item',
+          url: '/revenue-prices',
+          // target: true
         }
         // {
         //   id: 'submit-course',

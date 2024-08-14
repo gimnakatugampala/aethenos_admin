@@ -27,19 +27,32 @@ const AllCourses = () => {
         </Typography>
 
         <MaterialTable
-          title=""
-          columns={[
-            { title: 'ID', field: 'index' },
-            { title: 'Course Title', field: 'courseTitle' },
-            { title: 'Course Category', field: 'courseCategory' },
-            { title: 'Instrutor', field: 'instructor' },
-            { title: 'Actions', field: 'actions' }
-          ]}
-        //   data={coursesData}
-          options={{
-            exportButton: true
-          }}
-        />
+            title=""
+            columns={[
+                { title: 'Image', field: 'image' },
+                { title: 'Course Name', field: 'courseName' },
+                { title: 'Category', field: 'Category' },
+                { title: 'Sub Category', field: 'subCategory' },
+                { title: 'Topic', field: 'Topic' },
+                { title: 'Instructor', field: 'instructor'},
+                {
+                    title: 'Status',
+                    field: 'status',
+                    lookup: { 1: 'Draft', 2: 'Rejected', 3: 'Pending', 4 :'Disapproved' , 5 : 'Approved' , 6 : 'un published' , 7: 'Requested' },
+                    },
+                { title: 'Students', field: 'student', type: 'numeric' },
+                { title: 'Ratings', field: 'ratings' },
+               
+                { title: 'Created Date', field: 'createdDate' }
+                ]}
+                data={[
+                    {image : 'sd', courseName: 'Mehmet', Category: 'Baran', subCategory: 'dfsf', Topic: 'dfsf', instructor: 'fdsf', status: 1 , student: 345, ratings : '2', createdDate : '234534'},
+                ]}        
+                options={{
+                    filtering: true,
+                    exportButton: true
+                }}
+                />
       </CardContent>
     </Card>
 

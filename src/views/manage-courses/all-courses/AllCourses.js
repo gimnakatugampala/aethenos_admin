@@ -9,7 +9,7 @@ import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import Swal from 'sweetalert2';
 import { Player } from 'video-react';
-import { GellAllDraftCourses, ApproveDraftCourse, DisapproveDraftCourse } from 'api';
+import { GellAllDraftCourses, ApproveDraftCourse, DisapproveDraftCourse, GetAllCourses } from 'api';
 import { FILE_PATH } from 'commonFunctions/FilePaths';
 import 'video-react/dist/video-react.css'; // import css
 import ErrorAlert from 'commonFunctions/Alerts/ErrorAlert';
@@ -17,7 +17,29 @@ import PlayCircleIcon from '@mui/icons-material/PlayCircle';
 import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
 
+let coursesData = []
+
 const AllCourses = () => {
+
+  const [courses, setcourses] = useState([])
+
+  useEffect(() => {
+    GetAllCourses(setcourses)
+  }, [])
+
+  // useEffect(() => {
+
+  //   coursesData = courses.map(course => ({
+  //     ...course,
+  //     imgElement: <img src={`${FILE_PATH}${course.img}`} alt={course.title} style={{ width: '50px', height: '50px' }} />,
+  // }));
+    
+  // }, [courses])
+  
+
+
+  
+
   return (
     <>
     <Card sx={{ minWidth: 275 }}>
@@ -29,25 +51,25 @@ const AllCourses = () => {
         <MaterialTable
             title=""
             columns={[
-                { title: 'Image', field: 'image' },
-                { title: 'Course Name', field: 'courseName' },
-                { title: 'Category', field: 'Category' },
-                { title: 'Sub Category', field: 'subCategory' },
-                { title: 'Topic', field: 'Topic' },
+                { title: 'Image', field: 'imgElement' },
+                { title: 'Course Name', field: 'title' },
+                { title: 'Category', field: 'category' },
+                { title: 'Sub Category', field: 'sub_category' },
+                { title: 'Topic', field: 'topic' },
                 { title: 'Instructor', field: 'instructor'},
                 {
                     title: 'Status',
-                    field: 'status',
+                    field: 'approvalTypeId',
                     lookup: { 1: 'Draft', 2: 'Rejected', 3: 'Pending', 4 :'Disapproved' , 5 : 'Approved' , 6 : 'un published' , 7: 'Requested' },
                     },
-                { title: 'Students', field: 'student', type: 'numeric' },
+                { title: 'Students', field: 'enrolled_count', type: 'numeric' },
                 { title: 'Ratings', field: 'ratings' },
                
-                { title: 'Created Date', field: 'createdDate' }
+                { title: 'Created Date', field: 'created_date' },
+                { title: 'Level', field: 'level' },
+                { title: 'Language', field: 'language' }
                 ]}
-                data={[
-                    {image : 'sd', courseName: 'Mehmet', Category: 'Baran', subCategory: 'dfsf', Topic: 'dfsf', instructor: 'fdsf', status: 1 , student: 345, ratings : '2', createdDate : '234534'},
-                ]}        
+                data={courses}        
                 options={{
                     filtering: true,
                     exportButton: true

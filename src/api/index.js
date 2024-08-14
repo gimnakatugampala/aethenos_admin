@@ -1,5 +1,7 @@
 import ErrorAlert from 'commonFunctions/Alerts/ErrorAlert';
 import SuccessAlert from 'commonFunctions/Alerts/SuccessAlert';
+import { FILE_PATH } from 'commonFunctions/FilePaths';
+import StarRatings from 'react-star-ratings';
 import Cookies from 'js-cookie';
 
 const BACKEND_HOST = 'https://aethenosinstructor.exon.lk:2053/aethenos-api';
@@ -1214,3 +1216,34 @@ export const ChangeToNewPassword = async (VerficationCode, email, conPassword, s
     })
     .catch((error) => console.error(error));
 };
+
+export const GetAllCourses = async (setcourses) => {
+
+  const myHeaders = new Headers();
+  myHeaders.append('Authorization', `Bearer ${CURRENT_USER}`);
+
+const requestOptions = {
+  method: "GET",
+  headers: myHeaders,
+  redirect: "follow"
+};
+
+fetch(`${BACKEND_HOST}/course/getAllCoursesByAdmin`, requestOptions)
+  .then((response) => response.json())
+  .then((result) => {
+
+    Unauthorized(result.status, 'courses');
+
+    console.log(result)
+    setcourses(result.map(course => ({
+      ...course,
+      imgElement: <img src={`${FILE_PATH}${course.img}`} alt={course.title} style={{ width: '50px', height: '50px' ,objectFit:'cover' ,borderRadius:'50%' }} />,
+      ratings : <StarRatings   starDimension="16px"
+      starSpacing="0px" rating={course.rating} numberOfStars={5} starRatedColor="yellow" />
+     })))
+
+
+  })
+  .catch((error) => console.error(error));
+
+}

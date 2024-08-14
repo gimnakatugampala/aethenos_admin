@@ -35,24 +35,7 @@ import { GetNotifications } from 'api';
 import { width } from '@mui/system';
 
 // notification status options
-const status = [
-  {
-    value: 'all',
-    label: 'All Notification'
-  },
-  {
-    value: 'new',
-    label: 'New'
-  },
-  {
-    value: 'unread',
-    label: 'Unread'
-  },
-  {
-    value: 'other',
-    label: 'Other'
-  }
-];
+
 
 // ==============================|| NOTIFICATION ||============================== //
 

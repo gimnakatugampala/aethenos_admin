@@ -224,7 +224,7 @@ const SubmittedCourses = () => {
               { title: 'ID', field: 'index' },
               { title: 'Course Title', field: 'courseTitle' },
               { title: 'Course Category', field: 'courseCategory' },
-              { title: 'Instrutor', field: 'instructor' },
+              { title: 'Instructor', field: 'instructor' },
               { title: 'Actions', field: 'actions' }
             ]}
             data={coursesData}
@@ -241,8 +241,10 @@ const SubmittedCourses = () => {
           <Modal.Title>View Course Details</Modal.Title>
         </Modal.Header>
         <Modal.Body>
+
           <Tabs id="controlled-tab-example" activeKey={key} onSelect={(k) => setKey(k)} className="mb-3">
-            <Tab eventKey="intended-learners" title="Intended Learners">
+
+            <Tab eventKey="intended-learners" title="Target Audience">
               <Typography variant="h4" gutterBottom>
                 What will students learn in your course?
               </Typography>
@@ -280,7 +282,7 @@ const SubmittedCourses = () => {
               </ListGroup>
             </Tab>
 
-            <Tab eventKey="curriculum" title="Curriculum">
+            <Tab eventKey="curriculum" title="Syllabus">
               <div className="p-3">
                 {sectionData !== null &&
                   sectionData.length > 0 &&
@@ -597,6 +599,7 @@ const SubmittedCourses = () => {
                 </AccordionDetails>
               </Accordion>
             </Tab>
+            
           </Tabs>
         </Modal.Body>
       </Modal>

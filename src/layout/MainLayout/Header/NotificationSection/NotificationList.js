@@ -26,6 +26,9 @@ import { GetNotifications } from 'api';
 import { useState } from 'react';
 import moment from 'moment';
 
+import CircularProgress from '@mui/material/CircularProgress'; // Import the spinner component
+
+
 // styles
 const ListItemWrapper = styled('div')(({ theme }) => ({
   cursor: 'pointer',
@@ -42,7 +45,7 @@ const ListItemWrapper = styled('div')(({ theme }) => ({
 
 const NotificationList = () => {
   const theme = useTheme();
-  const [myNotifications, setmyNotifications] = useState([]);
+  const [myNotifications, setmyNotifications] = useState(null);
 
   const chipSX = {
     height: 24,
@@ -93,7 +96,7 @@ const NotificationList = () => {
         }
       }}
     >
-      {myNotifications.length > 0 ? (
+      {myNotifications != null ? myNotifications.length > 0 ? (
         myNotifications.map((notification, index) => (
           <span key={index}>
             <ListItemWrapper style={{ width: '350px' }}>
@@ -152,7 +155,14 @@ const NotificationList = () => {
             <ListItemText primary={<Typography variant="subtitle1">No Notifications</Typography>} />
           </ListItem>
         </ListItemWrapper>
-      )}
+      ) :  
+      <div
+      className="d-flex justify-content-center align-items-center"
+      style={{ width: '350px', height: '100px' }} // Setting width to 350px and height to 100px for better visibility
+    >
+      <CircularProgress />  {/* Spinner for loading state */}
+    </div>
+    }
     </List>
   );
 };

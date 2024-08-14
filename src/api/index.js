@@ -591,9 +591,9 @@ export const GetSubmitReview = (setcourses) => {
   fetch(`${BACKEND_HOST}/course/getAllRequestedCourse`, requestOptions)
     .then((response) => response.json())
     .then((result) => {
-      console.log(result)
+      console.log(result.course)
       Unauthorized(result.status, 'submit-courses');
-      setcourses(result);
+      setcourses(result.course);
       if (result.message == 'Error') {
         setcourses([]);
       }
@@ -1246,4 +1246,77 @@ fetch(`${BACKEND_HOST}/course/getAllCoursesByAdmin`, requestOptions)
   })
   .catch((error) => console.error(error));
 
+}
+
+export const GetRevenueSplit = async (setAethenosRevenue1,
+  setInstructorRevenue1,
+  setAethenosRevenue2,
+  setInstructorRevenue2) => {
+
+
+  const myHeaders = new Headers();
+  myHeaders.append('Authorization', `Bearer ${CURRENT_USER}`);
+
+const requestOptions = {
+  method: "GET",
+  headers: myHeaders,
+  redirect: "follow"
+};
+  
+  fetch(`${BACKEND_HOST}/manageAdmins/getRevenuePricesSplit`, requestOptions)
+    .then((response) => response.json())
+    .then((result) => {
+
+      Unauthorized(result.status, 'revenue-prices');
+
+      console.log(result)
+      setAethenosRevenue1(result.aethenosRevenueReferralLinkSplit == null ? "" : result.aethenosRevenueReferralLinkSplit)
+      setInstructorRevenue1(result.instructorRevenueReferralLinkSplit == null ? "" : result.instructorRevenueReferralLinkSplit)
+      setAethenosRevenue2(result.aethenosRevenueAethenosSplit == null ? "" : result.aethenosRevenueAethenosSplit)
+      setInstructorRevenue2(result.instructorRevenueAethenosSplit == null ? "" : result.instructorRevenueAethenosSplit)
+    })
+    .catch((error) => console.error(error));
+
+
+}
+
+export const AddRevenueSplit = async (data) => {
+
+  const myHeaders = new Headers();
+  myHeaders.append('Authorization', `Bearer ${CURRENT_USER}`);
+
+const formdata = new FormData();
+formdata.append("aethenosRevenueReferralLinkSplit", `${data.aethenosRevenue1}`);
+formdata.append("instructorRevenueReferralLinkSplit", `${data.instructorRevenue1}`);
+formdata.append("aethenosRevenueAethenosSplit", `${data.aethenosRevenue2}`);
+formdata.append("instructorRevenueAethenosSplit", `${data.instructorRevenue2}`);
+
+const requestOptions = {
+  method: "POST",
+  headers: myHeaders,
+  body: formdata,
+  redirect: "follow"
+};
+
+fetch(`${BACKEND_HOST}/manageAdmins/addRevenuePricesSplit`, requestOptions)
+  .then((response) => response.json())
+  .then((result) => {
+
+    Unauthorized(result.status, 'revenue-prices');
+
+    console.log(result)
+
+    if(result.variable == "200"){
+      SuccessAlert("Added",result.message)
+      return
+    }else{
+      ErrorAlert("Error",result.message)
+      return
+    }
+
+
+  })
+  .catch((error) => console.error(error));
+
+  
 }

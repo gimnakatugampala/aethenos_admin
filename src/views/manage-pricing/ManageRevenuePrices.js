@@ -5,6 +5,8 @@ import Typography from '@mui/material/Typography';
 import Form from 'react-bootstrap/Form';
 import Button from '@mui/material/Button';  // Importing Material-UI Button
 import Alert from '@mui/material/Alert';    // Importing Material-UI Alert
+import { useEffect } from 'react';
+import { AddRevenueSplit, GetRevenueSplit } from 'api';
 
 const ManageRevenuePrices = () => {
   // State to hold the values of the form fields
@@ -55,9 +57,21 @@ const ManageRevenuePrices = () => {
       instructorRevenue2,
     };
 
+    AddRevenueSplit(data)
+
     console.log('Saving data:', data);
     // You can replace the above line with an API call to save the data to a server or save it to local storage.
   };
+
+  useEffect(() => {
+    GetRevenueSplit(
+      setAethenosRevenue1,
+      setInstructorRevenue1,
+      setAethenosRevenue2,
+      setInstructorRevenue2
+    )
+  }, [])
+  
 
   return (
     <div>  

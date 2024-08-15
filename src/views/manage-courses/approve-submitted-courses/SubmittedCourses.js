@@ -26,7 +26,7 @@ import Stack from '@mui/material/Stack';
 import MaterialTable from 'material-table';
 import { Player } from 'video-react';
 import 'video-react/dist/video-react.css'; // import css
-
+import FileCopyIcon from "@mui/icons-material/FileCopy";
 import { MaterialReactTable } from 'material-react-table';
 import {
   GetSubmitReview,
@@ -45,23 +45,11 @@ import getSymbolFromCurrency from 'currency-symbol-map';
 import LaunchIcon from '@mui/icons-material/Launch';
 import Badge from 'react-bootstrap/Badge';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import QuizIcon from "@mui/icons-material/Quiz";
+import BugReportIcon from "@mui/icons-material/BugReport";
+import AssessmentIcon from "@mui/icons-material/Assessment";
 
-const data = [
-  {
-    id: '01',
-    title: 'Photoshop C6',
-    category: 'IT & Software',
-    instructor: 'Gimna Katugampala',
-    actions: `33`
-  },
-  {
-    id: '01',
-    title: 'Photoshop C6',
-    category: 'IT & Software',
-    instructor: 'Gimna Katugampala',
-    actions: `00`
-  }
-];
+
 
 let coursesData = [];
 
@@ -98,8 +86,11 @@ const SubmittedCourses = () => {
 
   const [sectionData, setsectionData] = useState([]);
 
+  const [syllabusData, setsyllabusData] = useState(null)
+
+
   // Show Course Details
-  const handleShow = (code) => {
+  const handleShow = (code, content) => {
     setShow(true);
     console.log(code);
     GetIntendedLeaners(code, setstudentsLearnData, setrequirementsData, setwhosData);
@@ -120,6 +111,12 @@ const SubmittedCourses = () => {
     GetCountriesListPricing(code, setcountriesData);
     GetCourseMessages(code, setcongratsmsg, setwelcomemsg);
     GetCurriculum(code, setsectionData);
+
+    setsyllabusData(content)
+    console.log(content)
+
+
+
   };
 
   const handleClose = () => setShow(false);
@@ -194,7 +191,7 @@ const SubmittedCourses = () => {
           instructor: `${course.instructorId.generalUserProfile.firstName} ${course.instructorId.generalUserProfile.lastName}`,
           actions: (
             <>
-              <Button size="sm" onClick={() => handleShow(course.code)} className="mx-1" variant="primary">
+              <Button size="sm" onClick={() => handleShow(course.code, course.course_content)} className="mx-1" variant="primary">
                 <RemoveRedEyeIcon />
               </Button>
               <Button size="sm" onClick={() => approveDraftCourse(course.code)} className="mx-1" variant="success">
@@ -284,116 +281,472 @@ const SubmittedCourses = () => {
 
             <Tab eventKey="curriculum" title="Syllabus">
               <div className="p-3">
-                {sectionData !== null &&
-                  sectionData.length > 0 &&
-                  sectionData.map((section, index) => (
+                {syllabusData != null &&
+                  syllabusData.length > 0 &&
+                  syllabusData.map((section, index) => (
                     <Card key={index} className="p-3 m-2" variant="outlined">
+
                       <Typography variant="h4" gutterBottom>
-                        Section {index + 1} : {section.courseSection.sectionName}
+                        Section {index + 1} : {section.section_name}
                       </Typography>
 
-                      {section.courseSection.sectionCurriculumItem.map((item, index) => (
-                        <Accordion key={index}>
-                          <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header">
-                            <Typography>
-                              {item.type} {index + 1} : <b>{item.title}</b>
-                            </Typography>
-                          </AccordionSummary>
-                          <AccordionDetails>
-                            {item.type == 'Lecture' &&
-                              item.curriculumItemFiles.map(
-                                (files, index) =>
-                                  files.filetype == 'Video' && (
-                                    <Typography key={index}>
-                                      <Card>
-                                        <Player>
-                                          <source src={`${FILE_PATH}${files.url}`} />
-                                        </Player>
-                                        <CardContent>
-                                          <Typography gutterBottom variant="h5" component="div">
-                                            {files.url}
-                                          </Typography>
-                                        </CardContent>
-                                      </Card>
-                                    </Typography>
-                                  )
-                              )}
+                      {section.section_curriculum_item.map((item, idx) => (
+                          <>
 
-                            {item.type == 'Lecture' && (
+                          {/* Video */}
+                          {item.curriculum_item_type == 'Lecture' && item.article == "N/A" && (
+                          <Accordion key={idx}>
+                            <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header">
+                              <Typography>
+                              {item.article != "N/A" ? (<FileCopyIcon sx={{ fontSize: 15 }} /> ) : ( <PlayCircleIcon  sx={{ fontSize: 15 }} /> )}{" "}
+                                  {item.type} {idx + 1} : <b>{item.title}</b>
+                              </Typography>
+                            </AccordionSummary>
+                            <AccordionDetails>
+
+
+                              
+                              {item.get_CurriculumItem_File.map(
+                                  (files, index) =>
+
+                                    files.curriculum_item_file_type == 'Video' && (
+                                      <Typography key={index}>
+                                        <Card>
+                                          <Player>
+                                            <source src={`${FILE_PATH}${files.url}`} />
+                                          </Player>
+                                          <CardContent>
+                                            <Typography gutterBottom variant="h5" component="div">
+                                              {files.title}
+                                            </Typography>
+                                          </CardContent>
+                                        </Card>
+                                      </Typography>
+                                    )
+                                )}
+
+
+                               
+                                  <div className="p-2">
+                                    <h6>
+                                      <b>Downloadable Files</b>
+                                    </h6>
+                                    <ListGroup>
+                                      {item.get_CurriculumItem_File.map(
+                                        (files, index) =>
+                                          files.curriculum_item_file_type == 'Downloadable Items' && <ListGroup.Item key={index}>{files.url}</ListGroup.Item>
+                                      )}
+                                    </ListGroup>
+                                  </div>
+                           
+
+                             
+                                  <div className="p-2">
+                                    <h6>
+                                      <b>External Resources</b>
+                                    </h6>
+                                    <ListGroup>
+                                      {item.get_CurriculumItem_File.map(
+                                        (link, index) =>
+                                          link.curriculum_item_file_type == 'External Resourses' && (
+                                            <ListGroup.Item key={index}>
+                                              <a rel="noreferrer" target="_blank" href={link.url}>
+                                                <LaunchIcon fontSize="10" />
+                                                {link.title}
+                                              </a>
+                                            </ListGroup.Item>
+                                          )
+                                      )}
+                                    </ListGroup>
+                                  </div>
+                                
+
+                                  <div className="p-2">
+                                    <h6>
+                                      <b>Source Code</b>
+                                    </h6>
+                                    <ListGroup>
+                                      {item.get_CurriculumItem_File.map(
+                                        (link, index) =>
+                                          link.curriculum_item_file_type == 'Source Code' && <ListGroup.Item key={index}>{link.url}</ListGroup.Item>
+                                      )}
+                                    </ListGroup>
+                                  </div>
+                                
+                              
+
+                            
+                            </AccordionDetails>
+                          </Accordion>
+                          )}
+
+
+                          {/* Article */}
+                          {item.curriculum_item_type == 'Lecture' && item.article != "N/A" && (
+                          <Accordion key={idx}>
+                            <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header">
+                              <Typography>
+                              {item.article != "N/A" ? (<FileCopyIcon sx={{ fontSize: 15 }} /> ) : ( <PlayCircleIcon  sx={{ fontSize: 15 }} /> )}{" "}
+                                  {item.type} {idx + 1} : <b>{item.title}</b>
+                              </Typography>
+                            </AccordionSummary>
+                            <AccordionDetails>
+
+
+                              
+                              {item.get_CurriculumItem_File.map(
+                                  (files, index) =>
+
+                                    files.curriculum_item_file_type == 'Video' && (
+                                      <Typography key={index}>
+                                        <Card>
+                                          <Player>
+                                            <source src={`${FILE_PATH}${files.url}`} />
+                                          </Player>
+                                          <CardContent>
+                                            <Typography gutterBottom variant="h5" component="div">
+                                              {files.title}
+                                            </Typography>
+                                          </CardContent>
+                                        </Card>
+                                      </Typography>
+                                    )
+                                )}
+
                               <div className="p-2">
-                                <h6>
-                                  <b>Downloadable Files</b>
-                                </h6>
-                                <ListGroup>
-                                  {item.curriculumItemFiles.map(
-                                    (files, index) =>
-                                      files.filetype == 'Downloadable Items' && <ListGroup.Item key={index}>{files.url}</ListGroup.Item>
-                                  )}
-                                </ListGroup>
-                              </div>
-                            )}
+                                    <h6>
+                                      <b>Downloadable Files</b>
+                                    </h6>
+                                    <ListGroup>
+                                      {item.get_CurriculumItem_File.map(
+                                        (files, index) =>
+                                          files.curriculum_item_file_type == 'Downloadable Items' && <ListGroup.Item key={index}>{files.url}</ListGroup.Item>
+                                      )}
+                                    </ListGroup>
+                                  </div>
+                           
 
-                            {item.type == 'Lecture' && (
-                              <div className="p-2">
-                                <h6>
-                                  <b>External Resources</b>
-                                </h6>
-                                <ListGroup>
-                                  {item.curriculumItemFiles.map(
-                                    (link, index) =>
-                                      link.filetype == 'External Resourses' && (
-                                        <ListGroup.Item key={index}>
-                                          <a rel="noreferrer" target="_blank" href={link.url}>
-                                            <LaunchIcon fontSize="10" />
-                                            {link.title}
-                                          </a>
-                                        </ListGroup.Item>
-                                      )
-                                  )}
-                                </ListGroup>
-                              </div>
-                            )}
+                             
+                                  <div className="p-2">
+                                    <h6>
+                                      <b>External Resources</b>
+                                    </h6>
+                                    <ListGroup>
+                                      {item.get_CurriculumItem_File.map(
+                                        (link, index) =>
+                                          link.curriculum_item_file_type == 'External Resourses' && (
+                                            <ListGroup.Item key={index}>
+                                              <a rel="noreferrer" target="_blank" href={link.url}>
+                                                <LaunchIcon fontSize="10" />
+                                                {link.title}
+                                              </a>
+                                            </ListGroup.Item>
+                                          )
+                                      )}
+                                    </ListGroup>
+                                  </div>
+                                
 
-                            {item.type == 'Lecture' && (
-                              <div className="p-2">
-                                <h6>
-                                  <b>Source Code</b>
-                                </h6>
-                                <ListGroup>
-                                  {item.curriculumItemFiles.map(
-                                    (link, index) =>
-                                      link.filetype == 'Source Code' && <ListGroup.Item key={index}>{link.url}</ListGroup.Item>
-                                  )}
-                                </ListGroup>
-                              </div>
-                            )}
+                                  <div className="p-2">
+                                    <h6>
+                                      <b>Source Code</b>
+                                    </h6>
+                                    <ListGroup>
+                                      {item.get_CurriculumItem_File.map(
+                                        (link, index) =>
+                                          link.curriculum_item_file_type == 'Source Code' && <ListGroup.Item key={index}>{link.url}</ListGroup.Item>
+                                      )}
+                                    </ListGroup>
+                                  </div>
+                                
 
-                            {item.type == 'Quiz' && item.getQuizs.length > 0 && (
-                              <div>
-                                <h6>
-                                  <b>{item.getQuizs[0].question}</b>
-                                </h6>
-                                <ListGroup as="ol" numbered>
-                                  {item.getQuizs.length > 0 &&
-                                    item.getQuizs[0].getAnswers.map((quiz, index) => (
-                                      <ListGroup.Item key={index} as="li" className="d-flex justify-content-between align-items-start">
-                                        <div className="ms-2 me-auto">
-                                          <div className="fw-bold">{quiz.name}</div>
-                                          {quiz.explanation}
-                                        </div>
-                                        {quiz.correctAnswer && (
-                                          // <Badge bg="primary" pill>
-                                          <CheckCircleIcon />
-                                          // </Badge>
+                            
+                            </AccordionDetails>
+                          </Accordion>
+                          )}
+
+
+                          {/* Practice Test */}
+                          {item.curriculum_item_type == "Practice Test" && (
+                             <Accordion key={idx}>
+                             <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header">
+                               <Typography>
+                               <BugReportIcon
+                                              sx={{ fontSize: 15 }}
+                                            />{" "}
+                                   {item.type} {idx + 1} : <b>{item.title}</b>
+                               </Typography>
+                             </AccordionSummary>
+                             <AccordionDetails>
+
+                              {/* Practice Test */}
+
+                             <div className="p-3">
+                              <Tabs
+                                defaultActiveKey="practice"
+                                id="uncontrolled-tab-example"
+                                className="mb-3"
+                              >
+                                <Tab
+                                  eventKey="practice"
+                                  title="Practice Test information and Instructions"
+                                >
+                                  <Form>
+                                    <Form.Group
+                                      className="mb-3"
+                                      controlId="exampleForm.ControlInput1"
+                                    >
+                                      <Form.Label>Title</Form.Label>
+                                      <Form.Control
+                                        value={item.title}
+                                        type="text"
+                                        placeholder="Practice Test Title"
+                                      />
+                                    </Form.Group>
+
+                                    <Form.Group
+                                      className="mb-3"
+                                      controlId="exampleForm.ControlTextarea1"
+                                    >
+                                      <Form.Label>
+                                        Description
+                                      </Form.Label>
+                                      <Form.Control
+                                        value={item.description}
+                                        
+                                        as="textarea"
+                                        rows={2}
+                                      />
+                                    </Form.Group>
+
+                                    <Form.Group
+                                      className="mb-3"
+                                      controlId="exampleForm.ControlInput1"
+                                    >
+                                      <Form.Label>
+                                        Duration (HH:MM)
+                                      </Form.Label>
+                                      <Form.Control
+                                        value={item.getPracticeTests[0] != null ? item.getPracticeTests[0].duration : ""}
+                                      
+                                        type="text"
+                                      />
+                                    </Form.Group>
+
+                                    <Form.Group
+                                      className="mb-3"
+                                      controlId="exampleForm.ControlInput1"
+                                    >
+                                      <Form.Label>
+                                        Minimum pass mark
+                                      </Form.Label>
+                                      <Form.Control
+                                        value={item.getPracticeTests[0] != null ? item.getPracticeTests[0].minimumuPassMark : 0}
+                                        type="number"
+                                      />
+                                    </Form.Group>
+
+                                    <Form.Group
+                                      className="mb-3"
+                                      controlId="exampleForm.ControlTextarea1"
+                                    >
+                                      <Form.Label>
+                                        Instructions
+                                      </Form.Label>
+                                      <Form.Control
+                                        value={item.getPracticeTests[0] != null ? item.getPracticeTests[0].instructions : ""}
+                                     
+                                        as="textarea"
+                                        rows={3}
+                                      />
+                                    </Form.Group>
+                                    <Form.Group
+                                      className="mb-3"
+                                      controlId="exampleForm.ControlInput1"
+                                    >
+                                      <Form.Label>
+                                        External Link
+                                      </Form.Label>
+                                      <Form.Control
+                                        value={item.getPracticeTests[0] != null ? item.getPracticeTests[0].externalLink : ""}
+                                       
+                                        type="text"
+                                        placeholder="https://externallink.com"
+                                      />
+                                    </Form.Group>
+                                  </Form>
+                                </Tab>
+
+                                <Tab
+                                  eventKey="questions"
+                                  title="Questions"
+                                >
+                                  <Form>
+                                    <Form.Group
+                                      className="mb-3"
+                                      controlId="exampleForm.ControlInput1"
+                                    >
+                                      <Form.Label>
+                                        Upload Questions
+                                      </Form.Label>
+
+                                      {item.getPracticeTests[0] !=
+                                        null &&
+                                        item.getPracticeTests[0]
+                                          .practiceTestQuestionSheet !=
+                                          "" && (
+                                          <ListGroup className="my-2">
+                                            <ListGroup.Item className="d-flex justify-content-between">
+                                              <span>
+                                                {
+                                                  item
+                                                    .getPracticeTests[0]
+                                                    .practiceTestQuestionSheet
+                                                }
+                                              </span>
+                                         
+                                            </ListGroup.Item>
+                                          </ListGroup>
                                         )}
-                                      </ListGroup.Item>
-                                    ))}
-                                </ListGroup>
-                              </div>
-                            )}
-                          </AccordionDetails>
-                        </Accordion>
+
+                                    
+                                    </Form.Group>
+
+                                    <Form.Group
+                                      className="mb-3"
+                                      controlId="exampleForm.ControlInput1"
+                                    >
+                                      <Form.Label>
+                                        External Link
+                                      </Form.Label>
+                                      <Form.Control
+                                        value={
+                                          item.getPracticeTests[0] != null ? item.getPracticeTests[0].PracticeTestQuestionExLink : ""
+                                        }
+                                       
+                                        type="text"
+                                        placeholder="https://externallink.com"
+                                      />
+                                    </Form.Group>
+                                  </Form>
+                                </Tab>
+                                <Tab
+                                  eventKey="solutions"
+                                  title="Solutions"
+                                >
+                                  <Form>
+                                    <Form.Group
+                                      className="mb-3"
+                                      controlId="exampleForm.ControlInput1"
+                                    >
+                                      <Form.Label>
+                                        Upload Solutions
+                                      </Form.Label>
+                                      {item.getPracticeTests[0] !=
+                                        null &&
+                                        item.getPracticeTests[0]
+                                          .practiceTestSolutionSheet !=
+                                          "" && (
+                                          <ListGroup className="my-2">
+                                            <ListGroup.Item className="d-flex justify-content-between">
+                                              <span>
+                                                {
+                                                  item
+                                                    .getPracticeTests[0]
+                                                    .practiceTestSolutionSheet
+                                                }
+                                              </span>
+                                              
+                                            </ListGroup.Item>
+                                          </ListGroup>
+                                        )}
+
+                                     
+                                    </Form.Group>
+
+                                    <Form.Group
+                                      className="mb-3"
+                                      controlId="exampleForm.ControlInput1"
+                                    >
+                                      <Form.Label>
+                                        External Link
+                                      </Form.Label>
+                                      <Form.Control
+                                        value={item.getPracticeTests[0] != null ? item
+                                          .getPracticeTests[0].PraticeTestSolutionsExLink : ""}
+                                       
+                                        type="text"
+                                        placeholder="https://externallink.com"
+                                      />
+                                    </Form.Group>
+
+                                   
+                                  
+                                  </Form>
+                                </Tab>
+                              </Tabs>
+                            </div>
+ 
+ 
+                             
+ 
+                              <div className="p-2">
+                                    <h6>
+                                      <b>Downloadable Files</b>
+                                    </h6>
+                                    <ListGroup>
+                                      {item.get_CurriculumItem_File.map(
+                                        (files, index) =>
+                                          files.curriculum_item_file_type == 'Downloadable Items' && <ListGroup.Item key={index}>{files.url}</ListGroup.Item>
+                                      )}
+                                    </ListGroup>
+                                  </div>
+                          
+
+                            
+                                  <div className="p-2">
+                                    <h6>
+                                      <b>External Resources</b>
+                                    </h6>
+                                    <ListGroup>
+                                      {item.get_CurriculumItem_File.map(
+                                        (link, index) =>
+                                          link.curriculum_item_file_type == 'External Resourses' && (
+                                            <ListGroup.Item key={index}>
+                                              <a rel="noreferrer" target="_blank" href={link.url}>
+                                                <LaunchIcon fontSize="10" />
+                                                {link.title}
+                                              </a>
+                                            </ListGroup.Item>
+                                          )
+                                      )}
+                                    </ListGroup>
+                                  </div>
+                                
+
+                                  <div className="p-2">
+                                    <h6>
+                                      <b>Source Code</b>
+                                    </h6>
+                                    <ListGroup>
+                                      {item.get_CurriculumItem_File.map(
+                                        (link, index) =>
+                                          link.curriculum_item_file_type == 'Source Code' && <ListGroup.Item key={index}>{link.url}</ListGroup.Item>
+                                      )}
+                                    </ListGroup>
+                                  </div>
+                                 
+ 
+                             
+                             </AccordionDetails>
+                           </Accordion>
+                          )}
+                          
+                          </>
+                       
                       ))}
+
+
                     </Card>
                   ))}
               </div>

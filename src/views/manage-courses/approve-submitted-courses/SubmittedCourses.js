@@ -1482,7 +1482,111 @@ const SubmittedCourses = () => {
                              </AccordionDetails>
                            </Accordion>
                           )}
-                          
+
+
+                          {/* Quiz */}
+                          {item.curriculum_item_type == "Quiz" && (
+                            <Accordion key={idx}>
+                            <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header">
+                              <Typography>
+                              <QuizIcon
+                                         sx={{ fontSize: 15 }}
+                                           />{" "}
+                                  {item.type} {idx + 1} : <b>{item.title}</b>
+                              </Typography>
+                            </AccordionSummary>
+                            <AccordionDetails>
+
+                             {/* Quiz */}
+                             {item.getQuizs != null ? (
+                              <div>
+                                <div className="container m-4">
+                                  <Table striped bordered hover>
+                                    <thead>
+                                      <tr>
+                                        <th>#</th>
+                                        <th>Quiz</th>
+                                        
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                    {item.getQuizs != null && item.getQuizs.map((q, inz) => (
+                                            <tr key={inz}>
+                                              <td>{inz + 1}</td>
+                                              <td>
+                                                {q.question.length > 40
+                                                  ? q.question.slice(0, 40) + "..."
+                                                  : q.question}
+                                              </td>
+                                            </tr>
+                                          )
+                                      )}
+
+                                    </tbody>
+                                  </Table>
+                                </div>
+
+                           
+                              
+                              </div>
+                            ) : (
+                             <p>No Questions</p>
+                            )}
+                             
+
+                             
+
+                             <div className="p-2">
+                                   <h6>
+                                     <b>Downloadable Files</b>
+                                   </h6>
+                                   <ListGroup>
+                                     {item.get_CurriculumItem_File.map(
+                                       (files, index) =>
+                                         files.curriculum_item_file_type == 'Downloadable Items' && <ListGroup.Item key={index}>{files.url}</ListGroup.Item>
+                                     )}
+                                   </ListGroup>
+                                 </div>
+                         
+
+                           
+                                 <div className="p-2">
+                                   <h6>
+                                     <b>External Resources</b>
+                                   </h6>
+                                   <ListGroup>
+                                     {item.get_CurriculumItem_File.map(
+                                       (link, index) =>
+                                         link.curriculum_item_file_type == 'External Resourses' && (
+                                           <ListGroup.Item key={index}>
+                                             <a rel="noreferrer" target="_blank" href={link.url}>
+                                               <LaunchIcon fontSize="10" />
+                                               {link.title}
+                                             </a>
+                                           </ListGroup.Item>
+                                         )
+                                     )}
+                                   </ListGroup>
+                                 </div>
+                               
+
+                                 <div className="p-2">
+                                   <h6>
+                                     <b>Source Code</b>
+                                   </h6>
+                                   <ListGroup>
+                                     {item.get_CurriculumItem_File.map(
+                                       (link, index) =>
+                                         link.curriculum_item_file_type == 'Source Code' && <ListGroup.Item key={index}>{link.url}</ListGroup.Item>
+                                     )}
+                                   </ListGroup>
+                                 </div>
+                                
+
+                            
+                            </AccordionDetails>
+                          </Accordion>
+                          )}
                           </>
                        
                       ))}

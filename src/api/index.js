@@ -922,6 +922,36 @@ export const GetDashboardData = async (setinstructorCount, setstudentCount, setd
     .catch((error) => console.error(error));
 };
 
+
+export const UpdateNotifications = async (notificationCode) => {
+  const myHeaders = new Headers();
+  myHeaders.append('Authorization', `Bearer ${CURRENT_USER}`);
+
+  // const formdata = new FormData();
+  // formdata.append('refundCode', `${notificationCode}`);
+
+  const requestOptions = {
+    method: 'PUT',
+    headers: myHeaders,
+    // body: formdata,
+    redirect: 'follow'
+  };
+
+  fetch(`${BACKEND_HOST}/notification/readNotification/${notificationCode}`, requestOptions)
+    .then((response) => response.json())
+    .then((result) => {
+      console.log(result);
+
+      Unauthorized(result.status, 'refunds');
+      if (result.variable == '200') {       
+        return;
+      } else {
+        ErrorAlert('Error', result.message);
+      }
+    })
+    .catch((error) => console.error(error));
+};
+
 export const GetNotifications = async (setmyNotifications) => {
   const myHeaders = new Headers();
   myHeaders.append('Authorization', `Bearer ${CURRENT_USER}`);

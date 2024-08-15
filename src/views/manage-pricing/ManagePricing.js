@@ -10,7 +10,7 @@ import InputGroup from 'react-bootstrap/InputGroup';
 import Paper from '@mui/material/Paper';
 import Form from 'react-bootstrap/Form';
 import VisibilityIcon from '@mui/icons-material/Visibility';
-import Typography from '@mui/material/Typography';
+import Typography from '@mui/material/Typography'; 
 import ErrorAlert from 'commonFunctions/Alerts/ErrorAlert';
 import { AddSetDefaultPricing, AddSetPricing, GetPricingRange } from 'api';
 

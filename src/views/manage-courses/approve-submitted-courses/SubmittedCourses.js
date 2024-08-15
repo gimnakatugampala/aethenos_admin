@@ -741,6 +741,394 @@ const SubmittedCourses = () => {
                              </AccordionDetails>
                            </Accordion>
                           )}
+
+
+                          {/* Assignment */}
+                          {item.curriculum_item_type == "Assignment" && (
+                             <Accordion key={idx}>
+                             <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header">
+                               <Typography>
+                               <AssessmentIcon
+                                          sx={{ fontSize: 15 }}
+                                            />{" "}
+                                   {item.type} {idx + 1} : <b>{item.title}</b>
+                               </Typography>
+                             </AccordionSummary>
+                             <AccordionDetails>
+
+                              {/* Assignment */}
+
+                              <div className="p-3">
+                                  <Tabs
+                                    defaultActiveKey="assignment"
+                                    id="uncontrolled-tab-example"
+                                    className="mb-3"
+                                  >
+                                    <Tab
+                                      eventKey="assignment"
+                                      title="Assignment information and Instructions"
+                                    >
+                                      <Form>
+                                        <Form.Group
+                                          className="mb-3"
+                                          controlId="exampleForm.ControlInput1"
+                                        >
+                                          <Form.Label>Title</Form.Label>
+                                          <Form.Control
+                                            value={item.title}
+                                            type="text"
+                                            placeholder="Assignment Title"
+                                          />
+                                        </Form.Group>
+
+                                        <Form.Group
+                                          className="mb-3"
+                                          controlId="exampleForm.ControlTextarea1"
+                                        >
+                                          <Form.Label>
+                                            Description
+                                          </Form.Label>
+                                          <Form.Control
+                                            value={item.description}
+                                          
+                                            as="textarea"
+                                            rows={2}
+                                          />
+                                        </Form.Group>
+
+                                        <Form.Group
+                                          className="mb-3"
+                                          controlId="exampleForm.ControlInput1"
+                                        >
+                                          <Form.Label>
+                                            Duration (HH:MM)
+                                          </Form.Label>
+                                          <Form.Control
+                                            value={item.getAssignments[0] != null ? item.getAssignments[0].duration : ""}
+                                          />
+                                        </Form.Group>
+
+                                        <Form.Group
+                                          className="mb-3"
+                                          controlId="exampleForm.ControlTextarea1"
+                                        >
+                                          <Form.Label>
+                                            Instructions
+                                          </Form.Label>
+                                          <Form.Control
+                                            value={
+                                              item.getAssignments[0] != null ? item.getAssignments[0].instructions : ""
+                                            }
+                                          
+                                            as="textarea"
+                                            rows={3}
+                                          />
+                                        </Form.Group>
+
+                                        <Form.Group
+                                          className="mb-3"
+                                          controlId="exampleForm.ControlInput1"
+                                        >
+                                          <Form.Label>
+                                            Upload Video
+                                          </Form.Label>
+
+                                          {item.getAssignments[0]
+                                            .assignmentVideo != "" || item.getAssignments[0]
+                                            .assignmentVideo != null && (
+                                            <ListGroup className="my-2">
+                                              <ListGroup.Item
+                                                className="d-flex justify-content-between"
+                                                key={index}
+                                              >
+                                                <span>
+                                                  {
+                                                    item
+                                                      .getAssignments[0]
+                                                      .assignmentVideo
+                                                  }
+                                                </span>
+                                            
+                                              </ListGroup.Item>
+                                            </ListGroup>
+                                          )}
+
+                                        
+                                        </Form.Group>
+
+                                        <Form.Group
+                                          className="mb-3"
+                                          controlId="exampleForm.ControlTextarea1"
+                                        >
+                                          <Form.Label>
+                                            Downloadable Resourses
+                                          </Form.Label>
+
+                                          {item.getAssignments[0]
+                                            .downloadableResource !=
+                                            "" || item.getAssignments[0]
+                                            .downloadableResource !=
+                                            null && (
+                                            <ListGroup className="my-2">
+                                              <ListGroup.Item
+                                                className="d-flex justify-content-between"
+                                                key={index}
+                                              >
+                                                <span>
+                                                  {
+                                                    item
+                                                      .getAssignments[0]
+                                                      .downloadableResource
+                                                  }
+                                                </span>
+                                              
+                                              </ListGroup.Item>
+                                            </ListGroup>
+                                          )}
+
+                                          
+                                        </Form.Group>
+
+                                        <Form.Group
+                                          className="mb-3"
+                                          controlId="exampleForm.ControlInput1"
+                                        >
+                                          <Form.Label>
+                                            External Link
+                                          </Form.Label>
+                                          <Form.Control
+                                            value={item.getAssignments[0] != null ? item.getAssignments[0].externalLink : ""}
+                                          
+                                            type="text"
+                                            placeholder="https://externallink.com"
+                                          />
+                                        </Form.Group>
+                                      </Form>
+                                    </Tab>
+
+                                    <Tab
+                                      eventKey="questions"
+                                      title="Questions"
+                                    >
+                                      <Form>
+                                        <Form.Group
+                                          className="mb-3"
+                                          controlId="exampleForm.ControlTextarea1"
+                                        >
+                                          <Form.Label>
+                                            Questions
+                                          </Form.Label>
+                                          <Form.Control
+                                            value={item.getAssignments[0] != null ? item.getAssignments[0].question : ""}
+                                            
+                                            as="textarea"
+                                            rows={2}
+                                          />
+                                        </Form.Group>
+
+                                        <Form.Group
+                                          className="mb-3"
+                                          controlId="exampleForm.ControlInput1"
+                                        >
+                                          <Form.Label>
+                                            Upload Questions
+                                          </Form.Label>
+                                          {item.getAssignments[0]
+                                            .questionSheet != "" && (
+                                            <ListGroup className="my-2">
+                                              <ListGroup.Item
+                                                className="d-flex justify-content-between"
+                                                key={index}
+                                              >
+                                                <span>
+                                                  {
+                                                    item
+                                                      .getAssignments[0]
+                                                      .questionSheet
+                                                  }
+                                                </span>
+                                                
+                                              </ListGroup.Item>
+                                            </ListGroup>
+                                          )}
+
+                                          
+                                        </Form.Group>
+
+                                        <Form.Group
+                                          className="mb-3"
+                                          controlId="exampleForm.ControlInput1"
+                                        >
+                                          <Form.Label>
+                                            External Link
+                                          </Form.Label>
+                                          <Form.Control
+                                            value={
+                                              item.getAssignments[0] != null ? item.getAssignments[0].questionExternalLink : ""
+                                            }
+                                            
+                                            type="text"
+                                            placeholder="https://externallink.com"
+                                          />
+                                        </Form.Group>
+                                      </Form>
+                                    </Tab>
+
+                                    <Tab
+                                      eventKey="solutions"
+                                      title="Solutions"
+                                    >
+                                      <Form>
+                                        <Form.Group
+                                          className="mb-3"
+                                          controlId="exampleForm.ControlTextarea1"
+                                        >
+                                          <Form.Label>
+                                            Solutions
+                                          </Form.Label>
+                                          <Form.Control
+                                            value={item.getAssignments[0] != null ? item.getAssignments[0].solutions : ""}
+                                          
+                                            as="textarea"
+                                            rows={2}
+                                          />
+                                        </Form.Group>
+
+                                        <Form.Group
+                                          className="mb-3"
+                                          controlId="exampleForm.ControlInput1"
+                                        >
+                                          <Form.Label>
+                                            Upload Video
+                                          </Form.Label>
+                                          {item.getAssignments[0]
+                                            .solutionVideo != "" && (
+                                            <ListGroup className="my-2">
+                                              <ListGroup.Item
+                                                className="d-flex justify-content-between"
+                                                key={index}
+                                              >
+                                                <span>
+                                                  {
+                                                    item
+                                                      .getAssignments[0]
+                                                      .solutionVideo
+                                                  }
+                                                </span>
+                                                
+                                              </ListGroup.Item>
+                                            </ListGroup>
+                                          )}
+
+                                          
+                                        </Form.Group>
+
+                                        <Form.Group
+                                          className="mb-3"
+                                          controlId="exampleForm.ControlInput1"
+                                        >
+                                          <Form.Label>
+                                            Upload Solutions
+                                          </Form.Label>
+                                          {item.getAssignments[0]
+                                            .solutionsSheet != "" && (
+                                            <ListGroup className="my-2">
+                                              <ListGroup.Item
+                                                className="d-flex justify-content-between"
+                                                key={index}
+                                              >
+                                                <span>
+                                                  {
+                                                    item
+                                                      .getAssignments[0]
+                                                      .solutionsSheet
+                                                  }
+                                                </span>
+                                                
+                                              </ListGroup.Item>
+                                            </ListGroup>
+                                          )}
+
+                                          
+                                        </Form.Group>
+
+                                        <Form.Group
+                                          className="mb-3"
+                                          controlId="exampleForm.ControlInput1"
+                                        >
+                                          <Form.Label>
+                                            External Link
+                                          </Form.Label>
+                                          <Form.Control
+                                            value={
+                                              item.getAssignments[0] != null ? item.getAssignments[0].solutionsExternalLink : ""
+                                            }
+                                            
+                                            type="text"
+                                            placeholder="https://externallink.com"
+                                          />
+                                        </Form.Group>
+
+                                        
+                                      </Form>
+                                    </Tab>
+                                  </Tabs>
+                                </div>
+ 
+ 
+                             
+ 
+                              <div className="p-2">
+                                    <h6>
+                                      <b>Downloadable Files</b>
+                                    </h6>
+                                    <ListGroup>
+                                      {item.get_CurriculumItem_File.map(
+                                        (files, index) =>
+                                          files.curriculum_item_file_type == 'Downloadable Items' && <ListGroup.Item key={index}>{files.url}</ListGroup.Item>
+                                      )}
+                                    </ListGroup>
+                                  </div>
+                          
+
+                            
+                                  <div className="p-2">
+                                    <h6>
+                                      <b>External Resources</b>
+                                    </h6>
+                                    <ListGroup>
+                                      {item.get_CurriculumItem_File.map(
+                                        (link, index) =>
+                                          link.curriculum_item_file_type == 'External Resourses' && (
+                                            <ListGroup.Item key={index}>
+                                              <a rel="noreferrer" target="_blank" href={link.url}>
+                                                <LaunchIcon fontSize="10" />
+                                                {link.title}
+                                              </a>
+                                            </ListGroup.Item>
+                                          )
+                                      )}
+                                    </ListGroup>
+                                  </div>
+                                
+
+                                  <div className="p-2">
+                                    <h6>
+                                      <b>Source Code</b>
+                                    </h6>
+                                    <ListGroup>
+                                      {item.get_CurriculumItem_File.map(
+                                        (link, index) =>
+                                          link.curriculum_item_file_type == 'Source Code' && <ListGroup.Item key={index}>{link.url}</ListGroup.Item>
+                                      )}
+                                    </ListGroup>
+                                  </div>
+                                 
+ 
+                             
+                             </AccordionDetails>
+                           </Accordion>
+                          )}
                           
                           </>
                        

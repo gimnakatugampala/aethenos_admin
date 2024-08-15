@@ -8,6 +8,7 @@ import ManagePricingRoutes from './ManagePricingRoutes';
 import ManageAdminRoutes from './ManageAdminsRoutes';
 import ManageRefundsRoutes from './ManageRefundsRoutes';
 import ManagePayments from './ManagePayments';
+import ManageNotifications from './ManageNotifications';
 
 // ==============================|| ROUTING RENDER ||============================== //
 
@@ -19,6 +20,7 @@ export default function ThemeRoutes() {
     ManagePricingRoutes,
     ManageAdminRoutes,
     ManageRefundsRoutes,
-    ManagePayments
+    ManagePayments,
+    ManageNotifications
   ]);
 }

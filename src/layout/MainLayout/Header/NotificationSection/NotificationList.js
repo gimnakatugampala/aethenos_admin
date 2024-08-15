@@ -22,17 +22,16 @@ import { IconBrandTelegram, IconBuildingStore, IconMailbox, IconPhoto } from '@t
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import User1 from 'assets/images/users/user-round.svg';
 import { useEffect } from 'react';
-import { GetNotifications } from 'api';
+import { GetNotifications, UpdateNotifications } from 'api';
 import { useState } from 'react';
 import moment from 'moment';
 
 import CircularProgress from '@mui/material/CircularProgress'; // Import the spinner component
 
-
 // styles
 const ListItemWrapper = styled('div')(({ theme }) => ({
   cursor: 'pointer',
-  padding: 16,
+  padding: 12,
   '&:hover': {
     background: theme.palette.primary.light
   },
@@ -45,7 +44,7 @@ const ListItemWrapper = styled('div')(({ theme }) => ({
 
 const NotificationList = () => {
   const theme = useTheme();
-  const [myNotifications, setmyNotifications] = useState(null);
+  const [myNotifications, setmyNotifications] = useState([]);
 
   const chipSX = {
     height: 24,
@@ -75,15 +74,22 @@ const NotificationList = () => {
     GetNotifications(setmyNotifications);
   }, []);
 
+  const handleNotifications = (code) => {
+    UpdateNotifications(code);
+    GetNotifications(setmyNotifications);
+    window.location.href = "/notifications";
+
+  };
+
   return (
     <List
       sx={{
         width: '100%',
-        maxWidth: '350px',
+        maxWidth: '450px',
         py: 0,
         borderRadius: '10px',
         [theme.breakpoints.down('md')]: {
-          maxWidth: 350
+          maxWidth: 450
         },
         '& .MuiListItemSecondaryAction-root': {
           top: 22
@@ -96,46 +102,80 @@ const NotificationList = () => {
         }
       }}
     >
-      {myNotifications != null ? myNotifications.length > 0 ? (
-        myNotifications.map((notification, index) => (
-          <span key={index}>
-            <ListItemWrapper style={{ width: '350px' }}>
-              <ListItem alignItems="center">
-                <div>
-                  <ListItemAvatar>
-                    <Avatar
-                      sx={{
-                        color: '#fff',
-                        backgroundColor: '#d42a34',
-                        border: 'none',
-                        borderColor: theme.palette.success.main
-                      }}
-                    >
-                      <NotificationsIcon />
-                    </Avatar>
-                  </ListItemAvatar>
-                </div>
-                <ListItemSecondaryAction>
-                  <Grid container justifyContent="d-flex">
+      {myNotifications && (
+        <ListItemWrapper>
+          <ListItem alignItems="center">
+            <ListItemText
+              primary={
+                <Typography variant="subtitle1">
+                  <div className="row">
+                    <span className="mx-0">
+                      {' '}
+                      <NotificationsIcon className="mx-2" /> You Have{' '}
+                      {myNotifications.filter((notification) => !notification.isRead).length} New Notifications{' '}
+                      <Button
+                        className="edu-btn btn-small"
+                        onClick={() => {
+                          window.location.href = '/notificationView';
+                        }}
+                      >
+                        View All
+                      </Button>
+                    </span>
+                  </div>
+                </Typography>
+              }
+            />
+          </ListItem>
+        </ListItemWrapper>
+      )}
+      {myNotifications.filter((notification) => !notification.isRead).length ? (
+        myNotifications.length > 0 ? (
+          myNotifications
+            .filter((notification) => !notification.isRead)
+            .map((notification, index) => (
+              <span key={index}>
+                <ListItemWrapper style={{ width: '350px' }} onClick={() => handleNotifications(notification.notificationCode)}>
+                  <div>
+                    <ListItem alignItems="center">
+                      <div>
+                        <ListItemAvatar>
+                          <Avatar
+                            sx={{
+                              color: 'red',
+                              backgroundColor: 'transparent',
+                              border: 'none',
+                              borderColor: theme.palette.success.main
+                            }}
+                          >
+                            <NotificationsIcon />
+                          </Avatar>
+                        </ListItemAvatar>
+                      </div>
+                      <ListItemSecondaryAction>
+                        <Grid justifyContent="d-flex">
+                          <Grid>
+                            <Typography variant="h6">
+                              <span className="d-flex float-left">
+                                {notification.notification.length > 35
+                                  ? `${notification.notification.substring(0, 35)}...`
+                                  : notification.notification}
+                              </span>
+                            </Typography>
+                          </Grid>
+                        </Grid>
+                      </ListItemSecondaryAction>
+                    </ListItem>
+                  </div>
+                  <Grid container direction="column" className="list-container">
                     <Grid>
-                      <Typography variant="h6">
-                        <span className="d-flex ">
-                          {notification.notification.length > 35
-                            ? `${notification.notification.substring(0, 35)}...`
-                            : notification.notification}
+                      <Typography variant="caption">
+                        <span className="d-flex justify-content-end">
+                          {moment(notification.notificationTime).startOf('hour').fromNow()}
                         </span>
                       </Typography>
                     </Grid>
-                  </Grid>
-                </ListItemSecondaryAction>
-              </ListItem>
-              <Grid container direction="column" className="list-container">
-                <Grid>
-                  <Typography variant="caption">
-                    <span className="d-flex justify-content-end">{moment(notification.notificationTime).startOf('hour').fromNow()}</span>
-                  </Typography>
-                </Grid>
-                {/* {notification.isRead == false && (
+                    {/* {notification.isRead == false && (
                   <Grid item xs={12}>
                     <Grid container>
                       <Grid item>
@@ -144,25 +184,26 @@ const NotificationList = () => {
                     </Grid>
                   </Grid>
                 )} */}
-              </Grid>
-            </ListItemWrapper>
-            <Divider />
-          </span>
-        ))
+                  </Grid>
+                </ListItemWrapper>
+                <Divider />
+              </span>
+            ))
+        ) : (
+          <ListItemWrapper>
+            <ListItem alignItems="center">
+              <ListItemText primary={<Typography variant="subtitle1">No Notifications</Typography>} />
+            </ListItem>
+          </ListItemWrapper>
+        )
       ) : (
-        <ListItemWrapper>
-          <ListItem alignItems="center">
-            <ListItemText primary={<Typography variant="subtitle1">No Notifications</Typography>} />
-          </ListItem>
-        </ListItemWrapper>
-      ) :  
-      <div
-      className="d-flex justify-content-center align-items-center"
-      style={{ width: '350px', height: '100px' }} // Setting width to 350px and height to 100px for better visibility
-    >
-      <CircularProgress />  {/* Spinner for loading state */}
-    </div>
-    }
+        <div
+          className="d-flex justify-content-center align-items-center"
+          style={{ width: '350px', height: '100px' }} // Setting width to 350px and height to 100px for better visibility
+        >
+          <CircularProgress /> {/* Spinner for loading state */}
+        </div>
+      )}
     </List>
   );
 };

@@ -16,6 +16,7 @@ const UtilsShadow = Loadable(lazy(() => import('views/utilities/Shadow')));
 // Pricing
 const ManagePricing = Loadable(lazy(() => import('views/manage-pricing/ManagePricing')));
 
+const ViewNotifications = Loadable(lazy(() => import('views/notifications/notificationView')));
 // ==============================|| MAIN ROUTING ||============================== //
 
 const MainRoutes = {
@@ -41,6 +42,15 @@ const MainRoutes = {
         {
           path: '/pricing',
           element: <ManagePricing />
+        }
+      ]
+    },
+    {
+      path: 'notificationView',
+      children: [
+        {
+          path: '/notificationView',
+          element: <ViewNotifications />
         }
       ]
     },

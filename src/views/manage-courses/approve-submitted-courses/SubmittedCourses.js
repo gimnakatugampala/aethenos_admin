@@ -88,10 +88,11 @@ const SubmittedCourses = () => {
   const [sectionData, setsectionData] = useState([]);
 
   const [syllabusData, setsyllabusData] = useState(null)
+  const [promotionData, setpromotionData] = useState(null)
 
 
   // Show Course Details
-  const handleShow = (code, content) => {
+  const handleShow = (code, content, promotions) => {
     setShow(true);
     console.log(code);
     GetIntendedLeaners(code, setstudentsLearnData, setrequirementsData, setwhosData);
@@ -111,10 +112,11 @@ const SubmittedCourses = () => {
     );
     GetCountriesListPricing(code, setcountriesData);
     GetCourseMessages(code, setcongratsmsg, setwelcomemsg);
-    GetCurriculum(code, setsectionData);
+    // GetCurriculum(code, setsectionData);
+    setpromotionData(promotions)
 
     setsyllabusData(content)
-    console.log(content)
+    console.log(promotions)
 
 
 
@@ -192,7 +194,7 @@ const SubmittedCourses = () => {
           instructor: `${course.instructorId.generalUserProfile.firstName} ${course.instructorId.generalUserProfile.lastName}`,
           actions: (
             <>
-              <Button size="sm" onClick={() => handleShow(course.code, course.course_content)} className="mx-1" variant="primary">
+              <Button size="sm" onClick={() => handleShow(course.code, course.course_content, course.promotions)} className="mx-1" variant="primary">
                 <RemoveRedEyeIcon />
               </Button>
               <Button size="sm" onClick={() => approveDraftCourse(course.code)} className="mx-1" variant="success">
@@ -285,7 +287,7 @@ const SubmittedCourses = () => {
                 {syllabusData != null &&
                   syllabusData.length > 0 &&
                   syllabusData.map((section, index) => (
-                    <Card key={index} className="p-3 m-2" variant="outlined">
+                    <Card key={index + Math.random()} className="p-3 m-2" variant="outlined">
 
                       <Typography variant="h4" gutterBottom>
                         Section {index + 1} : {section.section_name}
@@ -296,7 +298,7 @@ const SubmittedCourses = () => {
 
                           {/* Video */}
                           {item.curriculum_item_type == 'Lecture' && item.article == "N/A" && (
-                          <Accordion key={idx}>
+                          <Accordion key={idx + + Math.random()}>
                             <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header">
                               <Typography>
                               {item.article != "N/A" ? (<FileCopyIcon sx={{ fontSize: 15 }} /> ) : ( <PlayCircleIcon  sx={{ fontSize: 15 }} /> )}{" "}
@@ -384,7 +386,7 @@ const SubmittedCourses = () => {
 
                           {/* Article */}
                           {item.curriculum_item_type == 'Lecture' && item.article != "N/A" && (
-                          <Accordion key={idx}>
+                          <Accordion key={idx + + Math.random()}>
                             <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header">
                               <Typography>
                               {item.article != "N/A" ? (<FileCopyIcon sx={{ fontSize: 15 }} /> ) : ( <PlayCircleIcon  sx={{ fontSize: 15 }} /> )}{" "}
@@ -469,7 +471,7 @@ const SubmittedCourses = () => {
 
                           {/* Practice Test */}
                           {item.curriculum_item_type == "Practice Test" && (
-                             <Accordion key={idx}>
+                             <Accordion key={idx + + Math.random()}>
                              <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header">
                                <Typography>
                                <BugReportIcon
@@ -499,8 +501,9 @@ const SubmittedCourses = () => {
                                     >
                                       <Form.Label>Title</Form.Label>
                                       <Form.Control
-                                        value={item.title}
+                                        defaultValue={item.title}
                                         type="text"
+                                        readOnly
                                         placeholder="Practice Test Title"
                                       />
                                     </Form.Group>
@@ -514,7 +517,7 @@ const SubmittedCourses = () => {
                                       </Form.Label>
                                       <Form.Control
                                         value={item.description}
-                                        
+                                        readOnly
                                         as="textarea"
                                         rows={2}
                                       />
@@ -529,7 +532,7 @@ const SubmittedCourses = () => {
                                       </Form.Label>
                                       <Form.Control
                                         value={item.getPracticeTests[0] != null ? item.getPracticeTests[0].duration : ""}
-                                      
+                                        readOnly
                                         type="text"
                                       />
                                     </Form.Group>
@@ -544,6 +547,7 @@ const SubmittedCourses = () => {
                                       <Form.Control
                                         value={item.getPracticeTests[0] != null ? item.getPracticeTests[0].minimumuPassMark : 0}
                                         type="number"
+                                        readOnly
                                       />
                                     </Form.Group>
 
@@ -556,7 +560,7 @@ const SubmittedCourses = () => {
                                       </Form.Label>
                                       <Form.Control
                                         value={item.getPracticeTests[0] != null ? item.getPracticeTests[0].instructions : ""}
-                                     
+                                        readOnly
                                         as="textarea"
                                         rows={3}
                                       />
@@ -570,7 +574,7 @@ const SubmittedCourses = () => {
                                       </Form.Label>
                                       <Form.Control
                                         value={item.getPracticeTests[0] != null ? item.getPracticeTests[0].externalLink : ""}
-                                       
+                                        readOnly
                                         type="text"
                                         placeholder="https://externallink.com"
                                       />
@@ -624,7 +628,7 @@ const SubmittedCourses = () => {
                                         value={
                                           item.getPracticeTests[0] != null ? item.getPracticeTests[0].PracticeTestQuestionExLink : ""
                                         }
-                                       
+                                        readOnly
                                         type="text"
                                         placeholder="https://externallink.com"
                                       />
@@ -675,7 +679,7 @@ const SubmittedCourses = () => {
                                       <Form.Control
                                         value={item.getPracticeTests[0] != null ? item
                                           .getPracticeTests[0].PraticeTestSolutionsExLink : ""}
-                                       
+                                          readOnly
                                         type="text"
                                         placeholder="https://externallink.com"
                                       />
@@ -746,7 +750,7 @@ const SubmittedCourses = () => {
 
                           {/* Assignment */}
                           {item.curriculum_item_type == "Assignment" && (
-                             <Accordion key={idx}>
+                             <Accordion key={idx + + Math.random()}>
                              <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header">
                                <Typography>
                                <AssessmentIcon
@@ -778,6 +782,7 @@ const SubmittedCourses = () => {
                                           <Form.Control
                                             value={item.title}
                                             type="text"
+                                            readOnly
                                             placeholder="Assignment Title"
                                           />
                                         </Form.Group>
@@ -791,7 +796,7 @@ const SubmittedCourses = () => {
                                           </Form.Label>
                                           <Form.Control
                                             value={item.description}
-                                          
+                                            readOnly
                                             as="textarea"
                                             rows={2}
                                           />
@@ -806,6 +811,7 @@ const SubmittedCourses = () => {
                                           </Form.Label>
                                           <Form.Control
                                             value={item.getAssignments[0] != null ? item.getAssignments[0].duration : ""}
+                                            readOnly
                                           />
                                         </Form.Group>
 
@@ -820,7 +826,7 @@ const SubmittedCourses = () => {
                                             value={
                                               item.getAssignments[0] != null ? item.getAssignments[0].instructions : ""
                                             }
-                                          
+                                            readOnly
                                             as="textarea"
                                             rows={3}
                                           />
@@ -899,7 +905,7 @@ const SubmittedCourses = () => {
                                           </Form.Label>
                                           <Form.Control
                                             value={item.getAssignments[0] != null ? item.getAssignments[0].externalLink : ""}
-                                          
+                                            readOnly
                                             type="text"
                                             placeholder="https://externallink.com"
                                           />
@@ -921,7 +927,7 @@ const SubmittedCourses = () => {
                                           </Form.Label>
                                           <Form.Control
                                             value={item.getAssignments[0] != null ? item.getAssignments[0].question : ""}
-                                            
+                                            readOnly
                                             as="textarea"
                                             rows={2}
                                           />
@@ -967,7 +973,7 @@ const SubmittedCourses = () => {
                                             value={
                                               item.getAssignments[0] != null ? item.getAssignments[0].questionExternalLink : ""
                                             }
-                                            
+                                            readOnly
                                             type="text"
                                             placeholder="https://externallink.com"
                                           />
@@ -989,7 +995,7 @@ const SubmittedCourses = () => {
                                           </Form.Label>
                                           <Form.Control
                                             value={item.getAssignments[0] != null ? item.getAssignments[0].solutions : ""}
-                                          
+                                            readOnly
                                             as="textarea"
                                             rows={2}
                                           />
@@ -1064,7 +1070,7 @@ const SubmittedCourses = () => {
                                             value={
                                               item.getAssignments[0] != null ? item.getAssignments[0].solutionsExternalLink : ""
                                             }
-                                            
+                                            readOnly
                                             type="text"
                                             placeholder="https://externallink.com"
                                           />
@@ -1134,7 +1140,7 @@ const SubmittedCourses = () => {
 
                           {/* Coding Exercise */}
                           {item.curriculum_item_type == "Coding Exercise" && (
-                             <Accordion key={idx}>
+                             <Accordion key={idx + + Math.random()}>
                              <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header">
                                <Typography>
                                <CodeIcon
@@ -1164,7 +1170,7 @@ const SubmittedCourses = () => {
                                         <Form.Label>Title</Form.Label>
                                         <Form.Control
                                           value={item.title}
-                                        
+                                          readOnly
                                           type="text"
                                           placeholder="Coding Excercise"
                                         />
@@ -1179,7 +1185,7 @@ const SubmittedCourses = () => {
                                         </Form.Label>
                                         <Form.Control
                                           value={item.description}
-                                          
+                                          readOnly
                                           as="textarea"
                                           rows={2}
                                         />
@@ -1196,7 +1202,7 @@ const SubmittedCourses = () => {
                                           value={
                                             item.getCodingExercises[0] == null ? "" : item.getCodingExercises[0].instructions
                                           }
-                                          
+                                          readOnly
                                           as="textarea"
                                           rows={2}
                                         />
@@ -1263,7 +1269,7 @@ const SubmittedCourses = () => {
                                         </Form.Label>
                                         <Form.Control
                                           value={item.getCodingExercises[0] == null ? "" : item.getCodingExercises[0].externalLink}
-                                          
+                                          readOnly
                                           type="text"
                                           placeholder="https://externallink.com"
                                         />
@@ -1314,7 +1320,7 @@ const SubmittedCourses = () => {
                                           value={
                                             item.getCodingExercises[0] == null ? "" : item.getCodingExercises[0].codingExternalLink
                                           }
-                                          
+                                          readOnly
                                           type="text"
                                           placeholder="https://externallink.com"
                                         />
@@ -1391,7 +1397,7 @@ const SubmittedCourses = () => {
                                           value={
                                             item.getCodingExercises[0] == null ? "" : item.getCodingExercises[0].solutionsExternalLink
                                           }
-                                          
+                                          readOnly
                                           type="text"
                                           placeholder="https://externallink.com"
                                         />
@@ -1486,7 +1492,7 @@ const SubmittedCourses = () => {
 
                           {/* Quiz */}
                           {item.curriculum_item_type == "Quiz" && (
-                            <Accordion key={idx}>
+                            <Accordion key={idx + + Math.random()}>
                             <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header">
                               <Typography>
                               <QuizIcon
@@ -1746,68 +1752,35 @@ const SubmittedCourses = () => {
             </Tab>
 
             <Tab eventKey="promotions" title="Promotions">
-              <Accordion>
-                <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header">
-                  <Typography>CODE1</Typography>
-                </AccordionSummary>
-                <AccordionDetails>
-                  <Typography>
-                    <h5>Course Description</h5>
-                    <p>
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus ex, sit amet blandit leo lobortis
-                      eget.
-                    </p>
+              
+            {promotionData != null && promotionData.map((p, i) => (
+  <Accordion key={i}>
+    <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls={`panel${i}-content`} id={`panel${i}-header`}>
+      <Typography>{p.couponCode}</Typography>
+    </AccordionSummary>
+    <AccordionDetails>
+      <div>
+        <div className="row">
+          <div className="col-md-4">
+            <Typography variant="h6">Discount Type</Typography>
+            <Typography>{p.couponType.name}</Typography>
+          </div>
+          <div className="col-md-4">
+            <Typography variant="h6">Start Date</Typography>
+            <Typography>{p.startDate}</Typography>
+          </div>
+          <div className="col-md-4">
+            <Typography variant="h6">Expiry Date</Typography>
+            <Typography>{p.endDate}</Typography>
+          </div>
+        </div>
+      </div>
+    </AccordionDetails>
+  </Accordion>
+))}
 
-                    <div className="row">
-                      <div className="col-md-4">
-                        <h6>Discount Type</h6>
-                        <p>Percentage</p>
-                      </div>
 
-                      <div className="col-md-4">
-                        <h6>Coupon Amount ($.)</h6>
-                        <p>35.00</p>
-                      </div>
-
-                      <div className="col-md-4">
-                        <h6>Expiry Date</h6>
-                        <p>9th October 2023</p>
-                      </div>
-                    </div>
-                  </Typography>
-                </AccordionDetails>
-              </Accordion>
-              <Accordion>
-                <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel2a-content" id="panel2a-header">
-                  <Typography>CODE2</Typography>
-                </AccordionSummary>
-                <AccordionDetails>
-                  <Typography>
-                    <h5>Course Description</h5>
-                    <p>
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus ex, sit amet blandit leo lobortis
-                      eget.
-                    </p>
-
-                    <div className="row">
-                      <div className="col-md-4">
-                        <h6>Discount Type</h6>
-                        <p>Percentage</p>
-                      </div>
-
-                      <div className="col-md-4">
-                        <h6>Coupon Amount ($.)</h6>
-                        <p>35.00</p>
-                      </div>
-
-                      <div className="col-md-4">
-                        <h6>Expiry Date</h6>
-                        <p>9th October 2023</p>
-                      </div>
-                    </div>
-                  </Typography>
-                </AccordionDetails>
-              </Accordion>
+              
             </Tab>
             
           </Tabs>

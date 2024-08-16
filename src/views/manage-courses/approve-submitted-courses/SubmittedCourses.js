@@ -49,6 +49,7 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import QuizIcon from "@mui/icons-material/Quiz";
 import BugReportIcon from "@mui/icons-material/BugReport";
 import AssessmentIcon from "@mui/icons-material/Assessment";
+import moment from 'moment';
 
 
 
@@ -1767,11 +1768,11 @@ const SubmittedCourses = () => {
           </div>
           <div className="col-md-4">
             <Typography variant="h6">Start Date</Typography>
-            <Typography>{p.startDate}</Typography>
+            <Typography>{moment(p.startDate).format('MMMM Do YYYY')}</Typography>
           </div>
           <div className="col-md-4">
             <Typography variant="h6">Expiry Date</Typography>
-            <Typography>{p.endDate}</Typography>
+            <Typography>{moment(p.endDate).format('MMMM Do YYYY')}</Typography>
           </div>
         </div>
       </div>

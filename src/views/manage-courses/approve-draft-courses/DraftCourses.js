@@ -10,7 +10,7 @@ import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import Swal from 'sweetalert2';
 import { Player } from 'video-react';
-import { GellAllDraftCourses, ApproveDraftCourse, DisapproveDraftCourse } from 'api';
+import { GellAllDraftCourses, ApproveDraftCourse, DisapproveDraftCourse, VideoStreaming } from 'api';
 import { FILE_PATH } from 'commonFunctions/FilePaths';
 import 'video-react/dist/video-react.css'; // import css
 import ErrorAlert from 'commonFunctions/Alerts/ErrorAlert';
@@ -47,14 +47,14 @@ const DraftCourses = () => {
     GellAllDraftCourses(setCourses);
   }, []);
 
-  useEffect(() => {
-    // Preload video when URL is set
-    if (VIDEOURL) {
-      const video = document.createElement('video');
-      video.src = `${FILE_PATH}${VIDEOURL}`;
-      video.preload = 'auto';
-    }
-  }, [VIDEOURL]);
+  // useEffect(() => {
+  //   // Preload video when URL is set
+  //   if (VIDEOURL) {
+  //     const video = document.createElement('video');
+  //     video.src = `${FILE_PATH}${VIDEOURL}`;
+  //     video.preload = 'auto';
+  //   }
+  // }, [VIDEOURL]);
 
   const approveDraftCourse = (code) => {
     Swal.fire({
@@ -103,8 +103,11 @@ const DraftCourses = () => {
         <>
           <div style={{ display: 'flex', gap: '8px' }}>
             <Button
-              onClick={() => {
-                setVIDEOURL(course.test_video);
+              onClick={async () => {
+
+                const url = await VideoStreaming(course.test_video);
+
+                setVIDEOURL(url);
                 handleShow();
               }}
               variant="warning"
@@ -168,7 +171,7 @@ const DraftCourses = () => {
         </Modal.Header>
         <Modal.Body>
           <Player poster="path/to/poster-image.jpg">
-            <source src={`${FILE_PATH}${VIDEOURL}`} />
+            <source src={`${VIDEOURL}`} />
           </Player>
         </Modal.Body>
       </Modal>

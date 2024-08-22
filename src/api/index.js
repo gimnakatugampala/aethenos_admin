@@ -1350,3 +1350,9 @@ fetch(`${BACKEND_HOST}/manageAdmins/addRevenuePricesSplit`, requestOptions)
 
   
 }
+
+export const VideoStreaming = async (filePath) => {
+  // Properly encode the file path and return the complete URL
+  let encodedFilePath = encodeURIComponent(filePath);
+  return `${BACKEND_HOST}/videoStreming/video?url=${encodedFilePath}`;
+};

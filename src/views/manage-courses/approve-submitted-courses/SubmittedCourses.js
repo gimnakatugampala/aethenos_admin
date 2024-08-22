@@ -37,7 +37,8 @@ import {
   GetCourseLandingPage,
   GetCountriesListPricing,
   GetCourseMessages,
-  GetCurriculum
+  GetCurriculum,
+  VideoStreaming
 } from 'api';
 import ErrorAlert from 'commonFunctions/Alerts/ErrorAlert';
 import { FILE_PATH } from 'commonFunctions/FilePaths';
@@ -53,7 +54,7 @@ import moment from 'moment';
 
 
 
-let coursesData = [];
+// let coursesData = [];
 
 const SubmittedCourses = () => {
   const [show, setShow] = useState(false);
@@ -91,6 +92,9 @@ const SubmittedCourses = () => {
   const [syllabusData, setsyllabusData] = useState(null)
   const [promotionData, setpromotionData] = useState(null)
 
+  const [coursesData, setCoursesData] = useState([]);
+
+
 
   // Show Course Details
   const handleShow = (code, content, promotions) => {
@@ -117,13 +121,17 @@ const SubmittedCourses = () => {
     setpromotionData(promotions)
 
     setsyllabusData(content)
+
     console.log(promotions)
+    console.log(content)
 
 
 
   };
 
-  const handleClose = () => setShow(false);
+  const handleClose = () => {
+    setShow(false); // Reset show state to false
+  };
 
   const handleDisapproveShow = (code) => {
     setCODE(code);
@@ -183,33 +191,71 @@ const SubmittedCourses = () => {
   };
 
   useEffect(() => {
-    setTimeout(() => {
-      GetSubmitReview(setcourses);
 
-      coursesData = courses.map((course, index) => {
-        // Create a new object with modified property
-        return {
-          ...course,
-          index: index + 1,
-          courseCategory: course.courseCategory.name,
-          instructor: `${course.instructorId.generalUserProfile.firstName} ${course.instructorId.generalUserProfile.lastName}`,
-          actions: (
-            <>
-              <Button size="sm" onClick={() => handleShow(course.code, course.course_content, course.promotions)} className="mx-1" variant="primary">
-                <RemoveRedEyeIcon />
-              </Button>
-              <Button size="sm" onClick={() => approveDraftCourse(course.code)} className="mx-1" variant="success">
-                <CheckIcon />
-              </Button>
-              <Button size="sm" onClick={() => handleDisapproveShow(course.code)} className="mx-1" variant="danger">
-                <CloseIcon />
-              </Button>
-            </>
-          )
-        };
-      });
-    }, 1000);
-  }, [coursesData]);
+    GetSubmitReview(setcourses);
+  }, [])
+  
+
+  useEffect(() => {
+   // Transform courses data whenever `courses` changes
+   const transformedCoursesData = courses.map((course, index) => ({
+    ...course,
+    index: index + 1,
+    courseCategory: course.courseCategory.name,
+    instructor: `${course.instructorId.generalUserProfile.firstName} ${course.instructorId.generalUserProfile.lastName}`,
+    actions: (
+      <>
+        <Button size="sm" onClick={() => handleShow(course.code, course.course_content, course.promotions)} className="mx-1" variant="primary">
+          <RemoveRedEyeIcon />
+        </Button>
+        <Button size="sm" onClick={() => approveDraftCourse(course.code)} className="mx-1" variant="success">
+          <CheckIcon />
+        </Button>
+        <Button size="sm" onClick={() => handleDisapproveShow(course.code)} className="mx-1" variant="danger">
+          <CloseIcon />
+        </Button>
+      </>
+    )
+  }));
+  
+  setCoursesData(transformedCoursesData);
+  }, [courses]);
+
+  // ===========
+  const [videoUrls, setVideoUrls] = useState({}); // State to store video URLs
+
+  // Fetch video URLs when component mounts or syllabusData changes
+  useEffect(() => {
+    const fetchVideoUrls = async () => {
+      const urls = {};
+      if (syllabusData && syllabusData.length > 0) {
+        for (const section of syllabusData) {
+          for (const item of section.section_curriculum_item) {
+            if (item.curriculum_item_type === 'Lecture' && item.article === 'N/A') {
+              for (const file of item.get_CurriculumItem_File) {
+                if (file.curriculum_item_file_type === 'Video') {
+                  try {
+                    const url = await VideoStreaming(file.url); // Fetch the video URL
+                    urls[file.url] = url; // Store URL
+                  } catch (error) {
+                    console.error('Error fetching video URL:', error);
+                  }
+                }
+              }
+            }
+          }
+        }
+        setVideoUrls(urls); // Update state with fetched URLs
+      }
+    };
+
+    fetchVideoUrls(); // Call function to fetch URLs
+  }, [syllabusData]); // Dependency array
+
+  // if (!syllabusData || syllabusData.length === 0) {
+  //   return <Typography>No data available</Typography>; // Optionally handle no data case
+  // }
+
 
   return (
     <>
@@ -317,7 +363,7 @@ const SubmittedCourses = () => {
                                       <Typography key={index}>
                                         <Card>
                                           <Player>
-                                            <source src={`${FILE_PATH}${files.url}`} />
+                                            <source src={`${videoUrls[files.url] || files.url}`} />
                                           </Player>
                                           <CardContent>
                                             <Typography gutterBottom variant="h5" component="div">

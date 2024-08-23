@@ -51,15 +51,20 @@ import QuizIcon from "@mui/icons-material/Quiz";
 import BugReportIcon from "@mui/icons-material/BugReport";
 import AssessmentIcon from "@mui/icons-material/Assessment";
 import moment from 'moment';
+import { useSelector } from 'react-redux';
 
 
 
 // let coursesData = [];
 
 const SubmittedCourses = () => {
+
+  const customization = useSelector((state) => state.customization);
+
   const [show, setShow] = useState(false);
   const [showDisapprove, setshowDisapprove] = useState(false);
   const [key, setKey] = useState('intended-learners');
+  const [modelPadding , setModelPadding] = useState(false)
 
   const [courses, setcourses] = useState([]);
   const [comment, setcomment] = useState('');
@@ -95,9 +100,15 @@ const SubmittedCourses = () => {
   const [coursesData, setCoursesData] = useState([]);
 
 
+  const modalStyle = (modelPadding) => ({
+    marginLeft: modelPadding ? `` : 'initial', 
+
+  });
 
   // Show Course Details
   const handleShow = (code, content, promotions) => {
+
+    
     setShow(true);
     console.log(code);
     GetIntendedLeaners(code, setstudentsLearnData, setrequirementsData, setwhosData);
@@ -128,6 +139,17 @@ const SubmittedCourses = () => {
 
 
   };
+
+  useEffect(() => {
+
+    const isOpened = customization.opened;
+
+    setModelPadding(isOpened);
+
+    console.log(isOpened)
+  }, [customization])
+
+
 
   const handleClose = () => {
     setShow(false); // Reset show state to false
@@ -283,7 +305,8 @@ const SubmittedCourses = () => {
       </Card>
 
       {/* View Course */}
-      <Modal size="lg" show={show} onHide={handleClose}>
+      <Modal size="xl" show={show} onHide={handleClose}   style={ modalStyle(modelPadding) }   dialogClassName={modelPadding ? "modal-responsive" : ""} >
+
         <Modal.Header closeButton>
           <Modal.Title>View Course Details</Modal.Title>
         </Modal.Header>
@@ -1698,10 +1721,10 @@ const SubmittedCourses = () => {
                       What is primarily taught in your course?
                     </Typography>
 
-                    <Typography variant="body2" color="text.secondary">
-                      <Stack direction="row" spacing={1}>
+                    <Typography variant="body2" color="text.secondary" style={{display: "flex", flexWrap: "wrap"}}>
+                      <Stack direction="row" spacing={1} style={{display: "flex", flexWrap: "wrap"}}>
                         {keywords.map((keyword, index) => (
-                          <Chip key={index} label={keyword} variant="outlined" />
+                          <Chip key={index} label={keyword} variant="outlined" style={{display: "flex", flexWrap: "wrap"}} className='m-2'/>
                         ))}
                       </Stack>
                     </Typography>
@@ -1738,7 +1761,7 @@ const SubmittedCourses = () => {
             </Tab>
 
             <Tab eventKey="pricing" title="Pricing">
-              <table className="table table-striped text-center">
+              <table className="table table-striped text-center" style={{overflow: "scroll"}}>
                 <thead>
                   <tr>
                     <th scope="col">Country</th>

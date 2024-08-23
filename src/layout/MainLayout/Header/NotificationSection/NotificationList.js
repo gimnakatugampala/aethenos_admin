@@ -50,20 +50,20 @@ const NotificationList = () => {
     const now = new Date();
     const date = new Date(dateString);
     const seconds = Math.floor((now - date) / 1000);
-    let interval = Math.floor(seconds / 31536000);
   
-    if (interval > 1) return `${interval} years ago`;
-    interval = Math.floor(seconds / 2592000);
-    if (interval > 1) return `${interval} months ago`;
-    interval = Math.floor(seconds / 86400);
-    if (interval > 1) return `${interval} days ago`;
-    interval = Math.floor(seconds / 3600);
-    if (interval > 1) return `${interval} hours ago`;
-    interval = Math.floor(seconds / 60);
-    if (interval > 1) return `${interval} minutes ago`;
-    return `${Math.floor(seconds)} seconds ago`;
+    const years = Math.floor(seconds / 31536000);
+    const months = Math.floor((seconds % 31536000) / 2592000);
+    const days = Math.floor((seconds % 2592000) / 86400);
+    const hours = Math.floor((seconds % 86400) / 3600);
+    const minutes = Math.floor((seconds % 3600) / 60);
+  
+    if (years > 0) return years === 1 ? 'A year ago' : `${years} years ago`;
+    if (months > 0) return months === 1 ? 'A month ago' : `${months} months ago`;
+    if (days > 0) return days === 1 ? 'A day ago' : `${days} days ago`;
+    if (hours > 0) return hours === 1 ? 'An hour ago' : `${hours} hours ago`;
+    if (minutes > 0) return minutes === 1 ? 'A minute ago' : `${minutes} minutes ago`;
+    return 'just now';
   };
-  
 
   const chipSX = {
     height: 24,
@@ -128,7 +128,7 @@ const NotificationList = () => {
               primary={
                 <Typography variant="subtitle1">
                   <div className="row">
-                    <span className="mx-0">
+                    <span className="mx-0" style={{justifyContent: "space-around", display: "flex",   alignItems: "center"}}>
                       {' '}
                       <NotificationsIcon className="mx-2" /> You Have{' '}
                       {myNotifications.filter((notification) => !notification.isRead).length} New Notifications{' '}
@@ -154,7 +154,7 @@ const NotificationList = () => {
             .filter((notification) => !notification.isRead)
             .map((notification, index) => (
               <span key={index}>
-                <ListItemWrapper style={{ width: '350px' }} onClick={() => handleNotifications(notification.notificationCode)}>
+                <ListItemWrapper style={{ width: '450px' }} onClick={() => handleNotifications(notification.notificationCode)}>
                   <div>
                     <ListItem alignItems="center">
                       <div>
@@ -164,7 +164,7 @@ const NotificationList = () => {
                               color: 'red',
                               backgroundColor: 'transparent',
                               border: 'none',
-                              borderColor: theme.palette.success.main
+                              borderColor: theme.palette.success.main,                            
                             }}
                           >
                             <NotificationsIcon />
@@ -175,10 +175,9 @@ const NotificationList = () => {
                         <Grid justifyContent="d-flex">
                           <Grid>
                             <Typography variant="h6">
-                              <span className="d-flex float-left">
-                                {notification.notification.length > 35
-                                  ? `${notification.notification.substring(0, 35)}...`
-                                  : notification.notification}
+                              <span className="d-flex float-left px-5" >
+                                {notification.notification}
+                                
                               </span>
                             </Typography>
                           </Grid>

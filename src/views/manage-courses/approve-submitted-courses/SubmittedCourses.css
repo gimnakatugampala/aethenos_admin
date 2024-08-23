@@ -1,0 +1,51 @@
+/* Default styles (screen width 1800px and above) */
+.modal-responsive {
+    max-width: 85%;
+    margin-left: calc(10% + 50px)
+  }
+  
+  
+  @media (max-width: 2699px) {
+    .modal-responsive {
+     max-width: 80%;
+     margin-left: calc(13% + 50px)
+    }
+  }
+
+  @media (max-width: 2099px) {
+    .modal-responsive {
+     max-width: 80%;
+     margin-left: calc(15% + 50px)
+    }
+  }
+  @media (max-width: 1799px) {
+    .modal-responsive {
+      max-width: 70%;
+      margin-left: calc(20% + 50px);
+    }
+  }
+  
+  /* For screens less than 1400px */
+  @media (max-width: 1599px) {
+    .modal-responsive {
+      max-width: 65%;
+      margin-left: calc(25% + 50px);
+    }
+  }
+  
+  /* For screens less than 1200px */
+  @media (max-width: 1199px) {
+    .modal-responsive {
+      max-width: 60%;
+      margin-left: calc(30% + 50px);
+    }
+  }
+  
+  /* For screens less than 900px */
+  @media (max-width: 899px) {
+    .modal-responsive {
+      max-width: 90%;
+      margin-left: auto;
+      
+    }
+  }

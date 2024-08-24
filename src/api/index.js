@@ -534,25 +534,36 @@ export const AddAdminAPI = (firstname, lastname, email, conpassword, user_type) 
     .catch((error) => console.log('error', error));
 };
 
-export const ViewAdminAPI = (setadmins) => {
-  var myHeaders = new Headers();
+export const ViewAdminAPI = async () => {
+  const myHeaders = new Headers();
   myHeaders.append('Authorization', `Bearer ${CURRENT_USER}`);
 
-  var requestOptions = {
+  const requestOptions = {
     method: 'GET',
     headers: myHeaders,
-    redirect: 'follow'
+    redirect: 'follow',
   };
 
-  fetch(`${BACKEND_HOST}/manageAdmins/view`, requestOptions)
-    .then((response) => response.json())
-    .then((result) => {
-      Unauthorized(result.status, 'all-admins');
-      console.log(result);
-      setadmins(result);
-    })
-    .catch((error) => console.log('error', error));
+  try {
+    const response = await fetch(`${BACKEND_HOST}/manageAdmins/view`, requestOptions);
+    
+    if (!response.ok) {
+      // Handle HTTP errors
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    const result = await response.json();
+
+    Unauthorized(result.status, 'all-admins');
+    
+    return result;
+  } catch (error) {
+    console.error('Error fetching admin data:', error);
+    // Optionally return an empty array or handle the error appropriately
+    return [];
+  }
 };
+
 
 export const ActivateAdminAPI = (id) => {
   var myHeaders = new Headers();

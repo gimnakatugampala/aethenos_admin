@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './DraftCourses.css';
 import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
-import Button from 'react-bootstrap/Button';
 import Typography from '@mui/material/Typography';
 import MaterialTable from 'material-table';
 import Modal from 'react-bootstrap/Modal';
@@ -13,10 +11,11 @@ import { Player } from 'video-react';
 import { GellAllDraftCourses, ApproveDraftCourse, DisapproveDraftCourse, VideoStreaming } from 'api';
 import { FILE_PATH } from 'commonFunctions/FilePaths';
 import 'video-react/dist/video-react.css'; // import css
-import ErrorAlert from 'commonFunctions/Alerts/ErrorAlert';
 import PlayCircleIcon from '@mui/icons-material/PlayCircle';
 import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
+import Button from 'react-bootstrap/Button';
+import ErrorAlert from 'commonFunctions/Alerts/ErrorAlert';
 
 const DraftCourses = () => {
   const [show, setShow] = useState(false);
@@ -39,22 +38,12 @@ const DraftCourses = () => {
     width: '40px',
     borderRadius: '25px',
     padding: '0px',
-    height: '35px'
+    height: '35px',
   };
 
   useEffect(() => {
-    // Fetch draft courses and set up the data
     GellAllDraftCourses(setCourses);
   }, []);
-
-  // useEffect(() => {
-  //   // Preload video when URL is set
-  //   if (VIDEOURL) {
-  //     const video = document.createElement('video');
-  //     video.src = `${FILE_PATH}${VIDEOURL}`;
-  //     video.preload = 'auto';
-  //   }
-  // }, [VIDEOURL]);
 
   const approveDraftCourse = (code) => {
     Swal.fire({
@@ -64,7 +53,7 @@ const DraftCourses = () => {
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
       cancelButtonColor: '#d33',
-      confirmButtonText: 'Yes, Approve it!'
+      confirmButtonText: 'Yes, Approve it!',
     }).then((result) => {
       if (result.isConfirmed) {
         ApproveDraftCourse(code);
@@ -85,7 +74,7 @@ const DraftCourses = () => {
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
       cancelButtonColor: '#d33',
-      confirmButtonText: 'Yes, reject it!'
+      confirmButtonText: 'Yes, reject it!',
     }).then((result) => {
       if (result.isConfirmed) {
         DisapproveDraftCourse(ID, comment, setShowDisapprove, setComment);
@@ -100,42 +89,37 @@ const DraftCourses = () => {
       courseCategory: course.courseCategory.name,
       instructor: `${course.instructorId.generalUserProfile.firstName} ${course.instructorId.generalUserProfile.lastName}`,
       actions: (
-        <>
-          <div style={{ display: 'flex', gap: '8px' }}>
-            <Button
-              onClick={async () => {
-
-                const url = await VideoStreaming(course.test_video);
-
-                setVIDEOURL(url);
-                handleShow();
-              }}
-              variant="warning"
-            
-              style={buttonStyle}
-            >
-              <PlayCircleIcon />
-            </Button>
-            <Button
-              onClick={() => approveDraftCourse(course.code)}
-              variant="success"
-              style={buttonStyle}
-            >
-              <CheckIcon />
-            </Button>
-            <Button
-              onClick={() => {
-                setID(course.code);
-                handleDisapproveShow();
-              }}
-              variant="danger"
-              style={buttonStyle}
-            >
-              <CloseIcon />
-            </Button>
-          </div>
-        </>
-      )
+        <div style={{ display: 'flex', gap: '8px' }}>
+          <Button
+            onClick={async () => {
+              const url = await VideoStreaming(course.test_video);
+              setVIDEOURL(url);
+              handleShow();
+            }}
+            variant="warning"
+            style={buttonStyle}
+          >
+            <PlayCircleIcon />
+          </Button>
+          <Button
+            onClick={() => approveDraftCourse(course.code)}
+            variant="success"
+            style={buttonStyle}
+          >
+            <CheckIcon />
+          </Button>
+          <Button
+            onClick={() => {
+              setID(course.code);
+              handleDisapproveShow();
+            }}
+            variant="danger"
+            style={buttonStyle}
+          >
+            <CloseIcon />
+          </Button>
+        </div>
+      ),
     };
   });
 
@@ -150,15 +134,16 @@ const DraftCourses = () => {
           <MaterialTable
             title=""
             columns={[
-              { title: 'ID', field: 'index' },
+              { title: 'ID', field: 'index', filtering: false }, // Filtering disabled
               { title: 'Course Title', field: 'courseTitle' },
               { title: 'Course Category', field: 'courseCategory' },
-              { title: 'Instrutor', field: 'instructor' },
-              { title: 'Actions', field: 'actions' }
+              { title: 'Instructor', field: 'instructor' },
+              { title: 'Actions', field: 'actions', filtering: false }, // Filtering disabled
             ]}
             data={coursesData}
             options={{
-              exportButton: true
+              filtering: true, // Global filtering enabled
+              exportButton: true,
             }}
           />
         </CardContent>

@@ -1,6 +1,5 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import MaterialTable from 'material-table';
-import { useEffect } from 'react';
 import { useTheme } from '@mui/material/styles';
 import { AppoveRefund, ChangeStatusToTransfered, DisappoveRefund, GetRefunds } from 'api';
 import Button from 'react-bootstrap/Button';
@@ -9,7 +8,6 @@ import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
-import { useState } from 'react';
 import moment from 'moment';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import ErrorAlert from 'commonFunctions/Alerts/ErrorAlert';
@@ -18,7 +16,6 @@ import Accordion from 'react-bootstrap/Accordion';
 import { IMG_HOST } from 'api';
 
 import Avatar from '@mui/material/Avatar';
-
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
@@ -33,38 +30,29 @@ import Checkbox from '@mui/material/Checkbox';
 import Chip from '@mui/material/Chip';
 import 'sweetalert2/src/sweetalert2.scss';
 
-let RefundsData = [];
-
 const RefundsList = () => {
   const theme = useTheme();
-
   const [show, setShow] = useState(false);
-  const [refunds, setrefunds] = useState([]);
-  const [refund, setrefund] = useState(null);
-  const [selectedCheckbox, setselectedCheckbox] = useState(false);
-
-  const [admin_remark, setadmin_remark] = useState('');
-
-  // =============== VIEW =============
-  const [Viewshow, setViewShow] = useState(false);
-  const [courses, setcourses] = useState([]);
-  const [uD, setuD] = useState(null);
+  const [refunds, setRefunds] = useState([]);
+  const [refund, setRefund] = useState(null);
+  const [selectedCheckbox, setSelectedCheckbox] = useState(false);
+  const [adminRemark, setAdminRemark] = useState('');
+  const [viewShow, setViewShow] = useState(false);
+  const [courses, setCourses] = useState([]);
+  const [uD, setUD] = useState(null);
 
   const handleCloseView = () => setViewShow(false);
   const handleShowView = (refund) => {
     setViewShow(true);
-    console.log(refund);
-    setcourses(refund.getOwnRefundsResponse);
-    setuD(refund);
+    setCourses(refund.getOwnRefundsResponse);
+    setUD(refund);
   };
 
   useEffect(() => {
-    setTimeout(() => {
-      GetRefunds(setrefunds);
-
-      RefundsData = refunds.map((refund, index) => {
-        // Create a new object with modified property
-        return {
+    const fetchRefunds = async () => {
+      try {
+        const data = await GetRefunds();
+        const processedData = data.map((refund, index) => ({
           ...refund,
           id: index + 1,
           c_title: refund.courseDetailsResponses[0].courseTitle,
@@ -77,12 +65,9 @@ const RefundsList = () => {
               <Button onClick={() => handleShowView(refund)} size="sm" variant="primary">
                 <RemoveRedEyeIcon />
               </Button>
-
               <Button
                 size="sm"
-                onClick={() => {
-                  handleShow(refund);
-                }}
+                onClick={() => handleShow(refund)}
                 variant="danger"
               >
                 <CloseIcon />
@@ -110,44 +95,43 @@ const RefundsList = () => {
               </Button>
             </>
           ),
-          status: refund.status == 'Processing' ? <Chip label="Processing" color="info" /> : <Chip label="Completed" color="success" />,
-          refunded:
-            refund.status == 'Approved' ? (
-              <Checkbox value={selectedCheckbox} onChange={(e) => handleTransferedAmount(e.target.checked, refund.refundCode)} />
-            ) : (
-              <Checkbox disabled={true} />
-            )
-        };
-      });
-    }, 1000);
-  }, [RefundsData]);
+          status: refund.status === 'Processing'
+            ? <Chip label="Processing" color="info" />
+            : <Chip label="Completed" color="success" />,
+          refunded: refund.status === 'Approved'
+            ? <Checkbox value={selectedCheckbox} onChange={(e) => handleTransferedAmount(e.target.checked, refund.refundCode)} />
+            : <Checkbox disabled={true} />
+        }));
+        setRefunds(processedData);
+      } catch (error) {
+        console.error('Error fetching refunds data:', error);
+      }
+    };
+
+    fetchRefunds(); // Fetch data once when the component mounts
+  }, []);
 
   const handleShow = (refund) => {
-    setrefund(refund);
+    setRefund(refund);
     setShow(true);
-    console.log(refund);
-  };
-  const handleClose = () => {
-    setShow(false);
-    setrefund(null);
   };
 
-  const handleRefundDispprove = () => {
-    if (admin_remark == '') {
+  const handleClose = () => {
+    setShow(false);
+    setRefund(null);
+  };
+
+  const handleRefundDisapprove = () => {
+    if (adminRemark === '') {
       ErrorAlert('Empty Field', 'Please Fill Remark');
       return;
     }
 
-    DisappoveRefund(refund.refundCode, admin_remark, setShow, setadmin_remark, setrefund);
-
-    console.log(admin_remark);
-    console.log(refund);
+    DisappoveRefund(refund.refundCode, adminRemark, setShow, setAdminRemark, setRefund);
   };
 
   const handleTransferedAmount = (userAct, rCode) => {
-    console.log(userAct);
-
-    setselectedCheckbox(userAct);
+    setSelectedCheckbox(userAct);
 
     if (userAct) {
       Swal.fire({
@@ -160,7 +144,7 @@ const RefundsList = () => {
         confirmButtonText: 'Yes, Approve it!'
       }).then((result) => {
         if (result.isConfirmed) {
-          ChangeStatusToTransfered(rCode, setrefunds, setselectedCheckbox);
+          ChangeStatusToTransfered(rCode, setRefunds, setSelectedCheckbox);
         }
       });
     }
@@ -171,27 +155,32 @@ const RefundsList = () => {
       <Card sx={{ minWidth: 275 }}>
         <CardContent>
           <Typography variant="h2" gutterBottom>
-          Pending Refunds
+            Pending Refunds
           </Typography>
           <MaterialTable
             title=""
             columns={[
-              { title: 'ID', field: 'id' },
-              { title: 'Course Title', field: 'c_title' },
-              { title: 'Purchased Date', field: 'purch_date' },
-              { title: 'Purchased Amount', field: 'purch_amount' },
-              { title: 'Refund Amount', field: 'refund_amount' },
-              { title: 'Comment', field: 'comment' },
-              { title: 'Actions', field: 'actions' },
-              { title: 'Status', field: 'status' },
-              { title: 'Refunded ?', field: 'refunded' }
+              { title: 'ID', field: 'id', filtering: false }, // Enable filtering for ID column
+              { title: 'Course Title', field: 'c_title', filtering: true },
+              { title: 'Purchased Date', field: 'purch_date', filtering: true },
+              { title: 'Purchased Amount', field: 'purch_amount', filtering: true },
+              { title: 'Refund Amount', field: 'refund_amount', filtering: true },
+              { title: 'Comment', field: 'comment', filtering: true },
+              { title: 'Actions', field: 'actions', filtering: false },
+              { title: 'Status', field: 'status', filtering: false },
+              { title: 'Refunded ?', field: 'refunded', filtering: false }
             ]}
-            data={RefundsData}
+            data={refunds}
+            options={{
+              search: true,
+              filtering: true, // Enable global filtering
+              exportButton: true
+            }}
           />
         </CardContent>
       </Card>
 
-      {/* Disaaprove  */}
+      {/* Disapprove Modal */}
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>Disapprove Refund</Modal.Title>
@@ -201,70 +190,56 @@ const RefundsList = () => {
           <Form>
             <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
               <Form.Label>Admin Remark</Form.Label>
-              <Form.Control value={admin_remark} onChange={(e) => setadmin_remark(e.target.value)} as="textarea" rows={3} />
+              <Form.Control value={adminRemark} onChange={(e) => setAdminRemark(e.target.value)} as="textarea" rows={3} />
             </Form.Group>
           </Form>
         </Modal.Body>
 
         <Modal.Footer>
-          <Button onClick={handleRefundDispprove} variant="danger">
+          <Button onClick={handleRefundDisapprove} variant="danger">
             Disapprove
           </Button>
-          <Button variant="secondary">Cancel</Button>
+          <Button variant="secondary" onClick={handleClose}>Cancel</Button>
         </Modal.Footer>
       </Modal>
 
-      {/* View */}
-      {Viewshow && (
-        <Modal show={Viewshow} onHide={handleCloseView}>
+      {/* View Refund History Modal */}
+      {viewShow && (
+        <Modal show={viewShow} onHide={handleCloseView}>
           <Modal.Header closeButton>
             <Modal.Title>View Refund History</Modal.Title>
           </Modal.Header>
           <Modal.Body>
             <Accordion>
-              {uD.userDetails != null && (
+              {uD?.userDetails && (
                 <Card className="my-3" sx={{ display: 'flex' }}>
-                  {uD.userDetails != null && uD.userDetails.profileImg == null ? (
-                    <CardMedia
-                      component="img"
-                      sx={{ width: 151 }}
-                      image={`/assets/images/user-profile.png`}
-                      alt="Live from space album cover"
-                    />
-                  ) : (
-                    <CardMedia
-                      component="img"
-                      sx={{ width: 151 }}
-                      image={`${IMG_HOST}${uD.userDetails.profileImg}`}
-                      alt="Live from space album cover"
-                    />
-                  )}
+                  <CardMedia
+                    component="img"
+                    sx={{ width: 151 }}
+                    image={uD.userDetails.profileImg ? `${IMG_HOST}${uD.userDetails.profileImg}` : `/assets/images/user-profile.png`}
+                    alt="Profile"
+                  />
                   <Box sx={{ display: 'flex', flexDirection: 'column' }}>
                     <CardContent sx={{ flex: '1 0 auto' }}>
                       <Typography component="div" variant="h5">
-                        {uD != null && uD.userDetails.userName}
+                        {uD.userDetails.userName}
                       </Typography>
                       <Typography variant="subtitle1" color="text.secondary" component="div">
-                        {uD != null && uD.userDetails.email}
+                        {uD.userDetails.email}
                       </Typography>
-
                       <Typography variant="subtitle1" component="div">
-                        No. of Refund request - {uD != null && uD.userDetails.noOfRefundRequest}
+                        No. of Refund request - {uD.userDetails.noOfRefundRequest}
                       </Typography>
-
                       <Typography variant="subtitle1" component="div">
-                        No. of Refund rejections - {uD != null && uD.userDetails.noOfRefundRejections}
+                        No. of Refund rejections - {uD.userDetails.noOfRefundRejections}
                       </Typography>
-
                       <Typography variant="subtitle1" component="div">
-                        No. of Refund granted - {uD != null && uD.userDetails.noOfRefundGranted}
+                        No. of Refund granted - {uD.userDetails.noOfRefundGranted}
                       </Typography>
-
                       <Typography variant="subtitle1" component="div">
-                        Total Number of Refunds - {uD != null && uD.userDetails.totalNumberOfRefunds}
+                        Total Number of Refunds - {uD.userDetails.totalNumberOfRefunds}
                       </Typography>
                     </CardContent>
-
                     <a
                       className="m-2 w-75 mx-auto"
                       rel="noreferrer"
@@ -278,13 +253,12 @@ const RefundsList = () => {
                   </Box>
                 </Card>
               )}
-
               {courses.map((course, index) => (
                 <Accordion.Item key={index} eventKey={`${index}`}>
                   <Accordion.Header>{course.courseDetailsResponses[0].courseTitle}</Accordion.Header>
                   <Accordion.Body>
                     <h6>Course Completion - {course.courseDetailsResponses[0].courseProgress}%</h6>
-                    <h6>Admin Comment - {course.adminComment == null ? 'N/A' : course.adminComment}</h6>
+                    <h6>Admin Comment - {course.adminComment ?? 'N/A'}</h6>
                     <h6>Admin Actions - {course.adminAction}</h6>
                     <h6>Requested Date : {course.requestDate}</h6>
                     <h6>Refunded Amount : {course.refundAmount}</h6>

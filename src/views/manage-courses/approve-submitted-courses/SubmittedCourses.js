@@ -290,14 +290,15 @@ const SubmittedCourses = () => {
           <MaterialTable
             title=""
             columns={[
-              { title: 'ID', field: 'index' },
+              { title: 'ID', field: 'index' , filtering: false },
               { title: 'Course Title', field: 'courseTitle' },
               { title: 'Course Category', field: 'courseCategory' },
               { title: 'Instructor', field: 'instructor' },
-              { title: 'Actions', field: 'actions' }
+              { title: 'Actions', field: 'actions',filtering: false }
             ]}
             data={coursesData}
             options={{
+              filtering: true,
               exportButton: true
             }}
           />

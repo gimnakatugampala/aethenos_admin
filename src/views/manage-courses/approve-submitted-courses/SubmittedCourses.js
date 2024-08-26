@@ -38,7 +38,8 @@ import {
   GetCountriesListPricing,
   GetCourseMessages,
   GetCurriculum,
-  VideoStreaming
+  VideoStreaming,
+  GetCategories
 } from 'api';
 import ErrorAlert from 'commonFunctions/Alerts/ErrorAlert';
 import { FILE_PATH } from 'commonFunctions/FilePaths';
@@ -98,6 +99,7 @@ const SubmittedCourses = () => {
   const [promotionData, setpromotionData] = useState(null)
 
   const [coursesData, setCoursesData] = useState([]);
+  const [categoryLookup, setCategoryLookup] = useState({}); // State for category lookup
 
 
   const modalStyle = (modelPadding) => ({
@@ -215,7 +217,22 @@ const SubmittedCourses = () => {
   useEffect(() => {
 
     GetSubmitReview(setcourses);
+    fetchCategories(); // Fetch categories on component mount
   }, [])
+
+
+  const fetchCategories = async () => {
+    try {
+      const result = await GetCategories();
+      const lookup = result.reduce((acc, category) => {
+        acc[category.name] = category.name; // Use category name as key and value
+        return acc;
+      }, {});
+      setCategoryLookup(lookup);
+    } catch (error) {
+      console.error('Failed to fetch categories', error);
+    }
+  };
   
 
   useEffect(() => {
@@ -292,7 +309,7 @@ const SubmittedCourses = () => {
             columns={[
               { title: 'ID', field: 'index' , filtering: false },
               { title: 'Course Title', field: 'courseTitle' },
-              { title: 'Course Category', field: 'courseCategory' },
+              { title: 'Course Category', field: 'courseCategory', lookup: categoryLookup },
               { title: 'Instructor', field: 'instructor' },
               { title: 'Actions', field: 'actions',filtering: false }
             ]}

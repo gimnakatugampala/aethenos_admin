@@ -8,7 +8,7 @@ import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import Swal from 'sweetalert2';
 import { Player } from 'video-react';
-import { GellAllDraftCourses, ApproveDraftCourse, DisapproveDraftCourse, VideoStreaming } from 'api';
+import { GellAllDraftCourses, ApproveDraftCourse, DisapproveDraftCourse, VideoStreaming, GetCategories } from 'api';
 import { FILE_PATH } from 'commonFunctions/FilePaths';
 import 'video-react/dist/video-react.css'; // import css
 import PlayCircleIcon from '@mui/icons-material/PlayCircle';
@@ -24,6 +24,7 @@ const DraftCourses = () => {
   const [courses, setCourses] = useState([]);
   const [comment, setComment] = useState('');
   const [ID, setID] = useState('');
+  const [categoryLookup, setCategoryLookup] = useState({}); // State for category lookup
 
   const handleShow = () => setShow(true);
   const handleClose = () => setShow(false);
@@ -43,7 +44,21 @@ const DraftCourses = () => {
 
   useEffect(() => {
     GellAllDraftCourses(setCourses);
+    fetchCategories(); // Fetch categories on component mount
   }, []);
+
+  const fetchCategories = async () => {
+    try {
+      const result = await GetCategories();
+      const lookup = result.reduce((acc, category) => {
+        acc[category.name] = category.name; // Use category name as key and value
+        return acc;
+      }, {});
+      setCategoryLookup(lookup);
+    } catch (error) {
+      console.error('Failed to fetch categories', error);
+    }
+  };
 
   const approveDraftCourse = (code) => {
     Swal.fire({
@@ -86,7 +101,7 @@ const DraftCourses = () => {
     return {
       ...course,
       index: index + 1,
-      courseCategory: course.courseCategory.name,
+      courseCategory: course.courseCategory ? course.courseCategory.name : 'N/A', // Ensure category is properly displayed
       instructor: `${course.instructorId.generalUserProfile.firstName} ${course.instructorId.generalUserProfile.lastName}`,
       actions: (
         <div style={{ display: 'flex', gap: '8px' }}>
@@ -136,7 +151,7 @@ const DraftCourses = () => {
             columns={[
               { title: 'ID', field: 'index', filtering: false }, // Filtering disabled
               { title: 'Course Title', field: 'courseTitle' },
-              { title: 'Course Category', field: 'courseCategory' },
+              { title: 'Course Category', field: 'courseCategory', lookup: categoryLookup }, // Add category lookup
               { title: 'Instructor', field: 'instructor' },
               { title: 'Actions', field: 'actions', filtering: false }, // Filtering disabled
             ]}

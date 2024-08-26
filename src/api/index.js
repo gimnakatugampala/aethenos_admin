@@ -1367,3 +1367,84 @@ export const VideoStreaming = async (filePath) => {
   let encodedFilePath = encodeURIComponent(filePath);
   return `${BACKEND_HOST}/videoStreming/video?url=${encodedFilePath}`;
 };
+
+// Update GetLanguages to return the language data
+export const GetLanguages = async () => {
+  try {
+    const response = await fetch(`${BACKEND_HOST}/managecourse/getAllLanguage`, {
+      method: "GET",
+      redirect: "follow",
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const result = await response.json();
+    return result; // Return the language data
+  } catch (error) {
+    console.error("Error fetching languages:", error);
+    return []; // Return an empty array or handle the error appropriately
+  }
+};
+
+
+
+export const GetLevel = async () => {
+  var requestOptions = {
+    method: "GET",
+    redirect: "follow",
+  };
+
+  const response = await fetch(`${BACKEND_HOST}/managecourse/getAllCourseLevels`, requestOptions);
+  const result = await response.json();
+  return result;
+};
+
+
+export const GetCategories = async () => {
+  const requestOptions = {
+    method: "GET",
+    redirect: "follow",
+  };
+
+  try {
+    const response = await fetch(`${BACKEND_HOST}/course/getCourseCategory`, requestOptions);
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+    const result = await response.json();
+    return result; // Return the fetched data
+  } catch (error) {
+    console.error("Error fetching categories:", error);
+    return []; // Return an empty array or handle the error appropriately
+  }
+};
+
+
+// export const GetSubCategories = async (setsubcatData, course_cat, code) => {
+//   console.log(course_cat);
+//   var myHeaders = new Headers();
+//   myHeaders.append("Authorization", `Bearer ${CURRENT_USER}`);
+
+//   var requestOptions = {
+//     method: "GET",
+//     headers: myHeaders,
+//     redirect: "follow",
+//   };
+
+//   fetch(
+//     `${BACKEND_LINK}/managecourse/getAllCourseSubCategory/${course_cat}`,
+//     requestOptions
+//   )
+//     .then((response) => response.json())
+//     .then((result) => {
+//       Unauthorized(
+//         result.status,
+//         `courses`
+//       );
+//       setsubcatData(result);
+//       console.log(result);
+//     })
+//     .catch((error) => console.log("error", error));
+// };

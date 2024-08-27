@@ -4,7 +4,7 @@ import { FILE_PATH } from 'commonFunctions/FilePaths';
 import StarRatings from 'react-star-ratings';
 import Cookies from 'js-cookie';
 
-const BACKEND_HOST = 'https://aethenosinstructor.exon.lk:2053/aethenos-api';
+export const BACKEND_HOST = 'https://aethenosinstructor.exon.lk:2053/aethenos-api';
 export const IMG_HOST = 'https://aethenosinstructor.exon.lk:2053/aethenos-assert/';
 
 const CURRENT_USER = Cookies.get('aethenos_admin');

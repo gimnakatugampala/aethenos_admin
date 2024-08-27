@@ -29,6 +29,8 @@ import 'video-react/dist/video-react.css'; // import css
 import FileCopyIcon from "@mui/icons-material/FileCopy";
 import { MaterialReactTable } from 'material-react-table';
 import CodeIcon from "@mui/icons-material/Code";
+import { saveAs } from 'file-saver';
+
 import {
   GetSubmitReview,
   ApproveSubmittedCourse,
@@ -39,7 +41,9 @@ import {
   GetCourseMessages,
   GetCurriculum,
   VideoStreaming,
-  GetCategories
+  GetCategories,
+  BACKEND_HOST,
+  IMG_HOST
 } from 'api';
 import ErrorAlert from 'commonFunctions/Alerts/ErrorAlert';
 import { FILE_PATH } from 'commonFunctions/FilePaths';
@@ -296,6 +300,21 @@ const SubmittedCourses = () => {
   // }
 
 
+  const handleDownload = async (fileUrl) => {
+    try {
+      const response = await fetch(`${IMG_HOST}${fileUrl}`);
+      if (response.ok) {
+        const blob = await response.blob();
+        saveAs(blob, fileUrl);
+      } else {
+        console.error('File download error:', response.statusText);
+      }
+    } catch (error) {
+      console.error('File download error:', error);
+    }
+  };
+
+
   return (
     <>
       <Card sx={{ minWidth: 275 }}>
@@ -418,17 +437,25 @@ const SubmittedCourses = () => {
 
 
                                
-                                  <div className="p-2">
-                                    <h6>
-                                      <b>Downloadable Files</b>
-                                    </h6>
-                                    <ListGroup>
-                                      {item.get_CurriculumItem_File.map(
-                                        (files, index) =>
-                                          files.curriculum_item_file_type == 'Downloadable Items' && <ListGroup.Item key={index}>{files.url}</ListGroup.Item>
-                                      )}
-                                    </ListGroup>
-                                  </div>
+                         <div className="p-2">
+      <h6>
+        <b>Downloadable Files</b>
+      </h6>
+      <ListGroup>
+        {item.get_CurriculumItem_File.map((files, index) =>
+          files.curriculum_item_file_type === 'Downloadable Items' ? (
+            <ListGroup.Item key={index}>
+              <Button
+                variant="link"
+                onClick={() => handleDownload(files.url)}
+              >
+                {files.url}
+              </Button>
+            </ListGroup.Item>
+          ) : null
+        )}
+      </ListGroup>
+    </div>
                            
 
                              
@@ -505,16 +532,26 @@ const SubmittedCourses = () => {
                                 )}
 
                               <div className="p-2">
-                                    <h6>
-                                      <b>Downloadable Files</b>
-                                    </h6>
-                                    <ListGroup>
-                                      {item.get_CurriculumItem_File.map(
-                                        (files, index) =>
-                                          files.curriculum_item_file_type == 'Downloadable Items' && <ListGroup.Item key={index}>{files.url}</ListGroup.Item>
-                                      )}
-                                    </ListGroup>
-                                  </div>
+                                <h6>
+                                  <b>Downloadable Files</b>
+                                </h6>
+                                <ListGroup>
+                                  {item.get_CurriculumItem_File.map((files, index) =>
+                                    files.curriculum_item_file_type == 'Downloadable Items' ? (
+                                      <ListGroup.Item key={index}>
+                                        <a
+                                          href={`${IMG_HOST}${files.url}`}
+                                          download
+                                          target="_blank"
+                                          rel="noopener noreferrer"
+                                        >
+                                          {files.url}
+                                        </a>
+                                      </ListGroup.Item>
+                                    ) : null
+                                  )}
+                                </ListGroup>
+                              </div>
                            
 
                              
@@ -783,17 +820,25 @@ const SubmittedCourses = () => {
  
                              
  
-                              <div className="p-2">
-                                    <h6>
-                                      <b>Downloadable Files</b>
-                                    </h6>
-                                    <ListGroup>
-                                      {item.get_CurriculumItem_File.map(
-                                        (files, index) =>
-                                          files.curriculum_item_file_type == 'Downloadable Items' && <ListGroup.Item key={index}>{files.url}</ListGroup.Item>
-                                      )}
-                                    </ListGroup>
-                                  </div>
+                             <div className="p-2">
+                            <h6>
+                              <b>Downloadable Files</b>
+                            </h6>
+                            <ListGroup>
+                              {item.get_CurriculumItem_File.map((files, index) =>
+                                files.curriculum_item_file_type === 'Downloadable Items' ? (
+                                  <ListGroup.Item key={index}>
+                                    <Button
+                                      variant="link"
+                                      onClick={() => handleDownload(files.url)}
+                                    >
+                                      {files.url}
+                                    </Button>
+                                  </ListGroup.Item>
+                                ) : null
+                              )}
+                            </ListGroup>
+                          </div>
                           
 
                             
@@ -1173,17 +1218,27 @@ const SubmittedCourses = () => {
  
                              
  
-                              <div className="p-2">
-                                    <h6>
-                                      <b>Downloadable Files</b>
-                                    </h6>
-                                    <ListGroup>
-                                      {item.get_CurriculumItem_File.map(
-                                        (files, index) =>
-                                          files.curriculum_item_file_type == 'Downloadable Items' && <ListGroup.Item key={index}>{files.url}</ListGroup.Item>
-                                      )}
-                                    </ListGroup>
-                                  </div>
+                                <div className="p-2">
+                                <h6>
+                                  <b>Downloadable Files</b>
+                                </h6>
+                                <ListGroup>
+                                  {item.get_CurriculumItem_File.map((files, index) =>
+                                    files.curriculum_item_file_type == 'Downloadable Items' ? (
+                                      <ListGroup.Item key={index}>
+                                        <a
+                                          href={`${IMG_HOST}${files.url}`}
+                                          download
+                                          target="_blank"
+                                          rel="noopener noreferrer"
+                                        >
+                                          {files.url}
+                                        </a>
+                                      </ListGroup.Item>
+                                    ) : null
+                                  )}
+                                </ListGroup>
+                              </div>
                           
 
                             
@@ -1526,16 +1581,26 @@ const SubmittedCourses = () => {
                               
 
                               <div className="p-2">
-                                    <h6>
-                                      <b>Downloadable Files</b>
-                                    </h6>
-                                    <ListGroup>
-                                      {item.get_CurriculumItem_File.map(
-                                        (files, index) =>
-                                          files.curriculum_item_file_type == 'Downloadable Items' && <ListGroup.Item key={index}>{files.url}</ListGroup.Item>
-                                      )}
-                                    </ListGroup>
-                                  </div>
+                                <h6>
+                                  <b>Downloadable Files</b>
+                                </h6>
+                                <ListGroup>
+                                  {item.get_CurriculumItem_File.map((files, index) =>
+                                    files.curriculum_item_file_type == 'Downloadable Items' ? (
+                                      <ListGroup.Item key={index}>
+                                        <a
+                                          href={`${IMG_HOST}${files.url}`}
+                                          download
+                                          target="_blank"
+                                          rel="noopener noreferrer"
+                                        >
+                                          {files.url}
+                                        </a>
+                                      </ListGroup.Item>
+                                    ) : null
+                                  )}
+                                </ListGroup>
+                              </div>
                           
 
                             
@@ -1631,16 +1696,26 @@ const SubmittedCourses = () => {
                              
 
                              <div className="p-2">
-                                   <h6>
-                                     <b>Downloadable Files</b>
-                                   </h6>
-                                   <ListGroup>
-                                     {item.get_CurriculumItem_File.map(
-                                       (files, index) =>
-                                         files.curriculum_item_file_type == 'Downloadable Items' && <ListGroup.Item key={index}>{files.url}</ListGroup.Item>
-                                     )}
-                                   </ListGroup>
-                                 </div>
+                              <h6>
+                                <b>Downloadable Files</b>
+                              </h6>
+                              <ListGroup>
+                                {item.get_CurriculumItem_File.map((files, index) =>
+                                  files.curriculum_item_file_type == 'Downloadable Items' ? (
+                                    <ListGroup.Item key={index}>
+                                      <a
+                                        href={`${IMG_HOST}${files.url}`}
+                                        download
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                      >
+                                        {files.url}
+                                      </a>
+                                    </ListGroup.Item>
+                                  ) : null
+                                )}
+                              </ListGroup>
+                            </div>
                          
 
                            

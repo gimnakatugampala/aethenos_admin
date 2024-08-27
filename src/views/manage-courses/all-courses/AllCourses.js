@@ -156,7 +156,7 @@ const AllCourses = () => {
                   7: 'Requested'
                 }
               },
-              { title: 'Students', field: 'enrolled_count', type: 'numeric' },
+              { title: 'Student enroll count', field: 'enrolled_count', type: 'numeric' },
               { title: 'Ratings', field: 'ratings', filtering: false },
               {
                 title: 'Created Date',

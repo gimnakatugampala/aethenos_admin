@@ -1762,7 +1762,7 @@ const SubmittedCourses = () => {
                 <div className="col-md-5">
                   <Card>
                     <Player>
-                      <source src={`${FILE_PATH}${videoSrc}`} />
+                      <source src={`${videoSrc}`} />
                     </Player>
 
                     <CardContent>

@@ -714,34 +714,40 @@ export const GetCourseLandingPage = async (
   setlevel,
   setlang
 ) => {
-  var myHeaders = new Headers();
-  myHeaders.append('Authorization', `Bearer ${CURRENT_USER}`);
+  try {
+    const myHeaders = new Headers();
+    myHeaders.append('Authorization', `Bearer ${CURRENT_USER}`);
 
-  var requestOptions = {
-    method: 'GET',
-    headers: myHeaders,
-    redirect: 'follow'
-  };
+    const requestOptions = {
+      method: 'GET',
+      headers: myHeaders,
+      redirect: 'follow',
+    };
 
-  fetch(`${BACKEND_HOST}/managecourse/getcourselandingpage/${code}`, requestOptions)
-    .then((response) => response.json())
-    .then((result) => {
-      console.log(result);
-      Unauthorized(result.status, `submit-courses`);
+    const response = await fetch(`${BACKEND_HOST}/managecourse/getcourselandingpage/${code}`, requestOptions);
+    const result = await response.json();
 
-      setcourse_title(result.courseTitle);
-      setcourse_subtitle(result.courseSubTitle);
-      setcourse_desc(result.description);
-      setkeywords(result.keywords);
-      setcourse_cat(result.category);
-      setcourse_sub_cat(result.subCategory);
-      setlevel(result.level);
-      setlang(result.language);
-      setpreview_img(`${result.courseImage}`);
-      seVideoSrc(`${result.promotionalVideo}`);
-    })
-    .catch((error) => console.log('error', error));
+    console.log(result);
+    Unauthorized(result.status, `submit-courses`);
+
+    setcourse_title(result.courseTitle);
+    setcourse_subtitle(result.courseSubTitle);
+    setcourse_desc(result.description);
+    setkeywords(result.keywords);
+    setcourse_cat(result.category);
+    setcourse_sub_cat(result.subCategory);
+    setlevel(result.level);
+    setlang(result.language);
+    setpreview_img(`${result.courseImage}`);
+
+    // Assuming VideoStreaming is an async function
+    const url = await VideoStreaming(result.promotionalVideo);
+    seVideoSrc(url);
+  } catch (error) {
+    console.log('error', error);
+  }
 };
+
 export const GetCountriesListPricing = async (code, setcountriesData) => {
   var myHeaders = new Headers();
   myHeaders.append('Authorization', `Bearer ${CURRENT_USER}`);

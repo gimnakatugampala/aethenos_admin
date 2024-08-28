@@ -113,7 +113,7 @@ export const ApproveDraftCourse = (code) => {
       Unauthorized(result.status, 'draft-courses');
       // console.log(result)
       if (result.variable == '200') {
-        SuccessAlert('Course Approved!', result.message);
+        SuccessAlert('Test video Approved!', result.message);
       } else {
         ErrorAlert('Error', result.message);
       }
@@ -142,7 +142,7 @@ export const DisapproveDraftCourse = (code, comment, setshowDisapprove, setcomme
       Unauthorized(result.status, 'draft-courses');
       console.log(result);
       if (result.variable == '200') {
-        SuccessAlert('Course Rejected!', result.message);
+        SuccessAlert('Test video Rejected!', result.message);
         setshowDisapprove(false);
         setcomment('');
       } else {

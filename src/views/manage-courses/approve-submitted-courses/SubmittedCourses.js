@@ -848,7 +848,7 @@ const SubmittedCourses = () => {
  
                              
  
-                             <div className="p-2">
+                          {/* <div className="p-2">
                             <h6>
                               <b>Downloadable Files</b>
                             </h6>
@@ -867,10 +867,10 @@ const SubmittedCourses = () => {
                               )}
                             </ListGroup>
                           </div>
-                          
+                           */}
 
                             
-                                  <div className="p-2">
+                                  {/* <div className="p-2">
                                     <h6>
                                       <b>External Resources</b>
                                     </h6>
@@ -891,24 +891,24 @@ const SubmittedCourses = () => {
                                 
 
                                   <div className="p-2">
-      <h6>
-        <b>Source Code</b>
-      </h6>
-      <ListGroup>
-        {item.get_CurriculumItem_File.map((link, index) =>
-          link.curriculum_item_file_type === 'Source Code' ? (
-            <ListGroup.Item key={index}>
-              <Button
-                variant="link"
-                onClick={() => handleDownload(link.url)}
-              >
-                {link.url}
-              </Button>
-            </ListGroup.Item>
-          ) : null
-        )}
-      </ListGroup>
-    </div>
+                                    <h6>
+                                      <b>Source Code</b>
+                                    </h6>
+                                    <ListGroup>
+                                      {item.get_CurriculumItem_File.map((link, index) =>
+                                        link.curriculum_item_file_type === 'Source Code' ? (
+                                          <ListGroup.Item key={index}>
+                                            <Button
+                                              variant="link"
+                                              onClick={() => handleDownload(link.url)}
+                                            >
+                                              {link.url}
+                                            </Button>
+                                          </ListGroup.Item>
+                                        ) : null
+                                      )}
+                                    </ListGroup>
+                                  </div> */}
                                  
  
                              
@@ -1254,7 +1254,7 @@ const SubmittedCourses = () => {
  
                              
  
-                                <div className="p-2">
+                            {/* <div className="p-2">
                           <h6>
                             <b>Downloadable Files</b>
                           </h6>
@@ -1315,7 +1315,7 @@ const SubmittedCourses = () => {
                                     )}
                                   </ListGroup>
                                 </div>
-                                 
+                                  */}
  
                              
                              </AccordionDetails>
@@ -1622,7 +1622,7 @@ const SubmittedCourses = () => {
 
                               
 
-                              <div className="p-2">
+                          {/* <div className="p-2">
                           <h6>
                             <b>Downloadable Files</b>
                           </h6>
@@ -1683,7 +1683,7 @@ const SubmittedCourses = () => {
                                     )}
                                   </ListGroup>
                                 </div>
-                                 
+                                  */}
  
                              
                              </AccordionDetails>

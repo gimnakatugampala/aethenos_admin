@@ -466,7 +466,7 @@ const SubmittedCourses = () => {
                                 files.curriculum_item_file_type === 'Downloadable Items' && (
                                   <ListGroup.Item key={index}>
                                     <Button variant="link" onClick={() => handleDownload(files.url)}>
-                                      {files.url}
+                                      {files.title}
                                     </Button>
                                   </ListGroup.Item>
                                 )
@@ -520,7 +520,7 @@ const SubmittedCourses = () => {
                                 link.curriculum_item_file_type === 'Source Code' && (
                                   <ListGroup.Item key={index}>
                                     <Button variant="link" onClick={() => handleDownload(link.url)}>
-                                      {link.url}
+                                      {link.title}
                                     </Button>
                                   </ListGroup.Item>
                                 )
@@ -550,6 +550,8 @@ const SubmittedCourses = () => {
                             </AccordionSummary>
                             <AccordionDetails>
 
+                            <h5>Article</h5>
+
                             <JoditEditor value={item.article} />
 
                               
@@ -577,29 +579,29 @@ const SubmittedCourses = () => {
 
 
 
-                      <div className="p-2">
-                        {item.get_CurriculumItem_File.some(
-                          (files) => files.curriculum_item_file_type === 'Downloadable Items'
-                        ) && (
-                          <>
-                            <h6>
-                              <b>Downloadable Files</b>
-                            </h6>
-                            <ListGroup>
-                              {item.get_CurriculumItem_File.map(
-                                (files, index) =>
-                                  files.curriculum_item_file_type === 'Downloadable Items' && (
-                                    <ListGroup.Item key={index}>
-                                      <Button variant="link" onClick={() => handleDownload(files.url)}>
-                                        {files.url}
-                                      </Button>
-                                    </ListGroup.Item>
-                                  )
+                            <div className="p-2">
+                              {item.get_CurriculumItem_File.some(
+                                (files) => files.curriculum_item_file_type === 'Downloadable Items'
+                              ) && (
+                                <>
+                                  <h6>
+                                    <b>Downloadable Files</b>
+                                  </h6>
+                                  <ListGroup>
+                                    {item.get_CurriculumItem_File.map(
+                                      (files, index) =>
+                                        files.curriculum_item_file_type === 'Downloadable Items' && (
+                                          <ListGroup.Item key={index}>
+                                            <Button variant="link" onClick={() => handleDownload(files.url)}>
+                                              {files.title}
+                                            </Button>
+                                          </ListGroup.Item>
+                                        )
+                                    )}
+                                  </ListGroup>
+                                </>
                               )}
-                            </ListGroup>
-                          </>
-                        )}
-                      </div>
+                            </div>
 
                            
 
@@ -631,28 +633,28 @@ const SubmittedCourses = () => {
 
                                 
                                 <div className="p-2">
-  {item.get_CurriculumItem_File.some(
-    (link) => link.curriculum_item_file_type === 'Source Code'
-  ) && (
-    <>
-      <h6>
-        <b>Source Code</b>
-      </h6>
-      <ListGroup>
-        {item.get_CurriculumItem_File.map(
-          (link, index) =>
-            link.curriculum_item_file_type === 'Source Code' && (
-              <ListGroup.Item key={index}>
-                <Button variant="link" onClick={() => handleDownload(link.url)}>
-                  {link.url}
-                </Button>
-              </ListGroup.Item>
-            )
-        )}
-      </ListGroup>
-    </>
-  )}
-</div>
+                                  {item.get_CurriculumItem_File.some(
+                                    (link) => link.curriculum_item_file_type === 'Source Code'
+                                  ) && (
+                                    <>
+                                      <h6>
+                                        <b>Source Code</b>
+                                      </h6>
+                                      <ListGroup>
+                                        {item.get_CurriculumItem_File.map(
+                                          (link, index) =>
+                                            link.curriculum_item_file_type === 'Source Code' && (
+                                              <ListGroup.Item key={index}>
+                                                <Button variant="link" onClick={() => handleDownload(link.url)}>
+                                                  {link.title}
+                                                </Button>
+                                              </ListGroup.Item>
+                                            )
+                                        )}
+                                      </ListGroup>
+                                    </>
+                                  )}
+                                </div>
 
                                 
 

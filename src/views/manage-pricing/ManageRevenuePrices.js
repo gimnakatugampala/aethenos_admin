@@ -148,7 +148,7 @@ const ManageRevenuePrices = () => {
               </Form>
             </div>
 
-            <div className='col-md-12 mt-4'>
+            <div className='col-md-12 mt-4 d-flex justify-content-end '>
               <Button variant="contained" color="primary" onClick={handleSave}>
                 Save
               </Button>

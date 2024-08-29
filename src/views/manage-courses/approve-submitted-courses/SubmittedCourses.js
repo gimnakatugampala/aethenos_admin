@@ -111,6 +111,18 @@ const SubmittedCourses = () => {
 
   });
 
+
+  const buttonStyle = {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    minWidth: '15px',
+    width: '40px',
+    borderRadius: '25px',
+    padding: '0px',
+    height: '35px',
+  };
+
   // Show Course Details
   const handleShow = (code, content, promotions) => {
 
@@ -248,15 +260,17 @@ const SubmittedCourses = () => {
     instructor: `${course.instructorId.generalUserProfile.firstName} ${course.instructorId.generalUserProfile.lastName}`,
     actions: (
       <>
-        <Button size="sm" onClick={() => handleShow(course.code, course.course_content, course.promotions)} className="mx-1" variant="primary">
+        <div style={{ display: 'flex', gap: '8px' }}>
+        <Button size="sm" onClick={() => handleShow(course.code, course.course_content, course.promotions)} variant="primary"    style={buttonStyle}>
           <RemoveRedEyeIcon />
         </Button>
-        <Button size="sm" onClick={() => approveDraftCourse(course.code)} className="mx-1" variant="success">
+        <Button size="sm" onClick={() => approveDraftCourse(course.code)}  variant="success"    style={buttonStyle}>
           <CheckIcon />
         </Button>
-        <Button size="sm" onClick={() => handleDisapproveShow(course.code)} className="mx-1" variant="danger">
+        <Button size="sm" onClick={() => handleDisapproveShow(course.code)}  variant="danger"    style={buttonStyle}>
           <CloseIcon />
         </Button>
+        </div>
       </>
     )
   }));
@@ -323,7 +337,7 @@ const SubmittedCourses = () => {
             Approve Submitted Courses
           </Typography>
 
-          <MaterialTable
+          <MaterialTable 
             title=""
             columns={[
               { title: 'ID', field: 'index' , filtering: false },

@@ -104,14 +104,17 @@ const NotificationList = () => {
     <List
       sx={{
         width: '100%',
-        maxWidth: '450px',
+        maxWidth: '350px',
+        minWidth: '250px',
+        paddingTop : '0px',
+        px: 0,
         py: 0,
         borderRadius: '10px',
         [theme.breakpoints.down('md')]: {
-          maxWidth: 450
+          maxWidth: 350
         },
         '& .MuiListItemSecondaryAction-root': {
-          top: 22
+          top: 0
         },
         '& .MuiDivider-root': {
           my: 0
@@ -154,7 +157,7 @@ const NotificationList = () => {
             .filter((notification) => !notification.isRead)
             .map((notification, index) => (
               <span key={index}>
-                <ListItemWrapper style={{ width: '450px' }} onClick={() => handleNotifications(notification.notificationCode)}>
+                <ListItemWrapper style={{ width: 'auto' }} onClick={() => handleNotifications(notification.notificationCode)}>
                   <div>
                     <ListItem alignItems="center">
                       <div>
@@ -175,7 +178,7 @@ const NotificationList = () => {
                         <Grid justifyContent="d-flex">
                           <Grid>
                             <Typography variant="h6">
-                              <span className="d-flex float-left px-5" >
+                              <span className="d-flex me-0 ms-5 pt-4 text-end" >
                                 {notification.notification}
                                 
                               </span>
@@ -192,16 +195,7 @@ const NotificationList = () => {
                           {calculateTimeAgo(notification.notificationTime)}
                         </span>
                       </Typography>
-                    </Grid>
-                    {/* {notification.isRead == false && (
-                  <Grid item xs={12}>
-                    <Grid container>
-                      <Grid item>
-                        <Chip label="Unread" sx={chipErrorSX} />
-                      </Grid>
-                    </Grid>
-                  </Grid>
-                )} */}
+                    </Grid>                 
                   </Grid>
                 </ListItemWrapper>
                 <Divider />

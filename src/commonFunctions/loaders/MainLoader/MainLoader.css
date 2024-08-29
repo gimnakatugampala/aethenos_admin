@@ -11,7 +11,7 @@
 }
 
 .main-spin{
-    position: absolute;
+    position: sticky;
     top: 40%;
     left: 50%;
 }

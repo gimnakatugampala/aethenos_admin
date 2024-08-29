@@ -31,6 +31,9 @@ import { MaterialReactTable } from 'material-react-table';
 import CodeIcon from "@mui/icons-material/Code";
 import { saveAs } from 'file-saver';
 import JoditEditor from "jodit-react";
+import ListAltIcon from '@mui/icons-material/ListAlt';
+import AssignmentIcon from '@mui/icons-material/Assignment';
+
 
 import {
   GetSubmitReview,
@@ -669,7 +672,7 @@ const SubmittedCourses = () => {
                              <Accordion key={idx + + Math.random()}>
                              <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header">
                                <Typography>
-                               <BugReportIcon
+                               <AssignmentIcon
                                               sx={{ fontSize: 15 }}
                                             />{" "}
                                    {item.type} {idx + 1} : <b>{item.title}</b>
@@ -964,7 +967,7 @@ const SubmittedCourses = () => {
                              <Accordion key={idx + + Math.random()}>
                              <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header">
                                <Typography>
-                               <AssessmentIcon
+                               <ListAltIcon
                                           sx={{ fontSize: 15 }}
                                             />{" "}
                                    {item.type} {idx + 1} : <b>{item.title}</b>

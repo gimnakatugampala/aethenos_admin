@@ -799,7 +799,12 @@ const SubmittedCourses = () => {
                                           .practiceTestQuestionSheet !=
                                           "" && (
                                           <ListGroup className="my-2">
-                                            <ListGroup.Item className="d-flex justify-content-between">
+
+                                <Button variant="link" onClick={() => handleDownload(item.getPracticeTests[0].practiceTestQuestionSheet)}>
+                                      {item.getPracticeTests[0].practiceTestQuestionSheet}
+                                    </Button>
+
+                                            {/* <ListGroup.Item className="d-flex justify-content-between">
                                               <span>
                                                 {
                                                   item
@@ -808,7 +813,7 @@ const SubmittedCourses = () => {
                                                 }
                                               </span>
                                          
-                                            </ListGroup.Item>
+                                            </ListGroup.Item> */}
                                           </ListGroup>
                                         )}
 
@@ -824,7 +829,7 @@ const SubmittedCourses = () => {
                                       </Form.Label>
                                       <Form.Control
                                         value={
-                                          item.getPracticeTests[0] != null ? item.getPracticeTests[0].PracticeTestQuestionExLink : ""
+                                          item.getPracticeTests[0] != null ? item.getPracticeTests[0].questionLink : ""
                                         }
                                         readOnly
                                         type="text"
@@ -851,16 +856,15 @@ const SubmittedCourses = () => {
                                           .practiceTestSolutionSheet !=
                                           "" && (
                                           <ListGroup className="my-2">
-                                            <ListGroup.Item className="d-flex justify-content-between">
-                                              <span>
-                                                {
-                                                  item
-                                                    .getPracticeTests[0]
-                                                    .practiceTestSolutionSheet
-                                                }
-                                              </span>
+                                            {/* <ListGroup.Item > */}
+
+
+                                            <Button variant="link" onClick={() => handleDownload(item.getPracticeTests[0].practiceTestSolutionSheet)}>
+                                            {item.getPracticeTests[0].practiceTestSolutionSheet}
+                                            </Button>
+                                            
                                               
-                                            </ListGroup.Item>
+                                            {/* </ListGroup.Item> */}
                                           </ListGroup>
                                         )}
 
@@ -876,7 +880,7 @@ const SubmittedCourses = () => {
                                       </Form.Label>
                                       <Form.Control
                                         value={item.getPracticeTests[0] != null ? item
-                                          .getPracticeTests[0].PraticeTestSolutionsExLink : ""}
+                                          .getPracticeTests[0].solutionLink : ""}
                                           readOnly
                                         type="text"
                                         placeholder="https://externallink.com"

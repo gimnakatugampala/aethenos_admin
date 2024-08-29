@@ -570,25 +570,32 @@ const SubmittedCourses = () => {
                                     )
                                 )}
 
-<div className="p-2">
-                          <h6>
-                            <b>Downloadable Files</b>
-                          </h6>
-                          <ListGroup>
-                            {item.get_CurriculumItem_File.map((files, index) =>
-                              files.curriculum_item_file_type === 'Downloadable Items' ? (
-                                <ListGroup.Item key={index}>
-                                  <Button
-                                    variant="link"
-                                    onClick={() => handleDownload(files.url)}
-                                  >
-                                    {files.url}
-                                  </Button>
-                                </ListGroup.Item>
-                              ) : null
-                            )}
-                          </ListGroup>
-                        </div>
+
+                                
+                      <div className="p-2">
+                        {item.get_CurriculumItem_File.some(
+                          (files) => files.curriculum_item_file_type === 'Downloadable Items'
+                        ) && (
+                          <>
+                            <h6>
+                              <b>Downloadable Files</b>
+                            </h6>
+                            <ListGroup>
+                              {item.get_CurriculumItem_File.map(
+                                (files, index) =>
+                                  files.curriculum_item_file_type === 'Downloadable Items' && (
+                                    <ListGroup.Item key={index}>
+                                      <Button variant="link" onClick={() => handleDownload(files.url)}>
+                                        {files.url}
+                                      </Button>
+                                    </ListGroup.Item>
+                                  )
+                              )}
+                            </ListGroup>
+                          </>
+                        )}
+                      </div>
+
                            
 
                              

@@ -30,6 +30,7 @@ import FileCopyIcon from "@mui/icons-material/FileCopy";
 import { MaterialReactTable } from 'material-react-table';
 import CodeIcon from "@mui/icons-material/Code";
 import { saveAs } from 'file-saver';
+import JoditEditor from "jodit-react";
 
 import {
   GetSubmitReview,
@@ -548,6 +549,10 @@ const SubmittedCourses = () => {
                               </Typography>
                             </AccordionSummary>
                             <AccordionDetails>
+
+                            <JoditEditor value={item.article} />
+
+                              
 
 
                               

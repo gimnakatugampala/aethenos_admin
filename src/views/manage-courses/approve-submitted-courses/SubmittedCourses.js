@@ -451,46 +451,58 @@ const SubmittedCourses = () => {
 
 
                                
-                         <div className="p-2">
+                    <div className="p-2">
+                      {item.get_CurriculumItem_File.some(
+                        (files) => files.curriculum_item_file_type === 'Downloadable Items'
+                      ) && (
+                        <>
                           <h6>
                             <b>Downloadable Files</b>
                           </h6>
                           <ListGroup>
-                            {item.get_CurriculumItem_File.map((files, index) =>
-                              files.curriculum_item_file_type === 'Downloadable Items' ? (
-                                <ListGroup.Item key={index}>
-                                  <Button
-                                    variant="link"
-                                    onClick={() => handleDownload(files.url)}
-                                  >
-                                    {files.url}
-                                  </Button>
-                                </ListGroup.Item>
-                              ) : null
+                            {item.get_CurriculumItem_File.map(
+                              (files, index) =>
+                                files.curriculum_item_file_type === 'Downloadable Items' && (
+                                  <ListGroup.Item key={index}>
+                                    <Button variant="link" onClick={() => handleDownload(files.url)}>
+                                      {files.url}
+                                    </Button>
+                                  </ListGroup.Item>
+                                )
                             )}
                           </ListGroup>
-                        </div>
+                        </>
+                      )}
+                    </div>
+
                            
 
                              
-                                  <div className="p-2">
-                                    <h6>
-                                      <b>External Resources</b>
-                                    </h6>
-                                    <ListGroup>
-                                      {item.get_CurriculumItem_File.map(
-                                        (link, index) =>
-                                          link.curriculum_item_file_type == 'External Resourses' && (
-                                            <ListGroup.Item key={index}>
-                                              <a rel="noreferrer" target="_blank" href={link.url}>
-                                                <LaunchIcon fontSize="10" />
-                                                {link.title}
-                                              </a>
-                                            </ListGroup.Item>
-                                          )
-                                      )}
-                                    </ListGroup>
-                                  </div>
+                    <div className="p-2">
+                          {item.get_CurriculumItem_File.some(
+                            (link) => link.curriculum_item_file_type === 'External Resourses'
+                          ) && (
+                            <>
+                              <h6>
+                                <b>External Resources</b>
+                              </h6>
+                              <ListGroup>
+                                {item.get_CurriculumItem_File.map(
+                                  (link, index) =>
+                                    link.curriculum_item_file_type === 'External Resourses' && (
+                                      <ListGroup.Item key={index}>
+                                        <a rel="noreferrer" target="_blank" href={link.url}>
+                                          <LaunchIcon fontSize="10" />
+                                          {link.title}
+                                        </a>
+                                      </ListGroup.Item>
+                                    )
+                                )}
+                              </ListGroup>
+                            </>
+                          )}
+                        </div>
+
                                 
 
                                   <div className="p-2">

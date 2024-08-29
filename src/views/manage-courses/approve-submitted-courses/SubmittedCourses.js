@@ -1743,7 +1743,7 @@ const SubmittedCourses = () => {
 
                              
 
-                             <div className="p-2">
+                            {/* <div className="p-2">
                           <h6>
                             <b>Downloadable Files</b>
                           </h6>
@@ -1804,7 +1804,7 @@ const SubmittedCourses = () => {
                                     )}
                                   </ListGroup>
                                 </div>
-                                
+                                 */}
 
                             
                             </AccordionDetails>

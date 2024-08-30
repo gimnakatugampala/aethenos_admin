@@ -453,6 +453,14 @@ const SubmittedCourses = () => {
                                     )
                                 )}
 
+                          {item.description != "" && (
+                      <div className='my-1'>
+                              <h5>Description</h5>
+                              <JoditEditor value={item.description} />
+                            </div>
+
+                          )}
+
 
                                
                     <div className="p-2">
@@ -553,14 +561,21 @@ const SubmittedCourses = () => {
                             </AccordionSummary>
                             <AccordionDetails>
 
-                            <h5>Article</h5>
+                            <div className='my-1'>
+                              <h5>Article</h5>
+                              <JoditEditor value={item.article} />
+                            </div>
 
-                            <JoditEditor value={item.article} />
+                            {item.description != "" && ( 
+                            <div className='my-1'>
+                              <h5>Description</h5>
+                              <JoditEditor value={item.description} />
+                            </div>
 
-                              
+                            )}
 
 
-                              
+
                               {item.get_CurriculumItem_File.map(
                                   (files, index) =>
 

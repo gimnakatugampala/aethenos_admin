@@ -263,6 +263,7 @@ const SubmittedCourses = () => {
     index: index + 1,
     courseCategory: course.courseCategory.name,
     instructor: `${course.instructorId.generalUserProfile.firstName} ${course.instructorId.generalUserProfile.lastName}`,
+    createdDate : moment(course.createdDate).format('DD-MM-YYYY'),
     actions: (
       <>
         <div style={{ display: 'flex', gap: '8px' }}>
@@ -349,6 +350,7 @@ const SubmittedCourses = () => {
               { title: 'Course Title', field: 'courseTitle' },
               { title: 'Course Category', field: 'courseCategory', lookup: categoryLookup },
               { title: 'Instructor', field: 'instructor' },
+              { title: 'Created Date', field: 'createdDate' },
               { title: 'Actions', field: 'actions',filtering: false }
             ]}
             data={coursesData}

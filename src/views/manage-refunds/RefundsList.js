@@ -29,6 +29,7 @@ import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
 import Checkbox from '@mui/material/Checkbox';
 import Chip from '@mui/material/Chip';
 import 'sweetalert2/src/sweetalert2.scss';
+import CalculateTimeAgo from 'commonFunctions/CalculateTimeAgo';
 
 const RefundsList = () => {
   const theme = useTheme();
@@ -274,7 +275,7 @@ const RefundsList = () => {
                         </div>
                         <div className="col-md-6">
                           <p className="card-text"><strong>Refund Amount:</strong> {getSymbolFromCurrency(courses.currency)} {courses.refundAmount}</p>
-                          <p className="card-text"><strong>Purchase Date:</strong> {courses.purchasedDate}</p>
+                          <p className="card-text"><strong>Purchase Date:</strong> {CalculateTimeAgo(courses.purchasedDate)}</p>
                           <p className="card-text"><strong>Status:</strong> {courses.status}</p>
                           <p className="card-text"><strong>Reason:</strong> {courses.reason}</p>
                         </div>

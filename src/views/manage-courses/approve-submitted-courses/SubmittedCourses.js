@@ -1146,21 +1146,14 @@ const SubmittedCourses = () => {
                                             Upload Questions
                                           </Form.Label>
                                           {item.getAssignments[0]
-                                            .questionSheet != "" && (
+                                            .questionSheet != "" && item.getAssignments[0]
+                                            .questionSheet != null && (
                                             <ListGroup className="my-2">
-                                              <ListGroup.Item
-                                                className="d-flex justify-content-between"
-                                                key={index}
-                                              >
-                                                <span>
-                                                  {
-                                                    item
-                                                      .getAssignments[0]
-                                                      .questionSheet
-                                                  }
-                                                </span>
-                                                
-                                              </ListGroup.Item>
+
+                                        <Button variant="link" onClick={() => handleDownload(item.getAssignments[0].questionSheet)}>
+                                              {item.getAssignments[0].questionSheet}
+                                            </Button>
+
                                             </ListGroup>
                                           )}
 
@@ -1214,21 +1207,14 @@ const SubmittedCourses = () => {
                                             Upload Video
                                           </Form.Label>
                                           {item.getAssignments[0]
-                                            .solutionVideo != "" && (
+                                            .solutionVideo != "" && item.getAssignments[0]
+                                            .solutionVideo != null && (
                                             <ListGroup className="my-2">
-                                              <ListGroup.Item
-                                                className="d-flex justify-content-between"
-                                                key={index}
-                                              >
-                                                <span>
-                                                  {
-                                                    item
-                                                      .getAssignments[0]
-                                                      .solutionVideo
-                                                  }
-                                                </span>
-                                                
-                                              </ListGroup.Item>
+
+                                    <Button variant="link" onClick={() => handleDownload(item.getAssignments[0].solutionVideo)}>
+                                      {item.getAssignments[0].solutionVideo}
+                                    </Button>
+                                            
                                             </ListGroup>
                                           )}
 
@@ -1243,21 +1229,15 @@ const SubmittedCourses = () => {
                                             Upload Solutions
                                           </Form.Label>
                                           {item.getAssignments[0]
-                                            .solutionsSheet != "" && (
+                                            .solutionsSheet != "" &&  item.getAssignments[0]
+                                            .solutionsSheet != null && (
                                             <ListGroup className="my-2">
-                                              <ListGroup.Item
-                                                className="d-flex justify-content-between"
-                                                key={index}
-                                              >
-                                                <span>
-                                                  {
-                                                    item
-                                                      .getAssignments[0]
-                                                      .solutionsSheet
-                                                  }
-                                                </span>
-                                                
-                                              </ListGroup.Item>
+
+                                  <Button variant="link" onClick={() => handleDownload(item.getAssignments[0].solutionsSheet)}>
+                                      {item.getAssignments[0].solutionsSheet}
+                                    </Button>
+
+                                             
                                             </ListGroup>
                                           )}
 

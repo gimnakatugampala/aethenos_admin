@@ -1419,16 +1419,10 @@ const SubmittedCourses = () => {
 
                                         {item.getCodingExercises[0] != null && (
                                           <ListGroup className="my-2">
-                                            <ListGroup.Item className="d-flex justify-content-between">
-                                              <span>
-                                                {
-                                                  item
-                                                    .getCodingExercises[0]
-                                                    .codingVideo
-                                                }
-                                              </span>
+                                             <Button variant="link" onClick={() => handleDownload(item.getCodingExercises[0].codingVideo)}>
+                                             {item.getCodingExercises[0].codingVideo}
+                                            </Button>
                                             
-                                            </ListGroup.Item>
                                           </ListGroup>
                                         )}
 
@@ -1445,16 +1439,11 @@ const SubmittedCourses = () => {
 
                                         {item.getCodingExercises[0] != null && (
                                           <ListGroup className="my-2">
-                                            <ListGroup.Item className="d-flex justify-content-between">
-                                              <span>
-                                                {
-                                                  item
-                                                    .getCodingExercises[0]
-                                                    .downloadableResource
-                                                }
-                                              </span>
-                                              
-                                            </ListGroup.Item>
+
+                                          <Button variant="link" onClick={() => handleDownload(item.getCodingExercises[0].downloadableResource)}>
+                                             {item.getCodingExercises[0].downloadableResource}
+                                            </Button>
+
                                           </ListGroup>
                                         )}
 
@@ -1494,16 +1483,11 @@ const SubmittedCourses = () => {
                                         {item.getCodingExercises[0] !=
                                           null && (
                                           <ListGroup className="my-2">
-                                            <ListGroup.Item className="d-flex justify-content-between">
-                                              <span>
-                                                {
-                                                  item
-                                                    .getCodingExercises[0]
-                                                    .codingExerciseSheet
-                                                }
-                                              </span>
-                                              
-                                            </ListGroup.Item>
+
+                                  <Button variant="link" onClick={() => handleDownload(item.getCodingExercises[0].codingExerciseSheet)}>
+                                      {item.getCodingExercises[0].codingExerciseSheet}
+                                    </Button>
+
                                           </ListGroup>
                                         )}
 
@@ -1538,16 +1522,12 @@ const SubmittedCourses = () => {
                                         {item.getCodingExercises[0] !=
                                           null && (
                                           <ListGroup className="my-2">
-                                            <ListGroup.Item className="d-flex justify-content-between">
-                                              <span>
-                                                {
-                                                  item
-                                                    .getCodingExercises[0]
-                                                    .codingExerciseVideo
-                                                }
-                                              </span>
-                                              
-                                            </ListGroup.Item>
+
+                                <Button variant="link" onClick={() => handleDownload(item.getCodingExercises[0].codingExerciseVideo)}>
+                                      {item.getCodingExercises[0].codingExerciseVideo}
+                                    </Button>
+
+                                           
                                           </ListGroup>
                                         )}
 
@@ -1571,16 +1551,9 @@ const SubmittedCourses = () => {
                                         {item.getCodingExercises[0] !=
                                           null && (
                                           <ListGroup className="my-2">
-                                            <ListGroup.Item className="d-flex justify-content-between">
-                                              <span>
-                                                {
-                                                  item
-                                                    .getCodingExercises[0]
-                                                    .codingSolutionsSheet
-                                                }
-                                              </span>
-                                              
-                                            </ListGroup.Item>
+                                             <Button variant="link" onClick={() => handleDownload(item.getCodingExercises[0].codingSolutionsSheet)}>
+                                                {item.getCodingExercises[0].codingSolutionsSheet}
+                                              </Button>
                                           </ListGroup>
                                         )}
 
@@ -1615,16 +1588,9 @@ const SubmittedCourses = () => {
                                         {item.getCodingExercises[0] !=
                                           null && (
                                           <ListGroup className="my-2">
-                                            <ListGroup.Item className="d-flex justify-content-between">
-                                              <span>
-                                                {
-                                                  item
-                                                    .getCodingExercises[0]
-                                                    .codingSolutionsVideo
-                                                }
-                                              </span>
-                                          
-                                            </ListGroup.Item>
+                                             <Button variant="link" onClick={() => handleDownload(item.getCodingExercises[0].codingSolutionsVideo)}>
+                                      {item.getCodingExercises[0].codingSolutionsVideo}
+                                    </Button>
                                           </ListGroup>
                                         )}
 

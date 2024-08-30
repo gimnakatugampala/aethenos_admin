@@ -1059,22 +1059,15 @@ const SubmittedCourses = () => {
                                           </Form.Label>
 
                                           {item.getAssignments[0]
-                                            .assignmentVideo != "" || item.getAssignments[0]
+                                            .assignmentVideo != "" && item.getAssignments[0]
                                             .assignmentVideo != null && (
                                             <ListGroup className="my-2">
-                                              <ListGroup.Item
-                                                className="d-flex justify-content-between"
-                                                key={index}
-                                              >
-                                                <span>
-                                                  {
-                                                    item
-                                                      .getAssignments[0]
-                                                      .assignmentVideo
-                                                  }
-                                                </span>
-                                            
-                                              </ListGroup.Item>
+
+                                  <Button variant="link" onClick={() => handleDownload(item.getAssignments[0].assignmentVideo)}>
+                                      {item.getAssignments[0].assignmentVideo}
+                                    </Button>
+
+                                  
                                             </ListGroup>
                                           )}
 
@@ -1091,23 +1084,17 @@ const SubmittedCourses = () => {
 
                                           {item.getAssignments[0]
                                             .downloadableResource !=
-                                            "" || item.getAssignments[0]
+                                            "" && item.getAssignments[0]
                                             .downloadableResource !=
                                             null && (
                                             <ListGroup className="my-2">
-                                              <ListGroup.Item
-                                                className="d-flex justify-content-between"
-                                                key={index}
-                                              >
-                                                <span>
-                                                  {
-                                                    item
-                                                      .getAssignments[0]
-                                                      .downloadableResource
-                                                  }
-                                                </span>
-                                              
-                                              </ListGroup.Item>
+
+                                                    
+                                        <Button variant="link" onClick={() => handleDownload(item.getAssignments[0].downloadableResource)}>
+                                        {item.getAssignments[0].downloadableResource}
+                                          </Button>
+
+                                  
                                             </ListGroup>
                                           )}
 

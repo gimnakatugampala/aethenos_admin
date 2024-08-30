@@ -1417,6 +1417,7 @@ export const GetLanguages = async () => {
 
 
 export const GetLevel = async () => {
+  
   var requestOptions = {
     method: "GET",
     redirect: "follow",
@@ -1445,6 +1446,32 @@ export const GetCategories = async () => {
     console.error("Error fetching categories:", error);
     return []; // Return an empty array or handle the error appropriately
   }
+};
+export const GetRevenueSplitHistory = async () => {
+  const myHeaders = new Headers();
+  myHeaders.append('Authorization', `Bearer ${CURRENT_USER}`); // Add Authorization header
+
+  const requestOptions = {
+    method: "GET",
+    headers: myHeaders,
+    redirect: "follow",
+  };
+  
+  return fetch(`${BACKEND_HOST}/manageAdmins/getRevenueSplitHistory`, requestOptions)
+    .then((response) => {
+      // Check for Unauthorized status
+      Unauthorized(response.status, 'revenue-prices');
+      
+      // Handle JSON parsing
+      return response.json();
+    })
+    .then((result) => {
+      console.log(result); // Log the result
+      return result; // Return the result for further use
+    })
+    .catch((error) => {
+      console.error(error); // Log errors
+    });
 };
 
 

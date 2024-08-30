@@ -61,6 +61,7 @@ import BugReportIcon from "@mui/icons-material/BugReport";
 import AssessmentIcon from "@mui/icons-material/Assessment";
 import moment from 'moment';
 import { useSelector } from 'react-redux';
+import QuizStepper from './components/QuizStepper';
 
 
 
@@ -1702,41 +1703,48 @@ const SubmittedCourses = () => {
                             <AccordionDetails>
 
                              {/* Quiz */}
-                             {item.getQuizs != null ? (
-                              <div>
-                                <div className="container m-4">
-                                  <Table striped bordered hover>
-                                    <thead>
-                                      <tr>
-                                        <th>#</th>
-                                        <th>Quiz</th>
-                                        
+                             {/* {item.getQuizs != null ? (
+                            <div>
+                              <div className="container m-4">
+                                <Table striped bordered hover>
+                                  <thead>
+                                    <tr>
+                                      <th>#</th>
+                                      <th>Quiz</th>
+                                      <th>Answers</th>
+                                    </tr>
+                                  </thead>
+                                  <tbody>
+                                    {item.getQuizs.map((q, inz) => (
+                                      <tr key={inz}>
+                                        <td>{inz + 1}</td>
+                                        <td>
+                                          {q.question.length > 40
+                                            ? q.question.slice(0, 40) + "..."
+                                            : q.question}
+                                        </td>
+                                        <td>
+                                          <ul style={{ listStyleType: 'none', paddingLeft: 0 }}>
+                                            {q.answers.map((ans, ansIndex) => (
+                                              <li key={ansIndex} style={{ color: ans.correctAnswer ? 'green' : 'red' }}>
+                                                {ans.correctAnswer ? '✔️ ' : '❌ '}
+                                                {ans.name}
+                                              </li>
+                                            ))}
+                                          </ul>
+                                        </td>
                                       </tr>
-                                    </thead>
-                                    <tbody>
-                                    {item.getQuizs != null && item.getQuizs.map((q, inz) => (
-                                            <tr key={inz}>
-                                              <td>{inz + 1}</td>
-                                              <td>
-                                                {q.question.length > 40
-                                                  ? q.question.slice(0, 40) + "..."
-                                                  : q.question}
-                                              </td>
-                                            </tr>
-                                          )
-                                      )}
-
-                                    </tbody>
-                                  </Table>
-                                </div>
-
-                           
-                              
+                                    ))}
+                                  </tbody>
+                                </Table>
                               </div>
-                            ) : (
-                             <p>No Questions</p>
-                            )}
-                             
+                            </div>
+                          ) : (
+                            <p>No Questions</p>
+                          )} */}
+
+                            {item.getQuizs ? <QuizStepper getQuizs={item.getQuizs} /> : <p>No Questions</p>}
+
 
                              
 

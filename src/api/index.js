@@ -993,7 +993,7 @@ export const GetNotifications = async (setmyNotifications) => {
   }
 };
 
-export const GetRefunds = async (setrefunds) => {
+export const GetRefunds = async () => {
   const myHeaders = new Headers();
   myHeaders.append('Authorization', `Bearer ${CURRENT_USER}`);
 
@@ -1003,15 +1003,35 @@ export const GetRefunds = async (setrefunds) => {
     redirect: 'follow'
   };
 
-  fetch(`${BACKEND_HOST}/payment/getAllRefunds`, requestOptions)
-    .then((response) => response.json())
-    .then((result) => {
-      console.log(result);
-      Unauthorized(result.status, 'refunds');
-      setrefunds(result);
-    })
-    .catch((error) => console.error(error));
+  try {
+    const response = await fetch(`${BACKEND_HOST}/payment/getAllRefunds`, requestOptions);
+    
+    // Check if the response is ok (status code 200-299)
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    
+    const result = await response.json();
+    console.log('Fetched refunds data:', result); // Log the result for debugging
+
+    Unauthorized(result.status, 'refunds');
+    
+    // Check if result is in the expected format
+    if (Array.isArray(result)) {
+      return result;
+    } else {
+      console.error('Unexpected data format:', result);
+      return []; // Return an empty array if data format is unexpected
+    }
+
+
+
+  } catch (error) {
+    console.error('Error fetching refunds data:', error);
+    return []; // Return an empty array in case of error
+  }
 };
+
 
 export const DisappoveRefund = async (refundCode, admin_remark, setShow, setadmin_remark, setrefund) => {
   const myHeaders = new Headers();

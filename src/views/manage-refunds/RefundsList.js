@@ -14,7 +14,7 @@ import ErrorAlert from 'commonFunctions/Alerts/ErrorAlert';
 import Swal from 'sweetalert2/dist/sweetalert2.js';
 import Accordion from 'react-bootstrap/Accordion';
 import { IMG_HOST } from 'api';
-
+import getSymbolFromCurrency from 'currency-symbol-map'
 import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
@@ -33,7 +33,7 @@ import 'sweetalert2/src/sweetalert2.scss';
 const RefundsList = () => {
   const theme = useTheme();
   const [show, setShow] = useState(false);
-  const [refunds, setRefunds] = useState([]);
+  const [refunds, setrefunds] = useState([]);
   const [refund, setRefund] = useState(null);
   const [selectedCheckbox, setSelectedCheckbox] = useState(false);
   const [adminRemark, setAdminRemark] = useState('');
@@ -44,65 +44,71 @@ const RefundsList = () => {
   const handleCloseView = () => setViewShow(false);
   const handleShowView = (refund) => {
     setViewShow(true);
-    setCourses(refund.getOwnRefundsResponse);
+    setCourses(refund);
     setUD(refund);
+    console.log(refund)
   };
 
   useEffect(() => {
     const fetchRefunds = async () => {
       try {
         const data = await GetRefunds();
-        const processedData = data.map((refund, index) => ({
-          ...refund,
-          id: index + 1,
-          c_title: refund.courseDetailsResponses[0].courseTitle,
-          purch_date: moment(refund.purchasedDate).format('MMM DD,YYYY'),
-          purch_amount: `${refund.currency.toUpperCase()} ${refund.refundAmount}`,
-          refund_amount: `${refund.refundAmount}`,
-          comment: `${refund.reason}`,
-          actions: (
-            <>
-              <Button onClick={() => handleShowView(refund)} size="sm" variant="primary">
-                <RemoveRedEyeIcon />
-              </Button>
-              <Button
-                size="sm"
-                onClick={() => handleShow(refund)}
-                variant="danger"
-              >
-                <CloseIcon />
-              </Button>
-              <Button
-                size="sm"
-                onClick={() => {
-                  Swal.fire({
-                    title: 'Are you sure?',
-                    text: "You won't be able to revert this!",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Yes, Approve it!'
-                  }).then((result) => {
-                    if (result.isConfirmed) {
-                      AppoveRefund(refund.refundCode);
-                    }
-                  });
-                }}
-                variant="success"
-              >
-                <CheckIcon />
-              </Button>
-            </>
-          ),
-          status: refund.status === 'Processing'
-            ? <Chip label="Processing" color="info" />
-            : <Chip label="Completed" color="success" />,
-          refunded: refund.status === 'Approved'
-            ? <Checkbox value={selectedCheckbox} onChange={(e) => handleTransferedAmount(e.target.checked, refund.refundCode)} />
-            : <Checkbox disabled={true} />
-        }));
-        setRefunds(processedData);
+        console.log('Fetched refunds data:', data); // Log the data
+        if (Array.isArray(data)) {
+          const processedData = data.map((refund, index) => ({
+            ...refund,
+            id: index + 1,
+            c_title: refund.courseDetailsResponses[0]?.courseTitle || 'N/A',
+            purch_date: moment(refund.purchasedDate).format('MMM DD, YYYY'),
+            purch_amount: `${refund.currency.toUpperCase()} ${refund.refundAmount}`,
+            refund_amount: `${refund.refundAmount}`,
+            comment: `${refund.reason}`,
+            actions: (
+              <>
+                <Button onClick={() => handleShowView(refund)} size="sm" variant="primary">
+                  <RemoveRedEyeIcon />
+                </Button>
+                <Button
+                  size="sm"
+                  onClick={() => handleShow(refund)}
+                  variant="danger"
+                >
+                  <CloseIcon />
+                </Button>
+                <Button
+                  size="sm"
+                  onClick={() => {
+                    Swal.fire({
+                      title: 'Are you sure?',
+                      text: "You won't be able to revert this!",
+                      icon: 'warning',
+                      showCancelButton: true,
+                      confirmButtonColor: '#3085d6',
+                      cancelButtonColor: '#d33',
+                      confirmButtonText: 'Yes, Approve it!'
+                    }).then((result) => {
+                      if (result.isConfirmed) {
+                        AppoveRefund(refund.refundCode);
+                      }
+                    });
+                  }}
+                  variant="success"
+                >
+                  <CheckIcon />
+                </Button>
+              </>
+            ),
+            status: refund.status === 'Processing'
+              ? <Chip label="Processing" color="info" />
+              : <Chip label="Completed" color="success" />,
+            refunded: refund.status === 'Approved'
+              ? <Checkbox value={selectedCheckbox} onChange={(e) => handleTransferedAmount(e.target.checked, refund.refundCode)} />
+              : <Checkbox disabled={true} />
+          }));
+          setrefunds(processedData);
+        } else {
+          console.error('Invalid data format:', data);
+        }
       } catch (error) {
         console.error('Error fetching refunds data:', error);
       }
@@ -144,7 +150,7 @@ const RefundsList = () => {
         confirmButtonText: 'Yes, Approve it!'
       }).then((result) => {
         if (result.isConfirmed) {
-          ChangeStatusToTransfered(rCode, setRefunds, setSelectedCheckbox);
+          ChangeStatusToTransfered(rCode, setrefunds, setSelectedCheckbox);
         }
       });
     }
@@ -160,7 +166,7 @@ const RefundsList = () => {
           <MaterialTable
             title=""
             columns={[
-              { title: 'ID', field: 'id', filtering: false }, // Enable filtering for ID column
+              { title: 'ID', field: 'id', filtering: false },
               { title: 'Course Title', field: 'c_title', filtering: true },
               { title: 'Purchased Date', field: 'purch_date', filtering: true },
               { title: 'Purchased Amount', field: 'purch_amount', filtering: true },
@@ -173,7 +179,7 @@ const RefundsList = () => {
             data={refunds}
             options={{
               search: true,
-              filtering: true, // Enable global filtering
+              filtering: true,
               exportButton: true
             }}
           />
@@ -253,18 +259,49 @@ const RefundsList = () => {
                   </Box>
                 </Card>
               )}
-              {courses.map((course, index) => (
-                <Accordion.Item key={index} eventKey={`${index}`}>
-                  <Accordion.Header>{course.courseDetailsResponses[0].courseTitle}</Accordion.Header>
-                  <Accordion.Body>
-                    <h6>Course Completion - {course.courseDetailsResponses[0].courseProgress}%</h6>
-                    <h6>Admin Comment - {course.adminComment ?? 'N/A'}</h6>
-                    <h6>Admin Actions - {course.adminAction}</h6>
-                    <h6>Requested Date : {course.requestDate}</h6>
-                    <h6>Refunded Amount : {course.refundAmount}</h6>
-                  </Accordion.Body>
-                </Accordion.Item>
-              ))}
+
+              <div className="my-2">
+                <h5>Requested Course Details</h5>
+                {courses && courses.courseDetailsResponses.map((course, index) => (
+                  <div key={index} className="card mb-3" style={{ borderRadius: '10px', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)' }}>
+                    <div className="card-body">
+                      <h5 className="card-title">{course.courseTitle}</h5>
+                      <div className="row">
+                        <div className="col-md-6">
+                          <p className="card-text"><strong>Course Completion:</strong> {(Number.parseFloat(course.courseProgress).toFixed(2) / Number.parseFloat(course.courseCompletion).toFixed(2)) * 100}%</p>
+                          <p className="card-text"><strong>Completed Sections:</strong> {course.sectionCompleteCount}/{course.allSectionCount}</p>
+                          <p className="card-text"><strong>Purchase Amount:</strong> {getSymbolFromCurrency(courses.currency)} {courses.purchasedAmount}</p>
+                        </div>
+                        <div className="col-md-6">
+                          <p className="card-text"><strong>Refund Amount:</strong> {getSymbolFromCurrency(courses.currency)} {courses.refundAmount}</p>
+                          <p className="card-text"><strong>Purchase Date:</strong> {courses.purchasedDate}</p>
+                          <p className="card-text"><strong>Status:</strong> {courses.status}</p>
+                          <p className="card-text"><strong>Reason:</strong> {courses.reason}</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+
+              <div className='my-2'>
+          <h6>Other Requested Course Details</h6>
+              {courses != null && (
+                courses.getOwnRefundsResponse.map((course, index) => (
+                  <Accordion.Item key={index} eventKey={`${index}`}>
+                    <Accordion.Header>{course.courseTitle}</Accordion.Header>
+                    <Accordion.Body>
+                      <h6>Course Completion - {course.courseProgress}%</h6>
+                      <h6>Admin Comment - {course.adminComment ?? 'N/A'}</h6>
+                      <h6>Admin Actions - {course.adminAction}</h6>
+                      <h6>Requested Date : {course.requestDate}</h6>
+                      <h6>Refunded Amount : {course.refundAmount}</h6>
+                    </Accordion.Body>
+                  </Accordion.Item>
+                ))
+              )}
+</div>
             </Accordion>
           </Modal.Body>
         </Modal>

@@ -893,7 +893,7 @@ const ManagePricing = () => {
 
                   <tr>
                     <td>
-                      <b>Great Britain</b>
+                      <b>United Kingdom</b>
                     </td>
                     <td>GBP</td>
                     <td>

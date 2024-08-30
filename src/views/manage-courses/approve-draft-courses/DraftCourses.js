@@ -16,6 +16,7 @@ import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
 import Button from 'react-bootstrap/Button';
 import ErrorAlert from 'commonFunctions/Alerts/ErrorAlert';
+import moment from 'moment';
 
 const DraftCourses = () => {
   const [show, setShow] = useState(false);
@@ -103,6 +104,7 @@ const DraftCourses = () => {
       index: index + 1,
       courseCategory: course.courseCategory ? course.courseCategory.name : 'N/A', // Ensure category is properly displayed
       instructor: `${course.instructorId.generalUserProfile.firstName} ${course.instructorId.generalUserProfile.lastName}`,
+      createdDate:  moment(course.createdDate).format('DD-MM-YYYY'),
       actions: (
         <div style={{ display: 'flex', gap: '8px' }}>
           <Button
@@ -153,6 +155,7 @@ const DraftCourses = () => {
               { title: 'Course Title', field: 'courseTitle' },
               { title: 'Course Category', field: 'courseCategory', lookup: categoryLookup }, // Add category lookup
               { title: 'Instructor', field: 'instructor' },
+              { title: 'Created Date', field: 'createdDate' },
               { title: 'Actions', field: 'actions', filtering: false }, // Filtering disabled
             ]}
             data={coursesData}

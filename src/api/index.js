@@ -1060,6 +1060,12 @@ export const DisappoveRefund = async (refundCode, admin_remark, setShow, setadmi
         setadmin_remark('');
         setrefund(null);
         setShow(false);
+
+        setTimeout(() => {
+          window.location.reload()
+        }, 1500);
+
+
         return;
       }
     })
@@ -1089,6 +1095,11 @@ export const AppoveRefund = async (refundCode) => {
       console.log(result);
       if (result.variable == '200') {
         SuccessAlert('Success', result.message);
+
+        setTimeout(() => {
+          window.location.reload()
+        }, 1500);
+
       }
     })
     .catch((error) => console.error(error));

@@ -196,7 +196,7 @@ const ManagePricing = () => {
 
     const item = [
       {
-        country: 'America',
+        country: 'United States',
         minPrice: `${minUSA}`,
         maxPrice: `${maxUSA}`,
         tip: `${USATip}`,
@@ -252,7 +252,7 @@ const ManagePricing = () => {
         minimumPrice: `${EUminValue}`
       },
       {
-        country: 'Great Britain',
+        country: 'United Kingdom',
         minPrice: `${minGB}`,
         maxPrice: `${maxGB}`,
         tip: `${GBPTip}`,
@@ -625,7 +625,7 @@ const ManagePricing = () => {
                 <tbody>
                   <tr>
                     <td>
-                      <b>United States of America</b>
+                      <b>United States</b>
                     </td>
                     <td>USD</td>
                     <td>

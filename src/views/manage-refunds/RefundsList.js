@@ -168,14 +168,31 @@ const RefundsList = () => {
             title=""
             columns={[
               { title: 'ID', field: 'id', filtering: false },
-              { title: 'Course Title', field: 'c_title', filtering: true },
-              { title: 'Purchased Date', field: 'purch_date', filtering: true },
-              { title: 'Purchased Amount', field: 'purch_amount', filtering: true },
-              { title: 'Refund Amount', field: 'refund_amount', filtering: true },
-              { title: 'Comment', field: 'comment', filtering: true },
-              { title: 'Actions', field: 'actions', filtering: false },
-              { title: 'Status', field: 'status', filtering: false },
-              { title: 'Refunded ?', field: 'refunded', filtering: false }
+    {
+      title: 'Course Title',
+      field: 'c_title',
+      filtering: true,
+      cellStyle: { width: 500 }, // Adjust width as needed
+      headerStyle: { minWidth: 500 } // Ensure header respects the width
+
+    },
+    { title: 'Purchased Date', field: 'purch_date', filtering: true },
+    { title: 'Purchased Amount', field: 'purch_amount', filtering: true },
+    { title: 'Refund Amount', field: 'refund_amount', filtering: true },
+    {
+      title: 'Student Reason',
+      field: 'comment',
+      filtering: true,
+      cellStyle: { width: '80%' } // Adjust the width as needed
+    },
+    {
+      title: 'Actions',
+      field: 'actions',
+      filtering: false,
+      cellStyle: { width: '80%' } // Adjust the width as needed
+    },
+    { title: 'Status', field: 'status', filtering: false },
+    { title: 'Refunded ?', field: 'refunded', filtering: false }
             ]}
             data={refunds}
             options={{
@@ -266,7 +283,7 @@ const RefundsList = () => {
               
                   <div className="card mb-3" style={{ borderRadius: '10px', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)' }}>
                     <div className="card-body">
-                      <h5 className="card-title">{courses.courseDetailsResponse?.courseTitle}</h5>
+                      <h5 className="card-title">[{courses.courseDetailsResponse?.courseTitle}]</h5>
                       <div className="row">
                         <div className="col-md-6">
 
@@ -303,21 +320,22 @@ const RefundsList = () => {
 
 
               <div className='my-2'>
-          <h6>Other Requested Course Details</h6>
-              {courses != null && (
-                courses.getOwnRefundsResponse.map((course, index) => (
-                  <Accordion.Item key={index} eventKey={`${index}`}>
-                    <Accordion.Header>{course.courseTitle}</Accordion.Header>
-                    <Accordion.Body>
-                      <h6>Course Completion - {course.courseProgress}%</h6>
-                      <h6>Admin Comment - {course.adminComment ?? 'N/A'}</h6>
-                      <h6>Admin Actions - {course.adminAction}</h6>
-                      <h6>Requested Date : {course.requestDate}</h6>
-                      <h6>Refunded Amount : {course.refundAmount}</h6>
-                    </Accordion.Body>
-                  </Accordion.Item>
-                ))
-              )}
+              <h6>Other Requested Course Details</h6>
+{courses != null && courses.getOwnRefundsResponse.map((course, index) => (
+  <Accordion.Item key={index} eventKey={`${index}`}>
+    <Accordion.Header>
+      <b>{course.courseDetailsResponses[0]?.courseTitle || 'N/A'}</b>
+    </Accordion.Header>
+    <Accordion.Body>
+      <h6>Course Completion - {course.courseDetailsResponses[0]?.courseProgress ?? 'N/A'}%</h6>
+      <h6>Admin Comment - {course.adminComment ?? 'N/A'}</h6>
+      <h6>Admin Actions - {course.adminAction ?? 'N/A'}</h6>
+      <h6>Requested Date: {course.requestDate ?? 'N/A'}</h6>
+      <h6>Refunded Amount: {course.refundAmount ?? 'N/A'}</h6>
+    </Accordion.Body>
+  </Accordion.Item>
+))}
+
 </div>
             </Accordion>
           </Modal.Body>

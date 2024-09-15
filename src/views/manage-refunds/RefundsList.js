@@ -60,7 +60,7 @@ const RefundsList = () => {
             ...refund,
             id: index + 1,
             c_title: refund.courseDetailsResponse?.courseTitle || 'N/A',
-            purch_date: moment(refund.purchasedDate).format('MMM DD, YYYY'),
+            purch_date: moment(refund.purchasedDate, 'DD-MM-YYYY').format('MMM DD, YYYY'),
             purch_amount: `${refund.currency.toUpperCase()} ${refund.refundAmount}`,
             refund_amount: `${refund.currency.toUpperCase()} ${refund.refundAmount}`,
             comment: `${refund.reason}`,
@@ -116,7 +116,7 @@ const RefundsList = () => {
     };
 
     fetchRefunds(); // Fetch data once when the component mounts
-  }, []);
+  }, [refunds]);
 
   const handleShow = (refund) => {
     setRefund(refund);

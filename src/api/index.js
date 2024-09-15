@@ -1061,9 +1061,9 @@ export const DisappoveRefund = async (refundCode, admin_remark, setShow, setadmi
         setrefund(null);
         setShow(false);
 
-        setTimeout(() => {
-          window.location.reload()
-        }, 1500);
+        // setTimeout(() => {
+        //   window.location.reload()
+        // }, 1500);
 
 
         return;
@@ -1129,12 +1129,12 @@ export const ChangeStatusToTransfered = async (rCode, setrefunds, setselectedChe
       Unauthorized(result.status, 'refunds');
       if (result.variable == '200') {
         SuccessAlert('Success', result.message);
-        GetRefunds(setrefunds);
+        GetRefunds();
         setselectedCheckbox(false);
         return;
       } else {
         ErrorAlert('Error', result.message);
-        GetRefunds(setrefunds);
+        GetRefunds();
         setselectedCheckbox(false);
       }
     })

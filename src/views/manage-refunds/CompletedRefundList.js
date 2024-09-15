@@ -16,7 +16,11 @@ const CompletedRefundList = () => {
     RefundsData = transferedList
       .map((refund, index) => {
         // Create a new object with modified property
-        return { ...refund, id: index + 1 };
+        return { ...refund, 
+          purchasedAmount : `${refund.currency} ${Number.parseFloat(refund.purchasedAmount).toFixed(2)}`,
+          refundAmount : `${refund.currency} ${Number.parseFloat(refund.refundAmount).toFixed(2)}`,
+          id: index + 1 
+        };
       })
       .reverse();
   }, [transferedList]);

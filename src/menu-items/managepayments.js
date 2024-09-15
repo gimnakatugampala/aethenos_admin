@@ -16,7 +16,7 @@ const managepayments = {
   children: [
     {
       id: 'payments',
-      title: 'Manage Payments',
+      title: 'Manage Payouts',
       type: 'collapse',
       icon: icons.IconBrandStripe,
 

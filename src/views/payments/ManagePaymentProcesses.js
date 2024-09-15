@@ -17,7 +17,7 @@ const ManagePaymentProcesses = () => {
       <Card sx={{ minWidth: 275 }}>
         <CardContent>
           <Typography variant="h2" gutterBottom>
-          Payment Proccess
+          Payouts
           </Typography>
           <MaterialTable
             title=""

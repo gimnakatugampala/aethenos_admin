@@ -142,7 +142,7 @@ export const DisapproveDraftCourse = (code, comment, setshowDisapprove, setcomme
       Unauthorized(result.status, 'draft-courses');
       console.log(result);
       if (result.variable == '200') {
-        SuccessAlert('Test video Rejected!', result.message);
+        SuccessAlert('Test video rejected!', result.message);
         setshowDisapprove(false);
         setcomment('');
       } else {

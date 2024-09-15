@@ -59,10 +59,10 @@ const RefundsList = () => {
           const processedData = data.map((refund, index) => ({
             ...refund,
             id: index + 1,
-            c_title: refund.courseDetailsResponses[0]?.courseTitle || 'N/A',
+            c_title: refund.courseDetailsResponse?.courseTitle || 'N/A',
             purch_date: moment(refund.purchasedDate).format('MMM DD, YYYY'),
             purch_amount: `${refund.currency.toUpperCase()} ${refund.refundAmount}`,
-            refund_amount: `${refund.refundAmount}`,
+            refund_amount: `${refund.currency.toUpperCase()} ${refund.refundAmount}`,
             comment: `${refund.reason}`,
             actions: (
               <>
@@ -263,15 +263,31 @@ const RefundsList = () => {
 
               <div className="my-2">
                 <h5>Requested Course Details</h5>
-                {courses && courses.courseDetailsResponses.map((course, index) => (
-                  <div key={index} className="card mb-3" style={{ borderRadius: '10px', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)' }}>
+              
+                  <div className="card mb-3" style={{ borderRadius: '10px', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)' }}>
                     <div className="card-body">
-                      <h5 className="card-title">{course.courseTitle}</h5>
+                      <h5 className="card-title">{courses.courseDetailsResponse?.courseTitle}</h5>
                       <div className="row">
                         <div className="col-md-6">
-                          <p className="card-text"><strong>Course Completion:</strong> {(Number.parseFloat(course.courseProgress).toFixed(2) / Number.parseFloat(course.courseCompletion).toFixed(2)) * 100}%</p>
-                          <p className="card-text"><strong>Completed Sections:</strong> {course.sectionCompleteCount}/{course.allSectionCount}</p>
-                          <p className="card-text"><strong>Purchase Amount:</strong> {getSymbolFromCurrency(courses.currency)} {courses.purchasedAmount}</p>
+
+
+                        <p className="card-text">
+                            <strong>Course Completion: </strong> 
+                            {(() => {
+                              const courseProgress = Number.parseFloat(courses.courseDetailsResponse?.courseProgress) || 0;
+                              const sectionCompleteCount = Number.parseFloat(courses.courseDetailsResponse?.sectionCompleteCount) || 1; // Default to 1 to avoid division by zero
+
+                              if (sectionCompleteCount === 0) {
+                                return '0%'; // Or handle it differently if you prefer
+                              }
+
+                              const percentage = (courseProgress / sectionCompleteCount) * 100;
+                              return `${percentage.toFixed(2)}%`;
+                            })()}
+                          </p>
+
+                          <p className="card-text"><strong>Completed Sections:</strong> {courses.courseDetailsResponse?.sectionCompleteCount}/{courses.courseDetailsResponse?.allSectionCount}</p>
+                          <p className="card-text"><strong>Total Transaction Amount Amount:</strong> {getSymbolFromCurrency(courses.currency)} {courses.purchasedAmount}</p>
                         </div>
                         <div className="col-md-6">
                           <p className="card-text"><strong>Refund Amount:</strong> {getSymbolFromCurrency(courses.currency)} {courses.refundAmount}</p>
@@ -282,7 +298,7 @@ const RefundsList = () => {
                       </div>
                     </div>
                   </div>
-                ))}
+               
               </div>
 
 

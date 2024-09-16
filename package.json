@@ -1,5 +1,6 @@
 {
   "name": "aethenos-admin",
+  "author": {"name": "Gimna Katugampala"},
   "version": "3.3.2",
   "private": true,
   "homepage": "https://admin.aethenos.com/",

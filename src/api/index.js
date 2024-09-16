@@ -1096,9 +1096,9 @@ export const AppoveRefund = async (refundCode) => {
       if (result.variable == '200') {
         SuccessAlert('Success', result.message);
 
-        setTimeout(() => {
-          window.location.reload()
-        }, 1500);
+        // setTimeout(() => {
+        //   window.location.reload()
+        // }, 1500);
 
       }
     })
@@ -1484,6 +1484,24 @@ export const GetRevenueSplitHistory = async () => {
       console.error(error); // Log errors
     });
 };
+
+export const GetAllTransactions = async () => {
+
+  const myHeaders = new Headers();
+  myHeaders.append('Authorization', `Bearer ${CURRENT_USER}`); // Add Authorization header
+
+const requestOptions = {
+  method: "GET",
+  headers: myHeaders,
+  redirect: "follow"
+};
+
+fetch(`${BACKEND_HOST}/manageAdmins/getAllTransactionHistory`, requestOptions)
+  .then((response) => response.json())
+  .then((result) => console.log(result))
+  .catch((error) => console.error(error));
+
+}
 
 
 // export const GetSubCategories = async (setsubcatData, course_cat, code) => {

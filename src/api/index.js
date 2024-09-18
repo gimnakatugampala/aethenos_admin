@@ -1486,22 +1486,28 @@ export const GetRevenueSplitHistory = async () => {
 };
 
 export const GetAllTransactions = async () => {
-
   const myHeaders = new Headers();
   myHeaders.append('Authorization', `Bearer ${CURRENT_USER}`); // Add Authorization header
 
-const requestOptions = {
-  method: "GET",
-  headers: myHeaders,
-  redirect: "follow"
+  const requestOptions = {
+    method: "GET",
+    headers: myHeaders,
+    redirect: "follow"
+  };
+
+  try {
+    const response = await fetch(`${BACKEND_HOST}/manageAdmins/getAllTransactionHistory`, requestOptions);
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    const result = await response.json();
+    return result.reverse(); // Return the fetched result
+  } catch (error) {
+    console.error('Error fetching transaction data:', error);
+    throw error; // Throw the error so it can be handled by the calling function
+  }
 };
 
-fetch(`${BACKEND_HOST}/manageAdmins/getAllTransactionHistory`, requestOptions)
-  .then((response) => response.json())
-  .then((result) => console.log(result))
-  .catch((error) => console.error(error));
-
-}
 
 
 // export const GetSubCategories = async (setsubcatData, course_cat, code) => {

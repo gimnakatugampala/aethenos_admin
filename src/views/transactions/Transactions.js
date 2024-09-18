@@ -103,7 +103,7 @@ const Transactions = () => {
                 <TableRow>
                   <TableCell>Course Name</TableCell>
                   <TableCell>List Price</TableCell>
-                  <TableCell>Discount Price</TableCell>
+                  <TableCell>Purchase Price</TableCell>
                   <TableCell>Channel</TableCell>
                 </TableRow>
               </TableHead>
@@ -112,7 +112,7 @@ const Transactions = () => {
                   <TableRow key={index}>
                     <TableCell>{course.courseName}</TableCell>
                     <TableCell>{course.listPrice}</TableCell>
-                    <TableCell>{course.discountPrice}</TableCell>
+                    <TableCell>{course.itemPrice}</TableCell>
                     <TableCell>{course.channel}</TableCell>
                   </TableRow>
                 ))}

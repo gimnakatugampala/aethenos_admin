@@ -26,6 +26,7 @@ const ManageUKBank = () => {
               { title: 'Instructor Name', field: 'instructorName' },
               { title: 'Sort code', field: 'sortCode' },
               { title: 'Account No', field: 'accountNo' },
+              { title: 'Month of Sale', field: 'monthOfSale' },
               { title: 'Amount', field: 'amount' }
             ]}
             data={PaymentData}

@@ -26,6 +26,7 @@ const ManagePaymentProcesses = () => {
               { title: 'Account Type', field: 'accountType', lookup: { Payoneer: 'Payoneer', Paypal: 'Paypal' } },
               { title: 'Username', field: 'userName' },
               { title: 'Email', field: 'email' },
+              { title: 'Month of Sale', field: 'monthOfSale' },
               { title: 'Amount', field: 'amount' }
             ]}
             data={PaymentData}

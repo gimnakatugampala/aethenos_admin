@@ -4,8 +4,11 @@ import { FILE_PATH } from 'commonFunctions/FilePaths';
 import StarRatings from 'react-star-ratings';
 import Cookies from 'js-cookie';
 
-export const BACKEND_HOST = 'https://aethenosinstructor.exon.lk:2053/aethenos-api';
-export const IMG_HOST = 'https://aethenosinstructor.exon.lk:2053/aethenos-assert/';
+export const BACKEND_HOST = 'https://aethenos.com:2053/aethenos-api';
+export const IMG_HOST = 'https://aethenos.com:2053/aethenos-assert/';
+
+// export const BACKEND_HOST = 'https://aethenosinstructor.exon.lk:2053/aethenos-api';
+// export const IMG_HOST = 'https://aethenosinstructor.exon.lk:2053/aethenos-assert/';
 
 const CURRENT_USER = Cookies.get('aethenos_admin');
 
@@ -605,7 +608,7 @@ export const GetSubmitReview = (setcourses) => {
       console.log(result.course)
       Unauthorized(result.status, 'submit-courses');
       setcourses(result.course);
-      if (result.message == 'Error') {
+      if (result.variable == '404') {
         setcourses([]);
       }
     })

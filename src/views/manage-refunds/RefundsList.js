@@ -31,6 +31,17 @@ import Chip from '@mui/material/Chip';
 import 'sweetalert2/src/sweetalert2.scss';
 import CalculateTimeAgo from 'commonFunctions/CalculateTimeAgo';
 
+const buttonStyle = {
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  minWidth: '15px',
+  width: '40px',
+  borderRadius: '25px',
+  padding: '0px',
+  height: '35px',
+};
+
 const RefundsList = () => {
   const theme = useTheme();
   const [show, setShow] = useState(false);
@@ -66,18 +77,21 @@ const RefundsList = () => {
             comment: `${refund.reason}`,
             actions: (
               <>
-                <Button onClick={() => handleShowView(refund)} size="sm" variant="primary">
+              <div style={{ display: 'flex', gap: '8px' }}>
+             <Button onClick={() => handleShowView(refund)} size="sm" variant="primary"  style={buttonStyle}>
                   <RemoveRedEyeIcon />
                 </Button>
                 <Button
                   size="sm"
                   onClick={() => handleShow(refund)}
                   variant="danger"
+                  style={buttonStyle}
                 >
                   <CloseIcon />
                 </Button>
                 <Button
                   size="sm"
+                  style={buttonStyle}
                   onClick={() => {
                     Swal.fire({
                       title: 'Are you sure?',
@@ -90,13 +104,14 @@ const RefundsList = () => {
                     }).then((result) => {
                       if (result.isConfirmed) {
                         AppoveRefund(refund.refundCode);
-                      }
+                      } 
                     });
                   }}
                   variant="success"
                 >
                   <CheckIcon />
                 </Button>
+             </div>
               </>
             ),
             status: refund.status === 'Processing'

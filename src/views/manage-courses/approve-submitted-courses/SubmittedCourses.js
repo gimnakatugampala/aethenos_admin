@@ -110,6 +110,11 @@ const SubmittedCourses = () => {
   const [coursesData, setCoursesData] = useState([]);
   const [categoryLookup, setCategoryLookup] = useState({}); // State for category lookup
 
+  const [anyComment, setanyComment] = useState("")
+  const [externalRatings, setexternalRatings] = useState(0)
+  const [externalStudents, setexternalStudents] = useState(0)
+  const [externalLink, setexternalLink] = useState("")
+
 
   const modalStyle = (modelPadding) => ({
     marginLeft: modelPadding ? `` : 'initial', 
@@ -129,7 +134,7 @@ const SubmittedCourses = () => {
   };
 
   // Show Course Details
-  const handleShow = (code, content, promotions) => {
+  const handleShow = (code, content, promotions, course) => {
 
     
     setShow(true);
@@ -158,6 +163,12 @@ const SubmittedCourses = () => {
 
     console.log(promotions)
     console.log(content)
+    console.log(course)
+
+    setanyComment(course.anyComments)
+    setexternalRatings(course.externalRating)
+    setexternalStudents(course.externalNumberOfStudents)
+    setexternalLink(course.linkToCourse)
 
 
 
@@ -267,7 +278,7 @@ const SubmittedCourses = () => {
     actions: (
       <>
         <div style={{ display: 'flex', gap: '8px' }}>
-        <Button size="sm" onClick={() => handleShow(course.code, course.course_content, course.promotions)} variant="primary"    style={buttonStyle}>
+        <Button size="sm" onClick={() => handleShow(course.code, course.course_content, course.promotions, course)} variant="primary"    style={buttonStyle}>
           <RemoveRedEyeIcon />
         </Button>
         <Button size="sm" onClick={() => approveDraftCourse(course.code)}  variant="success"    style={buttonStyle}>
@@ -2003,8 +2014,7 @@ const SubmittedCourses = () => {
   </Accordion>
 ))}
 
-
-              
+  
             </Tab>
 
             <Tab eventKey="external-ratings" title="External Ratings">
@@ -2015,16 +2025,16 @@ const SubmittedCourses = () => {
               <br />
 
               <p>Link to course:</p>
-              <p><b>link</b></p>
+              <p><b>{externalLink}</b></p>
 
               <p>External rating (number of stars out of 5):</p>
-              <p><b>5</b></p>
+              <p><b>{externalRatings}</b></p>
 
               <p>External number of students:</p>
-              <p><b>5</b></p>
+              <p><b>{externalStudents}</b></p>
 
               <p>Any comments:</p>
-              <p><b>5</b></p>
+              <p><b>{anyComment}</b></p>
 
               
             </Tab>

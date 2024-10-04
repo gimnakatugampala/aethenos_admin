@@ -303,7 +303,7 @@ const RefundsList = () => {
                         <div className="col-md-6">
 
 
-                        <p className="card-text">
+                        {/* <p className="card-text">
                             <strong>Course Completion: </strong> 
                             {(() => {
                               const courseProgress = Number.parseFloat(courses.courseDetailsResponse?.courseProgress) || 0;
@@ -316,14 +316,14 @@ const RefundsList = () => {
                               const percentage = (courseProgress / sectionCompleteCount) * 100;
                               return `${percentage.toFixed(2)}%`;
                             })()}
-                          </p>
+                          </p> */}
 
                           <p className="card-text"><strong>Completed Sections:</strong> {courses.courseDetailsResponse?.sectionCompleteCount}/{courses.courseDetailsResponse?.allSectionCount}</p>
                           <p className="card-text"><strong>Total Transaction Amount Amount:</strong> {getSymbolFromCurrency(courses.currency)} {courses.purchasedAmount}</p>
                         </div>
                         <div className="col-md-6">
                           <p className="card-text"><strong>Refund Amount:</strong> {getSymbolFromCurrency(courses.currency)} {courses.refundAmount}</p>
-                          <p className="card-text"><strong>Purchase Date:</strong> {CalculateTimeAgo(courses.purchasedDate)}</p>
+                          <p className="card-text"><strong>Purchase Date:</strong> {courses.purchasedDate}</p>
                           <p className="card-text"><strong>Status:</strong> {courses.status}</p>
                           <p className="card-text"><strong>Reason:</strong> {courses.reason}</p>
                         </div>
@@ -335,21 +335,21 @@ const RefundsList = () => {
 
 
               <div className='my-2'>
-              <h6>Other Requested Course Details</h6>
-{courses != null && courses.getOwnRefundsResponse.map((course, index) => (
-  <Accordion.Item key={index} eventKey={`${index}`}>
-    <Accordion.Header>
-      <b>{course.courseDetailsResponses[0]?.courseTitle || 'N/A'}</b>
-    </Accordion.Header>
-    <Accordion.Body>
-      <h6>Course Completion - {course.courseDetailsResponses[0]?.courseProgress ?? 'N/A'}%</h6>
-      <h6>Admin Comment - {course.adminComment ?? 'N/A'}</h6>
-      <h6>Admin Actions - {course.adminAction ?? 'N/A'}</h6>
-      <h6>Requested Date: {course.requestDate ?? 'N/A'}</h6>
-      <h6>Refunded Amount: {course.refundAmount ?? 'N/A'}</h6>
-    </Accordion.Body>
-  </Accordion.Item>
-))}
+              <h6>Refund History</h6>
+                  {courses != null && courses.getOwnRefundsResponse.map((course, index) => (
+                    <Accordion.Item key={index} eventKey={`${index}`}>
+                      <Accordion.Header>
+                        <b>{course.courseDetailsResponses[0]?.courseTitle || 'N/A'}</b>
+                      </Accordion.Header>
+                      <Accordion.Body>
+                        <h6>Course Completion - {course.courseDetailsResponses[0]?.courseProgress ?? 'N/A'}%</h6>
+                        <h6>Admin Comment - {course.adminComment ?? 'N/A'}</h6>
+                        <h6>Admin Actions - {course.adminAction ?? 'N/A'}</h6>
+                        <h6>Requested Date: {course.requestDate ?? 'N/A'}</h6>
+                        <h6>Refunded Amount: {course.refundAmount ?? 'N/A'}</h6>
+                      </Accordion.Body>
+                    </Accordion.Item>
+                  ))}
 
 </div>
             </Accordion>

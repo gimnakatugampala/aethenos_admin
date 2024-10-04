@@ -2006,6 +2006,28 @@ const SubmittedCourses = () => {
 
               
             </Tab>
+
+            <Tab eventKey="external-ratings" title="External Ratings">
+              <Typography variant="h4" gutterBottom>
+                External Ratings
+              </Typography>
+
+              <br />
+
+              <p>Link to course:</p>
+              <p><b>link</b></p>
+
+              <p>External rating (number of stars out of 5):</p>
+              <p><b>5</b></p>
+
+              <p>External number of students:</p>
+              <p><b>5</b></p>
+
+              <p>Any comments:</p>
+              <p><b>5</b></p>
+
+              
+            </Tab>
             
           </Tabs>
         </Modal.Body>

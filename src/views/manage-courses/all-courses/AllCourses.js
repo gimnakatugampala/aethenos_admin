@@ -147,13 +147,13 @@ const AllCourses = () => {
                 title: 'Status',
                 field: 'approvalTypeId',
                 lookup: {
-                  1: 'Draft',
-                  2: 'Rejected',
-                  3: 'Pending',
-                  4: 'Disapproved',
-                  5: 'Approved',
+                  1: 'Draft:Test Video Submitted',
+                  2: 'Rejected Test Video',
+                  3: 'Pending:Course Submission',
+                  4: 'Disapproved course',
+                  5: 'Approved course',
                   6: 'Unpublished',
-                  7: 'Requested'
+                  7: 'Requested:Course approval'
                 }
               },
               { title: 'Student enroll count', field: 'enrolled_count', type: 'numeric' },

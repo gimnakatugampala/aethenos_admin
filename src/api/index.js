@@ -544,12 +544,12 @@ export const ViewAdminAPI = async () => {
   const requestOptions = {
     method: 'GET',
     headers: myHeaders,
-    redirect: 'follow',
+    redirect: 'follow'
   };
 
   try {
     const response = await fetch(`${BACKEND_HOST}/manageAdmins/view`, requestOptions);
-    
+
     if (!response.ok) {
       // Handle HTTP errors
       throw new Error(`HTTP error! Status: ${response.status}`);
@@ -558,7 +558,7 @@ export const ViewAdminAPI = async () => {
     const result = await response.json();
 
     Unauthorized(result.status, 'all-admins');
-    
+
     return result;
   } catch (error) {
     console.error('Error fetching admin data:', error);
@@ -566,7 +566,6 @@ export const ViewAdminAPI = async () => {
     return [];
   }
 };
-
 
 export const ActivateAdminAPI = (id) => {
   var myHeaders = new Headers();
@@ -605,7 +604,7 @@ export const GetSubmitReview = (setcourses) => {
   fetch(`${BACKEND_HOST}/course/getAllRequestedCourse`, requestOptions)
     .then((response) => response.json())
     .then((result) => {
-      console.log(result.course)
+      console.log(result.course);
       Unauthorized(result.status, 'submit-courses');
       setcourses(result.course);
       if (result.variable == '404') {
@@ -724,7 +723,7 @@ export const GetCourseLandingPage = async (
     const requestOptions = {
       method: 'GET',
       headers: myHeaders,
-      redirect: 'follow',
+      redirect: 'follow'
     };
 
     const response = await fetch(`${BACKEND_HOST}/managecourse/getcourselandingpage/${code}`, requestOptions);
@@ -942,7 +941,6 @@ export const GetDashboardData = async (setinstructorCount, setstudentCount, setd
     .catch((error) => console.error(error));
 };
 
-
 export const UpdateNotifications = async (notificationCode) => {
   const myHeaders = new Headers();
   myHeaders.append('Authorization', `Bearer ${CURRENT_USER}`);
@@ -963,7 +961,7 @@ export const UpdateNotifications = async (notificationCode) => {
       console.log(result);
 
       Unauthorized(result.status, 'refunds');
-      if (result.variable == '200') {       
+      if (result.variable == '200') {
         return;
       } else {
         ErrorAlert('Error', result.message);
@@ -1008,17 +1006,17 @@ export const GetRefunds = async () => {
 
   try {
     const response = await fetch(`${BACKEND_HOST}/payment/getAllRefunds`, requestOptions);
-    
+
     // Check if the response is ok (status code 200-299)
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
-    
+
     const result = await response.json();
     console.log('Fetched refunds data:', result); // Log the result for debugging
 
     Unauthorized(result.status, 'refunds');
-    
+
     // Check if result is in the expected format
     if (Array.isArray(result)) {
       return result;
@@ -1026,15 +1024,11 @@ export const GetRefunds = async () => {
       console.error('Unexpected data format:', result);
       return []; // Return an empty array if data format is unexpected
     }
-
-
-
   } catch (error) {
     console.error('Error fetching refunds data:', error);
     return []; // Return an empty array in case of error
   }
 };
-
 
 export const DisappoveRefund = async (refundCode, admin_remark, setShow, setadmin_remark, setrefund) => {
   const myHeaders = new Headers();
@@ -1067,7 +1061,6 @@ export const DisappoveRefund = async (refundCode, admin_remark, setShow, setadmi
         // setTimeout(() => {
         //   window.location.reload()
         // }, 1500);
-
 
         return;
       }
@@ -1102,7 +1095,6 @@ export const AppoveRefund = async (refundCode) => {
         // setTimeout(() => {
         //   window.location.reload()
         // }, 1500);
-
       }
     })
     .catch((error) => console.error(error));
@@ -1299,108 +1291,96 @@ export const ChangeToNewPassword = async (VerficationCode, email, conPassword, s
 };
 
 export const GetAllCourses = async (setcourses) => {
-
   const myHeaders = new Headers();
   myHeaders.append('Authorization', `Bearer ${CURRENT_USER}`);
 
-const requestOptions = {
-  method: "GET",
-  headers: myHeaders,
-  redirect: "follow"
+  const requestOptions = {
+    method: 'GET',
+    headers: myHeaders,
+    redirect: 'follow'
+  };
+
+  fetch(`${BACKEND_HOST}/course/getAllCoursesByAdmin`, requestOptions)
+    .then((response) => response.json())
+    .then((result) => {
+      Unauthorized(result.status, 'courses');
+
+      console.log(result);
+      setcourses(
+        result.map((course) => ({
+          ...course,
+          imgElement: (
+            <img
+              src={`${FILE_PATH}${course.img}`}
+              alt={course.title}
+              style={{ width: '50px', height: '50px', objectFit: 'cover', borderRadius: '50%' }}
+            />
+          ),
+          ratings: <StarRatings starDimension="16px" starSpacing="0px" rating={course.rating} numberOfStars={5} starRatedColor="yellow" />
+        }))
+      );
+    })
+    .catch((error) => console.error(error));
 };
 
-fetch(`${BACKEND_HOST}/course/getAllCoursesByAdmin`, requestOptions)
-  .then((response) => response.json())
-  .then((result) => {
-
-    Unauthorized(result.status, 'courses');
-
-    console.log(result)
-    setcourses(result.map(course => ({
-      ...course,
-      imgElement: <img src={`${FILE_PATH}${course.img}`} alt={course.title} style={{ width: '50px', height: '50px' ,objectFit:'cover' ,borderRadius:'50%' }} />,
-      ratings : <StarRatings   starDimension="16px"
-      starSpacing="0px" rating={course.rating} numberOfStars={5} starRatedColor="yellow" />
-     })))
-
-
-  })
-  .catch((error) => console.error(error));
-
-}
-
-export const GetRevenueSplit = async (setAethenosRevenue1,
-  setInstructorRevenue1,
-  setAethenosRevenue2,
-  setInstructorRevenue2) => {
-
-
+export const GetRevenueSplit = async (setAethenosRevenue1, setInstructorRevenue1, setAethenosRevenue2, setInstructorRevenue2) => {
   const myHeaders = new Headers();
   myHeaders.append('Authorization', `Bearer ${CURRENT_USER}`);
 
-const requestOptions = {
-  method: "GET",
-  headers: myHeaders,
-  redirect: "follow"
-};
-  
+  const requestOptions = {
+    method: 'GET',
+    headers: myHeaders,
+    redirect: 'follow'
+  };
+
   fetch(`${BACKEND_HOST}/manageAdmins/getRevenuePricesSplit`, requestOptions)
     .then((response) => response.json())
     .then((result) => {
-
       Unauthorized(result.status, 'revenue-prices');
 
-      console.log(result)
-      setAethenosRevenue1(result.aethenosRevenueReferralLinkSplit == null ? "" : result.aethenosRevenueReferralLinkSplit)
-      setInstructorRevenue1(result.instructorRevenueReferralLinkSplit == null ? "" : result.instructorRevenueReferralLinkSplit)
-      setAethenosRevenue2(result.aethenosRevenueAethenosSplit == null ? "" : result.aethenosRevenueAethenosSplit)
-      setInstructorRevenue2(result.instructorRevenueAethenosSplit == null ? "" : result.instructorRevenueAethenosSplit)
+      console.log(result);
+      setAethenosRevenue1(result.aethenosRevenueReferralLinkSplit == null ? '' : result.aethenosRevenueReferralLinkSplit);
+      setInstructorRevenue1(result.instructorRevenueReferralLinkSplit == null ? '' : result.instructorRevenueReferralLinkSplit);
+      setAethenosRevenue2(result.aethenosRevenueAethenosSplit == null ? '' : result.aethenosRevenueAethenosSplit);
+      setInstructorRevenue2(result.instructorRevenueAethenosSplit == null ? '' : result.instructorRevenueAethenosSplit);
     })
     .catch((error) => console.error(error));
-
-
-}
+};
 
 export const AddRevenueSplit = async (data) => {
-
   const myHeaders = new Headers();
   myHeaders.append('Authorization', `Bearer ${CURRENT_USER}`);
 
-const formdata = new FormData();
-formdata.append("aethenosRevenueReferralLinkSplit", `${data.aethenosRevenue1}`);
-formdata.append("instructorRevenueReferralLinkSplit", `${data.instructorRevenue1}`);
-formdata.append("aethenosRevenueAethenosSplit", `${data.aethenosRevenue2}`);
-formdata.append("instructorRevenueAethenosSplit", `${data.instructorRevenue2}`);
+  const formdata = new FormData();
+  formdata.append('aethenosRevenueReferralLinkSplit', `${data.aethenosRevenue1}`);
+  formdata.append('instructorRevenueReferralLinkSplit', `${data.instructorRevenue1}`);
+  formdata.append('aethenosRevenueAethenosSplit', `${data.aethenosRevenue2}`);
+  formdata.append('instructorRevenueAethenosSplit', `${data.instructorRevenue2}`);
 
-const requestOptions = {
-  method: "POST",
-  headers: myHeaders,
-  body: formdata,
-  redirect: "follow"
+  const requestOptions = {
+    method: 'POST',
+    headers: myHeaders,
+    body: formdata,
+    redirect: 'follow'
+  };
+
+  fetch(`${BACKEND_HOST}/manageAdmins/addRevenuePricesSplit`, requestOptions)
+    .then((response) => response.json())
+    .then((result) => {
+      Unauthorized(result.status, 'revenue-prices');
+
+      console.log(result);
+
+      if (result.variable == '200') {
+        SuccessAlert('Added', result.message);
+        return;
+      } else {
+        ErrorAlert('Error', result.message);
+        return;
+      }
+    })
+    .catch((error) => console.error(error));
 };
-
-fetch(`${BACKEND_HOST}/manageAdmins/addRevenuePricesSplit`, requestOptions)
-  .then((response) => response.json())
-  .then((result) => {
-
-    Unauthorized(result.status, 'revenue-prices');
-
-    console.log(result)
-
-    if(result.variable == "200"){
-      SuccessAlert("Added",result.message)
-      return
-    }else{
-      ErrorAlert("Error",result.message)
-      return
-    }
-
-
-  })
-  .catch((error) => console.error(error));
-
-  
-}
 
 export const VideoStreaming = async (filePath) => {
   // Properly encode the file path and return the complete URL
@@ -1412,8 +1392,8 @@ export const VideoStreaming = async (filePath) => {
 export const GetLanguages = async () => {
   try {
     const response = await fetch(`${BACKEND_HOST}/managecourse/getAllLanguage`, {
-      method: "GET",
-      redirect: "follow",
+      method: 'GET',
+      redirect: 'follow'
     });
 
     if (!response.ok) {
@@ -1423,18 +1403,15 @@ export const GetLanguages = async () => {
     const result = await response.json();
     return result; // Return the language data
   } catch (error) {
-    console.error("Error fetching languages:", error);
+    console.error('Error fetching languages:', error);
     return []; // Return an empty array or handle the error appropriately
   }
 };
 
-
-
 export const GetLevel = async () => {
-  
   var requestOptions = {
-    method: "GET",
-    redirect: "follow",
+    method: 'GET',
+    redirect: 'follow'
   };
 
   const response = await fetch(`${BACKEND_HOST}/managecourse/getAllCourseLevels`, requestOptions);
@@ -1442,11 +1419,10 @@ export const GetLevel = async () => {
   return result;
 };
 
-
 export const GetCategories = async () => {
   const requestOptions = {
-    method: "GET",
-    redirect: "follow",
+    method: 'GET',
+    redirect: 'follow'
   };
 
   try {
@@ -1457,7 +1433,7 @@ export const GetCategories = async () => {
     const result = await response.json();
     return result; // Return the fetched data
   } catch (error) {
-    console.error("Error fetching categories:", error);
+    console.error('Error fetching categories:', error);
     return []; // Return an empty array or handle the error appropriately
   }
 };
@@ -1466,16 +1442,16 @@ export const GetRevenueSplitHistory = async () => {
   myHeaders.append('Authorization', `Bearer ${CURRENT_USER}`); // Add Authorization header
 
   const requestOptions = {
-    method: "GET",
+    method: 'GET',
     headers: myHeaders,
-    redirect: "follow",
+    redirect: 'follow'
   };
-  
+
   return fetch(`${BACKEND_HOST}/manageAdmins/getRevenueSplitHistory`, requestOptions)
     .then((response) => {
       // Check for Unauthorized status
       Unauthorized(response.status, 'revenue-prices');
-      
+
       // Handle JSON parsing
       return response.json();
     })
@@ -1493,9 +1469,9 @@ export const GetAllTransactions = async () => {
   myHeaders.append('Authorization', `Bearer ${CURRENT_USER}`); // Add Authorization header
 
   const requestOptions = {
-    method: "GET",
+    method: 'GET',
     headers: myHeaders,
-    redirect: "follow"
+    redirect: 'follow'
   };
 
   try {
@@ -1511,7 +1487,98 @@ export const GetAllTransactions = async () => {
   }
 };
 
+export const GetAllInstructors = async (setInstructorList) => {
+  const myHeaders = new Headers();
+  myHeaders.append('Authorization', `Bearer ${CURRENT_USER}`);
 
+  const requestOptions = {
+    method: 'GET',
+    headers: myHeaders,
+    redirect: 'follow'
+  };
+
+  fetch(`${BACKEND_HOST}/revenue/getAllInstructorDetails`, requestOptions)
+    .then((response) => response.json())
+    .then((result) => {
+      setInstructorList(result);
+    })
+    .catch((error) => console.error(error));
+};
+
+export const GetCurentMonthRevenue = async (month, year, id, setCurrentMonthData) => {
+  const myHeaders = new Headers();
+  myHeaders.append('Authorization', `Bearer ${CURRENT_USER}`);
+
+  const formattedMonth = `${month} ${year}`;
+
+  const queryParams = new URLSearchParams({
+    month: formattedMonth,
+    userCode: id
+  });
+
+  const requestOptions = {
+    method: 'GET',
+    headers: myHeaders,
+    redirect: 'follow'
+  };
+
+  fetch(`${BACKEND_HOST}/revenue/getInstructorMonthlyRevenueByMonth?${queryParams}`, requestOptions)
+    .then((response) => response.json())
+    .then((result) => {
+      setCurrentMonthData(result);
+    })
+    .catch((error) => console.error(error));
+};
+
+export const GetLastThreeMonthsRevenue = async (month, year, id, setLastThreeMonthsData) => {
+  const myHeaders = new Headers();
+  myHeaders.append('Authorization', `Bearer ${CURRENT_USER}`);
+
+  const formattedMonth = `${month} ${year}`;
+
+  const queryParams = new URLSearchParams({
+    month: formattedMonth,
+    userCode: id
+  });
+
+  const requestOptions = {
+    method: 'GET',
+    headers: myHeaders,
+    redirect: 'follow'
+  };
+
+  fetch(`${BACKEND_HOST}/revenue/getInstructorRevenueReportForThreeMonth?${queryParams}`, requestOptions)
+    .then((response) => response.json())
+    .then((result) => {
+      setLastThreeMonthsData(result);
+    })
+    .catch((error) => console.error(error));
+};
+
+export const GetLastYearMonthRevenue = async (month, year, id, setLastYearMonthData) => {
+  const myHeaders = new Headers();
+  myHeaders.append('Authorization', `Bearer ${CURRENT_USER}`);
+
+  const formattedMonth = `${month} ${year}`;
+
+  const queryParams = new URLSearchParams({
+    month: formattedMonth,
+    userCode: id
+  });
+
+  const requestOptions = {
+    method: 'GET',
+    headers: myHeaders,
+    redirect: 'follow'
+  };
+
+  fetch(`${BACKEND_HOST}/revenue/getInstructorRevenueReportFortwelveMonth?${queryParams}`, requestOptions)
+    .then((response) => response.json())
+    .then((result) => {
+      setLastYearMonthData(result);
+    })
+    .catch((error) => console.error(error));
+};
 
 // export const GetSubCategories = async (setsubcatData, course_cat, code) => {
 //   console.log(course_cat);
